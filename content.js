@@ -3,12 +3,13 @@
  * 生图提示词见 docs/image-prompts.md
  */
 const ASSETS = {
-  bgOpening: 'image/bg-opening.png',
-  bgWalk: 'image/bg-walk.png',
-  bgSnack: 'image/bg-walk.png',
-  bgFlowers: 'image/bg-opening.png',
-  bgEnding: 'image/bg-opening.png',
-  pleadBeg: 'assets/images/plead-beg.png',
+  bgOpening: 'image/bg-opening.jpg',
+  bgWalk: 'image/bg-walk.jpg',
+  bgSnack: 'image/bg-walk.jpg',
+  bgFlowers: 'image/bg-opening.jpg',
+  bgEnding: 'image/bg-opening.jpg',
+  pleadBeg: 'image/plead-beg.jpg',
+  giftCurtain: 'image/gift-curtain.jpg',
   walkHolding: 'image/walk-holding-hands.png',
   walkNotHolding: 'image/walk-not-holding-hands.jpg',
   flower: 'image/flower-preserved.png',
@@ -37,7 +38,7 @@ const NODES = {
     id: 'walk',
     type: 'choice',
     bg: 'walk',
-    prompt: '邀请我美丽的女士，\n一起线上散步吧',
+    prompt: '邀请我美丽的平平女士，\n一起线上散步吧',
     choices: [
       {
         label: '好啊',
@@ -111,16 +112,27 @@ const NODES = {
     id: 'snack',
     type: 'choice',
     bg: 'snack',
-    prompt: '走累了吧？夜宵可以陪你吃瘦肉丸哦',
+    prompt: '走累了吧？夜宵去吃瘦肉丸吧',
     choices: [
-      { label: '吃！', value: 'eat', feedback: '那今晚的瘦肉丸，算我们一起吃的。', next: 'flowers', yes: true },
+      { label: '吃！', value: 'eat', feedback: '还差一份香酥鸡，下次要补上哦', next: 'giftCurtain', yes: true },
       {
-        label: '刚吃过啦',
+        label: '要吃火鸡面',
         value: 'full',
-        feedback: '那我替你多吃两口，当我也陪你了。',
-        next: 'flowers',
+        feedback: '那只能吃两口哦，剩下的都是我的了',
+        next: 'giftCurtain',
       },
     ],
+  },
+  giftCurtain: {
+    id: 'giftCurtain',
+    type: 'travel-photo',
+    bg: 'opening',
+    prompt: '夜宵吃完啦，\n该回家看看了',
+    caption: '拉开窗帘，礼物就在窗帘后面等着你',
+    image: ASSETS.giftCurtain,
+    placeholder: '放入 gift-curtain.jpg（窗帘后的礼物）',
+    button: '拉开窗帘',
+    next: 'flowers',
   },
   flowers: {
     id: 'flowers',
@@ -142,9 +154,10 @@ const NODES = {
     lines: [
       '谢谢你愿意陪我胡闹，完成这场线上散步',
       '愿你永远做自己，闪闪发光。',
+      '愿你平安顺遂，万事胜意。',
       '也希望以后的每一天，',
       '我都可以 陪在你身边。',
     ],
-    button: '我也是',
+    closingLine: '一会儿我们语音吧！',
   },
 };

@@ -18,7 +18,8 @@
 
 | 文件 | 用途 |
 |------|------|
-| `plead-beg.png` | 牵手「不好」求求贴纸（无则显示 emoji） |
+| `plead-beg.jpg` | 开场第二次点「不想」时显示（拜托拜托） |
+| `gift-curtain.jpg` | 回家窗帘后的礼物（约 88KB，已压缩） |
 | `flower-preserved.png` | 永生花礼盒 |
 
 ## 背景音乐

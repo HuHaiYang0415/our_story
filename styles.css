@@ -102,7 +102,7 @@ html, body {
   object-position: center 35%;
   opacity: 0;
   transform: scale(1.03);
-  transition: opacity 0.8s ease, transform 1.2s ease;
+  transition: opacity 0.5s ease, transform 1s ease;
 }
 
 .scene-bg.has-image .scene-bg-img {
@@ -158,7 +158,7 @@ html, body {
 }
 
 #app.ending-mode #choices {
-  background: linear-gradient(180deg, transparent 0%, rgba(14, 10, 18, 0.85) 40%, rgba(8, 5, 12, 0.98) 100%);
+  display: none;
 }
 
 .prompt {
@@ -342,8 +342,34 @@ html, body {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
 }
 
-/* 牵手求求贴图 */
-.plead-sticker-wrap {
+/* 开场第二次「不想」：拜托拜托图 */
+.opening-beg-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%) translateY(8px);
+  z-index: 15;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.opening-beg-wrap.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.opening-beg-img {
+  width: min(120px, 32vw);
+  height: auto;
+  max-height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+}
+
+/* 牵手第一次「不好」：文字提示 */
+.hand-hint-wrap {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 10px);
@@ -358,16 +384,9 @@ html, body {
   gap: 4px;
 }
 
-.plead-sticker-wrap.show {
+.hand-hint-wrap.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
-}
-
-.plead-img {
-  width: 88px;
-  height: 88px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.3));
 }
 
 .plead-emoji {
@@ -448,8 +467,7 @@ html, body {
   animation: prompt-in 0.6s ease both;
 }
 
-.visual-frame,
-.flower-visual-frame {
+.visual-frame {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -464,10 +482,47 @@ html, body {
     0 0 0 1px rgba(240, 164, 188, 0.08) inset;
 }
 
+.flower-visual-frame {
+  position: relative;
+  width: 100%;
+  margin: 0 auto 14px;
+  padding: 12px;
+  border-radius: 16px;
+  overflow: visible;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scene-illustration,
+.travel-photo-img,
+.opening-beg-img {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.scene-illustration.loaded,
+.travel-photo-img.loaded,
+.opening-beg-img.loaded {
+  opacity: 1;
+}
+
 .scene-illustration {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.flower-visual-frame .flower-img {
+  width: 100%;
+  height: auto;
+  max-height: min(48vh, 360px);
+  object-fit: contain;
+  object-position: center;
   display: block;
 }
 
@@ -510,11 +565,6 @@ html, body {
   animation: prompt-in 0.6s ease both;
 }
 
-.flower-visual-frame {
-  aspect-ratio: 1;
-  max-height: 36vh;
-}
-
 .flower-copy {
   text-align: center;
 }
@@ -536,13 +586,76 @@ html, body {
   display: none;
 }
 
-.ending-scene {
+#app.ending-mode #stage {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: calc(12px + var(--safe-t)) 12px 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.ending-layout {
   position: relative;
   z-index: 2;
-  max-width: 340px;
-  text-align: center;
-  padding: 8px 8px 0;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ending-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 0;
+}
+
+.ending-heart-frame {
+  position: relative;
+  width: min(100%, 340px);
+  padding: 32px 26px;
+  border: 2px solid rgba(232, 93, 117, 0.5);
+  border-radius: 22px;
+  background: rgba(12, 8, 16, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(240, 164, 188, 0.15) inset,
+    0 12px 40px rgba(0, 0, 0, 0.35);
   animation: prompt-in 0.9s ease both;
+}
+
+.heart-deco {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  color: var(--heart);
+  opacity: 0.85;
+  filter: drop-shadow(0 1px 4px rgba(232, 93, 117, 0.45));
+}
+
+.heart-deco svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.heart-deco-tl { top: -9px; left: 14px; transform: scale(0.9); }
+.heart-deco-tr { top: -9px; right: 14px; transform: scale(0.9); }
+.heart-deco-bl { bottom: -9px; left: 14px; transform: scale(0.85); }
+.heart-deco-br { bottom: -9px; right: 14px; transform: scale(0.85); }
+.heart-deco-t { top: -10px; left: 50%; transform: translateX(-50%) scale(0.75); }
+.heart-deco-b { bottom: -10px; left: 50%; transform: translateX(-50%) scale(0.75); }
+.heart-deco-l { left: -9px; top: 50%; transform: translateY(-50%) scale(0.75); }
+.heart-deco-r { right: -9px; top: 50%; transform: translateY(-50%) scale(0.75); }
+
+.ending-scene {
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
 
 .ending-title {
@@ -564,8 +677,29 @@ html, body {
   margin-top: 6px;
 }
 
-#app.ending-mode .ending-btn {
-  font-weight: 600;
+.ending-closing {
+  flex-shrink: 0;
+  align-self: center;
+  width: max-content;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 10px 18px calc(14px + var(--safe-b));
+  font-size: clamp(13px, 3.6vw, 15px);
+  line-height: 1.5;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  border: 1px solid rgba(232, 93, 117, 0.35);
+  border-radius: 999px;
+  background: rgba(12, 8, 16, 0.4);
+  transition: opacity 2.2s ease, transform 2.2s ease;
+}
+
+.ending-closing.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* 背景音乐开关 */
