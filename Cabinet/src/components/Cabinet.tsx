@@ -277,7 +277,7 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
       {/* Swallow Nest — 桌面左侧居中；手机固定于视口下方（展柜区域之下），不挡木柜 */}
-      <div className="absolute left-0 md:left-2 w-20 flex flex-col items-center origin-left max-md:fixed max-md:bottom-[7%] max-md:left-2 max-md:z-20 max-md:scale-[0.75] max-md:translate-y-0 md:top-1/2 md:-translate-y-1/2 md:scale-100">
+      <div className="absolute left-0 md:left-2 w-20 flex flex-col items-center origin-left max-md:fixed max-md:bottom-[11%] max-md:left-2 max-md:z-20 max-md:scale-[0.82] max-md:translate-y-0 md:top-1/2 md:-translate-y-1/2 md:scale-100">
         {/* Nest Structure */}
         <div className="relative w-20 h-10 select-none">
           {/* Mud Texture/Accents background and mud sticks details */}
@@ -451,7 +451,7 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
             style={{ position: 'absolute', width: '28px', height: '28px', top: 0, left: 0 }}
             animate={{
               x: ['4vw', '28vw', '52vw', '32vw', '8vw', '4vw'],
-              y: ['90vh', '92vh', '91vh', '93vh', '90.5vh', '90vh'],
+              y: ['82vh', '86vh', '84vh', '88vh', '83vh', '82vh'],
               rotate: [10, -15, 20, -10, 5, 10],
             }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
@@ -1040,7 +1040,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg py-4 md:py-6 px-4 flex flex-col justify-start items-center overflow-x-hidden select-none animate-fadeIn max-md:h-[100dvh] max-md:max-h-[100dvh] max-md:min-h-0 max-md:overflow-hidden max-md:py-2 max-md:px-3" id="cabinet-root-page">
+    <div className="relative w-full min-h-screen bg-brand-bg py-4 md:py-6 px-4 flex flex-col justify-start items-center overflow-x-hidden select-none animate-fadeIn" id="cabinet-root-page">
       
       {/* ----------------------------------------------------------------------
           Seasonal Decor Elements & Dynamic Atmospheric Filters 
@@ -1397,7 +1397,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
       <div className="absolute top-10 left-12 w-32 h-32 bg-amber-100/10 blur-2xl rounded-full pointer-events-none" />
 
       {/* Header Section: Reduced padding to bring the cabinet closer to the title */}
-      <header className="w-full max-w-4xl mx-auto pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60 max-md:shrink-0 max-md:pt-0 max-md:pb-1.5 max-md:gap-1" id="cabinet-title-section">
+      <header className="w-full max-w-4xl mx-auto pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
         <div className="space-y-1">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
@@ -1412,7 +1412,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 90 }}
-            className="text-3xl md:text-5xl font-light tracking-tight leading-none text-brand-text font-serif"
+            className="text-4xl md:text-5xl font-light tracking-tight leading-none text-brand-text font-serif"
             id="cabinet-main-title"
           >
             Our Story
@@ -1421,13 +1421,13 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-0.5 text-[10px] md:text-sm text-brand-text/60 italic font-serif leading-snug max-md:line-clamp-1"
+            className="mt-1 text-xs md:text-sm text-brand-text/60 italic font-serif leading-relaxed"
           >
             A collection of moments, captured in time. 叩开密匣，重温属于我们的浪漫时光。
           </motion.p>
         </div>
 
-        <div className="flex flex-col items-end gap-1 w-full md:w-auto mt-1 md:mt-0 max-md:shrink-0">
+        <div className="flex flex-col items-end gap-2.5 w-full md:w-auto mt-2 md:mt-0">
           {/* Cricket Sound Toggle for Summer Night */}
           {theme.season === 'summer' && theme.isNight && (
             <motion.button
@@ -1446,7 +1446,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
             </motion.button>
           )}
 
-          <div className="flex space-x-4 text-[9px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] font-sans text-[#8C6239]/50 pb-0 md:pb-1 border-t md:border-t-0 border-[#E5DACE]/40 pt-1 md:pt-0 w-full md:w-auto justify-between md:justify-end">
+          <div className="flex space-x-6 text-[10px] uppercase tracking-[0.2em] font-sans text-[#8C6239]/50 pb-1 border-t md:border-t-0 border-[#E5DACE]/40 pt-2 md:pt-0 w-full md:w-auto justify-between md:justify-end">
             <span>By 小胡 &bull; 平平</span>
             <span>Since 2026.05</span>
           </div>
@@ -1465,20 +1465,20 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           y: 0,
           opacity: 1
         }}
-        className="w-full max-w-3xl bg-stone-950/5 p-1.5 md:p-3 rounded-2xl md:rounded-3xl border border-stone-800/10 shadow-xl mt-1 md:mt-2 mb-0 md:mb-2 relative max-md:flex-1 max-md:min-h-0 max-md:flex max-md:flex-col"
+        className="w-full max-w-3xl bg-stone-950/5 p-2 md:p-3 rounded-3xl border border-stone-800/10 shadow-xl mt-1.5 md:mt-2 mb-2 relative"
         id="wooden-cabinet-wrapper"
       >
-        {/* Real wood shelf look — 手机三层均分剩余高度，去掉 400px 空层 */}
-        <div className="absolute inset-1 md:inset-1.5 rounded-2xl bg-[#5A3E23] wood-pattern shadow-inner border-2 md:border-4 border-[#6D4C2B] flex flex-col justify-between p-1.5 md:p-4 space-y-1 md:space-y-6 max-md:h-full max-md:min-h-0" id="shelf-contents-box">
+        {/* Real wood shelf look with taller layers (h-40 to h-48) */}
+        <div className="absolute inset-1.5 rounded-2xl bg-[#5A3E23] wood-pattern shadow-inner border-4 border-[#6D4C2B] flex flex-col justify-between p-2 md:p-4 space-y-4 md:space-y-6" id="shelf-contents-box">
           
           <div className="absolute inset-0 wood-grain-radial pointer-events-none opacity-85" />
 
           {/* LAYER 1 (Top Shelf) - Heights raised, leaving plenty of vertical space */}
-          <div className="relative flex-1 min-h-[68px] max-h-[28dvh] md:flex-none md:h-[400px] w-full flex items-end justify-between px-2 md:px-14 border-b-4 md:border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-t-lg overflow-hidden" id="shelf-layer-1">
+          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-t-lg" id="shelf-layer-1">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">1st Tier · 信笺</span>
             
             {/* Optimized Venus Flytrap */}
-            <div className="mb-0.5 max-md:scale-[0.72] max-md:origin-bottom">
+            <div className="mb-0.5">
               <VenusFlyTrap />
             </div>
 
@@ -1487,7 +1487,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('envelopes', true)}
-                className={`w-24 md:w-36 h-[50px] md:h-[72px] max-md:ml-2 ml-[40px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
+                className={`w-28 md:w-36 h-[58px] md:h-[72px] ml-[40px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
                   boxInFocus === 'envelopes' ? 'ring-3 ring-amber-400 z-50' : 'hover:shadow-2xl hover:border-amber-400/50'
                 }`}
                 id="wooden-box-envelopes"
@@ -1514,17 +1514,17 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
             </div>
 
             {/* Hello Kitty Doll */}
-            <div className="mb-0.5 max-md:scale-[0.72] max-md:origin-bottom">
+            <div className="mb-0.5">
               <HelloKittyDoll />
             </div>
           </div>
 
           {/* LAYER 2 (Middle Shelf) */}
-          <div className="relative flex-1 min-h-[68px] max-h-[28dvh] md:flex-none md:h-[400px] w-full flex items-end justify-between px-2 md:px-14 border-b-4 md:border-b-12 border-[#5A3E23] bg-black/25 shadow-md overflow-hidden" id="shelf-layer-2">
+          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md" id="shelf-layer-2">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">2nd Tier · 相册</span>
             
             {/* Cozy Goldfish Bowl */}
-            <div className="mb-0.5 max-md:scale-[0.72] max-md:origin-bottom">
+            <div className="mb-0.5">
               <GoldfishBowl />
             </div>
 
@@ -1533,7 +1533,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('photos', true)}
-                className={`w-24 md:w-36 h-[50px] md:h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#7c5043] to-[#4e342e] border border-[#55362e] relative flex flex-col justify-center items-center transition-all p-2 ${
+                className={`w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#7c5043] to-[#4e342e] border border-[#55362e] relative flex flex-col justify-center items-center transition-all p-2 ${
                   boxInFocus === 'photos' ? 'ring-3 ring-rose-400 z-50' : 'hover:shadow-2xl hover:border-rose-400/50'
                 }`}
                 id="wooden-box-photos"
@@ -1568,18 +1568,18 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           </div>
 
           {/* LAYER 3 (Bottom Shelf) */}
-          <div className="relative flex-1 min-h-[68px] max-h-[28dvh] md:flex-none md:h-[400px] w-full flex items-end justify-between px-2 md:px-14 border-b-4 md:border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-b-lg overflow-hidden" id="shelf-layer-3">
+          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-b-lg" id="shelf-layer-3">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">3rd Tier · 珍藏</span>
             
             {/* Cozy Lemon Bonsai with branch nodes */}
-            <div className="mb-0.5 max-md:scale-[0.72] max-md:origin-bottom">
+            <div className="mb-0.5">
               <LemonTree />
             </div>
 
             {/* THIRD BOX: Locked future box (Compact, fits perfectly) */}
             <div className="relative mb-0.5 group">
               <div
-                className="w-24 md:w-36 h-[50px] md:h-[72px] rounded-xl shadow-md bg-gradient-to-b from-[#A69580] to-[#736353] border border-[#594d40] relative flex flex-col justify-center items-center p-2 opacity-95 select-none"
+                className="w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-md bg-gradient-to-b from-[#A69580] to-[#736353] border border-[#594d40] relative flex flex-col justify-center items-center p-2 opacity-95 select-none"
                 id="wooden-box-future"
               >
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center opacity-60">
@@ -1608,8 +1608,8 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
         </div>
       </motion.div>
 
-      <footer className="w-full max-w-xl z-20 flex flex-col items-center shrink-0 max-md:mt-0 max-md:pt-0.5 max-md:pb-0 md:mt-auto md:pt-4 md:pb-2" id="cabinet-action-bar">
-        <div className="mt-0 md:mt-3 text-center text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-brand-text/40 font-auto">
+      <footer className="w-full max-w-xl z-20 flex flex-col items-center mt-auto pt-4 pb-2" id="cabinet-action-bar">
+        <div className="mt-3 text-center text-[10px] uppercase tracking-[0.3em] text-brand-text/40 font-auto">
           CRAFTED WITH LOVE . SEALED WITH US
         </div>
       </footer>
@@ -1618,8 +1618,8 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           Seasonal Bottom Floor Elements (Lawn, Lotus, Leaf Pile, Snowman)
          ---------------------------------------------------------------------- */}
       {theme.season === 'spring' && (
-        <div className="absolute bottom-0 left-0 right-0 h-9 md:h-24 pointer-events-none z-10 overflow-hidden flex items-end">
-          <svg className="w-full h-7 md:h-14 text-emerald-600/25" viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor">
+        <div className="absolute bottom-0 left-0 right-0 h-16 md:h-24 pointer-events-none z-10 overflow-hidden flex items-end">
+          <svg className="w-full h-10 md:h-14 text-emerald-600/25" viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor">
             <path d="M0,80 Q180,60 360,80 T720,70 T1080,80 T1440,65 L1440,100 L0,100 Z" opacity="0.8" fill="#10B981" />
             <path d="M0,90 Q120,75 240,90 T480,85 T960,90 T1440,80 L1440,100 L0,100 Z" fill="#047857" opacity="0.9" />
           </svg>
@@ -1628,8 +1628,8 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
       )}
 
       {theme.season === 'summer' && (
-        <div className="absolute bottom-0 left-0 right-0 h-10 md:h-28 pointer-events-none z-10 overflow-hidden flex items-end">
-          <svg className="w-full h-7 md:h-14 text-cyan-800/15" viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor">
+        <div className="absolute bottom-0 left-0 right-0 h-20 md:h-28 pointer-events-none z-10 overflow-hidden flex items-end">
+          <svg className="w-full h-10 md:h-14 text-cyan-800/15" viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor">
             <path d="M0,75 Q360,55 720,75 T1440,65 L1440,100 L0,100 Z" fill="#0E7490" opacity="0.25" />
             <path d="M0,85 Q360,80 720,85 T1440,80 L1440,100 L0,100 Z" fill="#0369A1" opacity="0.45" />
           </svg>
@@ -1638,15 +1638,15 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
       )}
 
       {theme.season === 'autumn' && (
-        <div className="absolute bottom-0 left-0 right-0 h-9 md:h-22 pointer-events-none z-10 overflow-hidden flex items-end pb-0.5">
+        <div className="absolute bottom-0 left-0 right-0 h-16 md:h-22 pointer-events-none z-10 overflow-hidden flex items-end pb-0.5">
           <AutumnLeavesPile />
         </div>
       )}
 
       {theme.season === 'winter' && (
-        <div className="absolute bottom-0 left-0 right-0 h-11 md:h-28 pointer-events-none z-10 overflow-hidden flex items-end">
+        <div className="absolute bottom-0 left-0 right-0 h-20 md:h-28 pointer-events-none z-10 overflow-hidden flex items-end">
           {/* Beautifully curved snowy slope */}
-          <svg className="w-full h-6 md:h-12 text-slate-100/90 filter drop-shadow-inner" viewBox="0 0 1440 40" preserveAspectRatio="none" fill="currentColor">
+          <svg className="w-full h-8 md:h-12 text-slate-100/90 filter drop-shadow-inner" viewBox="0 0 1440 40" preserveAspectRatio="none" fill="currentColor">
             <path d="M0,18 C360,32 1080,8 1440,25 L1440,40 L0,40 Z" fill="#F1F5F9" opacity="0.95" />
             <path d="M0,24 C360,34 1080,18 1440,32 L1440,40 L0,40 Z" fill="#E2E8F0" opacity="0.6" />
           </svg>
