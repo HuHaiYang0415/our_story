@@ -44,6 +44,15 @@ npm run build:site
    - `companion-520/`
 3. 若 Pages 地址带仓库名（如 `https://用户名.gitee.io/仓库名/`），在 `vite.config.ts` 里把 `base: './'` 改为 `base: '/仓库名/'` 后重新 `npm run build:site`
 
+## 信封邮票图
+
+每封信均有 **4:3** 空白占位框。将图片放入 `Cabinet/image/`，按信封 `id` 命名：
+
+- `stamp-letter-520.jpg` — 520 信封
+- `stamp-letter-pending.jpg` — 未完待续
+
+执行 `npm run build:site` 后随站点发布。无图片时显示空白虚线框。
+
 ## 路径说明
 
 - 展柜 → 信盒 → 2026.05.20 信封 → `companion-520/index.html`

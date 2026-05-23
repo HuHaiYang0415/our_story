@@ -1,23 +1,28 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Hammer, Wrench, Paintbrush, Heart } from 'lucide-react';
+import type { TimeTheme } from '../types';
+import { SeasonAtmosphere } from './SeasonAtmosphere';
 
 interface PolaroidGalleryProps {
+  theme: TimeTheme;
   onBackToCabinet: () => void;
 }
 
-export function PolaroidGallery({ onBackToCabinet }: PolaroidGalleryProps) {
+export function PolaroidGallery({ theme, onBackToCabinet }: PolaroidGalleryProps) {
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-6 px-4 md:px-8 overflow-hidden select-none animate-fadeIn" id="polaroid-gallery-page">
-      {/* Background soft lighting */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-amber-100/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-orange-100/10 blur-3xl pointer-events-none" />
+    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-6 px-4 md:px-8 overflow-hidden select-none animate-fadeIn transition-colors duration-700" id="polaroid-gallery-page">
+      <SeasonAtmosphere theme={theme} variant="gallery" />
 
       {/* Header bar */}
       <div className="w-full max-w-4xl mx-auto flex items-center justify-between z-10 py-2 border-b border-[#E5DACE]/40" id="polaroid-page-header">
         <button
           onClick={onBackToCabinet}
-          className="flex items-center space-x-2 text-brand-text/70 hover:text-brand-text font-serif font-medium px-4 py-2 rounded-full hover:bg-stone-100 transition-colors cursor-pointer border border-[#E5DACE] shadow-xs bg-white/60 backdrop-blur-sm"
+          className={`flex items-center space-x-2 font-serif font-medium px-4 py-2 rounded-full transition-colors cursor-pointer border shadow-xs backdrop-blur-sm ${
+            theme.isNight
+              ? 'bg-[#2E241E]/75 hover:bg-[#2E241E] border-[#8C6239]/25 text-stone-300'
+              : 'bg-white/60 hover:bg-stone-100 border-[#E5DACE] text-brand-text/70'
+          }`}
           id="btn-back-cabinet"
         >
           <ArrowLeft className="w-4 h-4" />

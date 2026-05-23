@@ -1,20 +1,23 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Sparkles, Heart } from 'lucide-react';
-import { Letter } from '../types';
+import { Letter, TimeTheme } from '../types';
 
 interface LetterReaderProps {
   letter: Letter & { content: string };
+  theme: TimeTheme;
   onClose: () => void;
 }
 
-export function LetterReader({ letter, onClose }: LetterReaderProps) {
+export function LetterReader({ letter, theme, onClose }: LetterReaderProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-amber-950/40 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+      className={`fixed inset-0 z-50 overflow-y-auto backdrop-blur-md flex items-center justify-center p-4 md:p-8 transition-colors duration-500 ${
+        theme.isNight ? 'bg-black/75' : 'bg-amber-950/40'
+      }`}
       id="letter-reader-overlay"
     >
       {/* Warm background glow */}

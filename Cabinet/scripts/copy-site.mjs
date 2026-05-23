@@ -37,5 +37,11 @@ if (!fs.existsSync(distDir)) {
 cleanSiteAssets();
 copyDir(distDir, siteRoot);
 
+const cabinetImageDir = path.join(cabinetRoot, 'image');
+if (fs.existsSync(cabinetImageDir)) {
+  copyDir(cabinetImageDir, path.join(siteRoot, 'image'));
+  console.log('已复制 Cabinet/image/ -> 站点根目录 image/');
+}
+
 console.log(`已发布到: ${siteRoot}`);
 console.log('请双击打开: index.html');

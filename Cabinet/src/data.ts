@@ -1,5 +1,10 @@
 import { Letter } from './types';
 
+/** 每封信默认邮票路径：Cabinet/image/stamp-{信封id}.jpg */
+export function getLetterStampSrc(letter: Letter): string {
+  return letter.stampImage ?? `image/stamp-${letter.id}.jpg`;
+}
+
 export const LETTERS_DATA: Letter[] = [
   {
     id: 'letter-520',

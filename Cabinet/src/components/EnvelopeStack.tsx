@@ -1,55 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LETTERS_DATA } from '../data';
-import { Letter } from '../types';
+import { LETTERS_DATA, getLetterStampSrc } from '../data';
+import { Letter, TimeTheme } from '../types';
 import { ArrowLeft, ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
 import { LetterReader } from './LetterReader';
+import { SeasonAtmosphere } from './SeasonAtmosphere';
 
 interface EnvelopeStackProps {
+  theme: TimeTheme;
   onBackToCabinet: () => void;
 }
 
-export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
+function EnvelopeStamp({ letter }: { letter: Letter }) {
+  const src = getLetterStampSrc(letter);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [letter.id, src]);
+
+  return (
+    <div
+      className="absolute top-3 right-3 w-16 aspect-[4/3] border-2 border-dashed border-[#8C6239]/35 p-0.5 bg-[#FFFDFB] overflow-hidden pointer-events-none select-none"
+      id={`stamp-container-${letter.id}`}
+      aria-label="邮票"
+    >
+      {!failed && (
+        <img
+          src={src}
+          alt=""
+          className="w-full h-full object-cover rounded-[1px]"
+          onError={() => setFailed(true)}
+        />
+      )}
+      <div className="absolute -left-3 top-4 w-7 h-7 rounded-full border border-[#8C6239]/15 border-dashed pointer-events-none" />
+    </div>
+  );
+}
+
+export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [extractingLetterId, setExtractingLetterId] = useState<string | null>(null);
   const [readLetter, setReadLetter] = useState<Letter | null>(null);
   const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
-
-  // Custom Uploadable Stamps Map stored in localStorage
-  const [customStamps, setCustomStamps] = useState<Record<string, string>>(() => {
-    try {
-      const saved = localStorage.getItem('custom-stamps');
-      return saved ? JSON.parse(saved) : {};
-    } catch (e) {
-      return {};
-    }
-  });
-
-  const handleStampUpload = (letterId: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      setCustomStamps(prev => {
-        const updated = { ...prev, [letterId]: dataUrl };
-        localStorage.setItem('custom-stamps', JSON.stringify(updated));
-        return updated;
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleClearStamp = (letterId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCustomStamps(prev => {
-      const updated = { ...prev };
-      delete updated[letterId];
-      localStorage.setItem('custom-stamps', JSON.stringify(updated));
-      return updated;
-    });
-  };
 
   // Quick helper to go to previous/next item in a circular, infinite-loop stack.
   const handlePrev = () => {
@@ -99,16 +92,18 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
     : '点击信封抽出 • 再次点击打开阅读';
 
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-4 px-3 md:px-6 overflow-x-hidden select-none" id="envelope-stack-page">
-      {/* Soft warm sunbeam/glow effect */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-amber-100/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-orange-100/10 blur-3xl pointer-events-none" />
+    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-4 px-3 md:px-6 overflow-x-hidden select-none transition-colors duration-700" id="envelope-stack-page">
+      <SeasonAtmosphere theme={theme} variant="envelope" />
 
       {/* Header bar */}
       <div className="w-full max-w-3xl mx-auto flex items-center justify-between z-10 py-1 border-b border-[#E5DACE]/40" id="envelope-page-header">
         <button
           onClick={onBackToCabinet}
-          className="flex items-center space-x-1.5 text-brand-text/70 hover:text-brand-text font-serif text-xs md:text-sm font-medium px-3.5 py-1.5 rounded-full hover:bg-stone-100 transition-colors cursor-pointer border border-[#E5DACE] shadow-xs bg-white/60 backdrop-blur-sm"
+          className={`flex items-center space-x-1.5 hover:text-brand-text font-serif text-xs md:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors cursor-pointer border shadow-xs backdrop-blur-sm ${
+            theme.isNight
+              ? 'bg-[#2E241E]/75 hover:bg-[#2E241E] border-[#8C6239]/25 text-stone-300'
+              : 'bg-white/60 hover:bg-stone-100 border-[#E5DACE] text-brand-text/70'
+          }`}
           id="btn-back-cabinet"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
@@ -143,7 +138,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
         {/* Quick Select Date Timeline (Scrollable, expandable to show more dates scale) */}
         <div className="w-full z-10 px-1" id="date-timeline-module">
           {!isTimelineExpanded ? (
-            <div className="flex items-center space-x-1.5 bg-white/55 backdrop-blur-xs p-1 rounded-xl border border-[#E5DACE]/50 shadow-xs">
+            <div className={`flex items-center space-x-1.5 backdrop-blur-xs p-1 rounded-xl border shadow-xs ${theme.isNight ? 'bg-[#2E241E]/55 border-[#8C6239]/25' : 'bg-white/55 border-[#E5DACE]/50'}`}>
               {/* Scrollable list with subtle fade edges */}
               <div className="relative flex-1 min-w-0">
                 <div 
@@ -159,7 +154,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
                         className={`flex-shrink-0 px-3 py-1 rounded-full transition-all text-xs border cursor-pointer font-sans font-bold leading-none ${
                           isSelected
                             ? 'bg-[#8C6239] text-[#FFFDFB] border-[#8C6239] shadow-xs scale-105'
-                            : 'bg-[#FFFDFB] hover:bg-stone-50 text-brand-text/75 border-[#E5DACE] hover:border-[#8C6239] text-[11px]'
+                            : `${theme.isNight ? 'bg-[#221A14] text-stone-300 border-[#8C6239]/20 hover:bg-[#2E241E]' : 'bg-[#FFFDFB] hover:bg-stone-50 text-brand-text/75 border-[#E5DACE] hover:border-[#8C6239]'} text-[11px]`
                         }`}
                         id={`btn-date-select-${letter.id}`}
                       >
@@ -173,7 +168,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
               {/* Expand to grid trigger button */}
               <button
                 onClick={() => setIsTimelineExpanded(true)}
-                className="flex-shrink-0 flex items-center space-x-1 px-2.5 py-1.5 rounded-lg border border-[#E5DACE] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white transition-all text-[10px] font-bold text-[#8C6239] cursor-pointer shadow-xs active:scale-95"
+                className={`flex-shrink-0 flex items-center space-x-1 px-2.5 py-1.5 rounded-lg border transition-all text-[10px] font-bold cursor-pointer shadow-xs active:scale-95 ${theme.isNight ? 'border-[#8C6239]/25 bg-[#2E241E]/80 text-amber-200 hover:bg-amber-600 hover:text-white' : 'border-[#E5DACE] bg-[#FFFDFB] text-[#8C6239] hover:bg-[#8C6239] hover:text-white'}`}
                 title="展开全部日期"
               >
                 <Grid className="w-3.5 h-3.5" />
@@ -184,7 +179,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
             <motion.div 
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
-              className="w-full bg-[#FFFDFB]/95 backdrop-blur-xs border border-[#E5DACE] rounded-xl p-3 shadow-md flex flex-col space-y-2"
+              className={`w-full backdrop-blur-xs border rounded-xl p-3 shadow-md flex flex-col space-y-2 ${theme.isNight ? 'bg-[#2E241E]/95 border-[#8C6239]/25' : 'bg-[#FFFDFB]/95 border-[#E5DACE]'}`}
               id="date-grid-expanded-box"
             >
               <div className="flex items-center justify-between border-b border-[#E5DACE]/40 pb-1.5">
@@ -215,7 +210,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
                       className={`text-left p-2 rounded-lg border transition-all cursor-pointer flex flex-col justify-between ${
                         isSelected
                           ? 'bg-[#8C6239] text-white border-[#8C6239] shadow-xs'
-                          : 'bg-[#FFFDFB] border-[#E5DACE]/60 hover:border-[#8C6239] hover:bg-stone-50'
+                          : `${theme.isNight ? 'bg-[#221A14] border-[#8C6239]/20 hover:bg-[#2E241E] hover:border-[#8C6239]' : 'bg-[#FFFDFB] border-[#E5DACE]/60 hover:border-[#8C6239] hover:bg-stone-50'}`
                       }`}
                     >
                       <div className="flex items-center justify-between w-full">
@@ -339,66 +334,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
                         </svg>
                       </div>
 
-                      {/* 4:3 Aspect Ratio Stamp Area (Custom Uploadable Area, sized 64x48) */}
-                      <div 
-                        onClick={(e) => {
-                          if (!isTop) return;
-                          e.stopPropagation();
-                          document.getElementById(`stamp-input-${letter.id}`)?.click();
-                        }}
-                        className={`absolute top-3 right-3 flex items-center justify-center w-[64px] h-[48px] border-2 border-dashed border-[#8C6239]/35 p-0.5 bg-white select-none transition-all group/stamp ${
-                          isTop ? 'cursor-pointer hover:border-[#8C6239] hover:shadow-xs hover:scale-105 z-40' : 'pointer-events-none'
-                        }`}
-                        id={`stamp-container-${letter.id}`}
-                      >
-                        {customStamps[letter.id] ? (
-                          <div className="relative w-full h-full select-none overflow-hidden">
-                            <img 
-                              src={customStamps[letter.id]} 
-                              alt="Custom stamp" 
-                              className="w-full h-full object-cover rounded-[1px]"
-                              referrerPolicy="no-referrer"
-                            />
-                            {isTop && (
-                              <button
-                                onClick={(e) => handleClearStamp(letter.id, e)}
-                                className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-600 text-white rounded-full flex items-center justify-center text-[8px] font-bold hover:bg-red-700 shadow-xs cursor-pointer z-50 transform hover:scale-110"
-                                title="清除邮票"
-                              >
-                                ×
-                              </button>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="w-full h-full bg-[#FFFDFB] flex flex-col justify-between items-center py-0.5 text-[6px] text-[#2D241E]/55 font-serif leading-none">
-                            <span className="text-[5px]">POSTAGE</span>
-                            <Heart className="w-2 h-2 text-red-700/50 fill-red-700/5" />
-                            <span className="text-[5.5px]">¥ 4.20</span>
-                          </div>
-                        )}
-
-                        {isTop && (
-                          <div className="absolute inset-0 bg-black/45 opacity-0 group-hover/stamp:opacity-100 transition-opacity flex items-center justify-center rounded-[1px] pointer-events-none">
-                            <span className="text-[8px] text-white font-sans font-bold">
-                              {customStamps[letter.id] ? '更换' : '上传'}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Hidden Input File Element */}
-                        {isTop && (
-                          <input
-                            type="file"
-                            id={`stamp-input-${letter.id}`}
-                            accept="image/*"
-                            onChange={(e) => handleStampUpload(letter.id, e)}
-                            className="hidden"
-                          />
-                        )}
-
-                        {/* Cancellation circular lines */}
-                        <div className="absolute -left-3 top-4 w-7 h-7 rounded-full border border-[#8C6239]/15 border-dashed pointer-events-none" />
-                      </div>
+                      <EnvelopeStamp letter={letter} />
 
                       {/* Quick Content/Stamp Label */}
                       <div className="mt-1 flex items-center space-x-1 text-[8px] tracking-wider text-[#2D241E]/35 uppercase font-sans font-bold">
@@ -448,7 +384,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
             key={activeIndex}
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full p-3 bg-[#FFFDFB]/90 backdrop-blur-xs rounded-xl border border-[#E5DACE] shadow-xs text-center"
+            className={`w-full p-3 backdrop-blur-xs rounded-xl border shadow-xs text-center ${theme.isNight ? 'bg-[#2E241E]/95 border-[#8C6239]/25 text-stone-100' : 'bg-[#FFFDFB]/90 border-[#E5DACE]'}`}
             id="active-msg-card"
           >
             <div className="flex items-center justify-between text-[9px] text-brand-text/55 font-bold uppercase tracking-wider mb-1 px-1">
@@ -460,7 +396,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
               {loadedLetters[activeIndex].title}
             </h3>
             
-            <p className="font-hand text-base md:text-lg text-[#8C6239] leading-tight italic mt-0.5 font-bold">
+            <p className={`font-hand text-base md:text-lg leading-tight italic mt-0.5 font-bold ${theme.isNight ? 'text-amber-400' : 'text-[#8C6239]'}`}>
               {loadedLetters[activeIndex].oneLiner}
             </p>
           </motion.div>
@@ -469,7 +405,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
           <div className="flex items-center justify-center space-x-3" id="desktop-arrows">
             <button
               onClick={handlePrev}
-              className="p-1.5 rounded-full border border-[#E5DACE] transition-all cursor-pointer text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239] hover:scale-105 active:scale-95 shadow-xs"
+              className={`p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
               title="上一封"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -481,7 +417,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
 
             <button
               onClick={handleNext}
-              className="p-1.5 rounded-full border border-[#E5DACE] transition-all cursor-pointer text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239] hover:scale-105 active:scale-95 shadow-xs"
+              className={`p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
               title="下一封"
             >
               <ChevronRight className="w-4 h-4" />
@@ -496,6 +432,7 @@ export function EnvelopeStack({ onBackToCabinet }: EnvelopeStackProps) {
         {readLetter?.content && (
           <LetterReader
             letter={readLetter}
+            theme={theme}
             onClose={() => setReadLetter(null)}
           />
         )}
