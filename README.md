@@ -4,7 +4,7 @@
 
 ## 在线访问
 
-推送后在 GitHub 仓库 Settings → Pages → Source 选 **main** 分支、根目录 `/`。
+推送后在 GitHub 仓库 Settings → Pages → Source 选 **master** 分支、根目录 `/`。
 
 ## 本地开发
 

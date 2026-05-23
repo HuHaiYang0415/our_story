@@ -17,5 +17,5 @@ gh repo create $repoName --public --source=. --remote=origin --push --descriptio
 
 Write-Host ""
 Write-Host "完成。请在 GitHub 仓库 Settings -> Pages 中启用："
-Write-Host "  Branch: main"
+Write-Host "  Branch: master"
 Write-Host "  Folder: / (root)"
