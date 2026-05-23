@@ -276,8 +276,8 @@ const HelloKittyDoll = () => (
 const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-      {/* Swallow Nest — 桌面左侧居中；手机固定于视口下方（展柜区域之下），不挡木柜 */}
-      <div className="absolute left-0 md:left-2 w-20 flex flex-col items-center origin-left max-md:fixed max-md:bottom-[11%] max-md:left-2 max-md:z-20 max-md:scale-[0.82] max-md:translate-y-0 md:top-1/2 md:-translate-y-1/2 md:scale-100">
+      {/* Swallow Nest - bottom left side below the cabinet */}
+      <div className="absolute bottom-12 md:bottom-18 left-4 md:left-12 w-24 h-20 flex flex-col items-center">
         {/* Nest Structure */}
         <div className="relative w-20 h-10 select-none">
           {/* Mud Texture/Accents background and mud sticks details */}
@@ -339,9 +339,8 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
       {/* Daytime Flying Swallows */}
       {!isNight && (
         <>
-          {/* Swallow 1: Big Swoop (desktop — 手机不飞经展柜区域) */}
+          {/* Swallow 1: Big Swoop */}
           <motion.div
-            className="hidden md:block"
             style={{
               position: 'absolute',
               width: '44px',
@@ -398,9 +397,8 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
             </svg>
           </motion.div>
 
-          {/* Swallow 2: desktop */}
+          {/* Swallow 2: Speed and playfulness offset */}
           <motion.div
-            className="hidden md:block"
             style={{
               position: 'absolute',
               width: '32px',
@@ -442,25 +440,6 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
                 <path d="M 21 26 C 14 26, 4 14, 0 6 Q 16 18, 21 26 Z" fill="#334155" />
                 <path d="M 35 26 C 42 26, 52 14, 56 6 Q 40 18, 35 26 Z" fill="#334155" />
               </g>
-            </svg>
-          </motion.div>
-
-          {/* 手机：仅在页面底部燕巢附近低飞，不经过展柜 */}
-          <motion.div
-            className="md:hidden"
-            style={{ position: 'absolute', width: '28px', height: '28px', top: 0, left: 0 }}
-            animate={{
-              x: ['4vw', '28vw', '52vw', '32vw', '8vw', '4vw'],
-              y: ['82vh', '86vh', '84vh', '88vh', '83vh', '82vh'],
-              rotate: [10, -15, 20, -10, 5, 10],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <svg className="w-full h-full text-slate-800" viewBox="0 0 60 60" fill="currentColor">
-              <path d="M 28 32 L 20 54 L 28 42 L 36 54 L 28 32" fill="#334155" />
-              <ellipse cx="28" cy="28" rx="7" ry="11" fill="#334155" />
-              <ellipse cx="28" cy="27" rx="5" ry="9" fill="#FFFDF5" />
-              <circle cx="28" cy="16" r="4.5" fill="#1E293B" />
             </svg>
           </motion.div>
         </>
@@ -1040,7 +1019,7 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg py-4 md:py-6 px-4 flex flex-col justify-start items-center overflow-x-hidden select-none animate-fadeIn" id="cabinet-root-page">
+    <div className="relative w-full min-h-screen bg-brand-bg pt-4 md:pt-6 pb-24 md:pb-32 px-4 flex flex-col justify-start items-center overflow-x-hidden select-none animate-fadeIn" id="cabinet-root-page">
       
       {/* ----------------------------------------------------------------------
           Seasonal Decor Elements & Dynamic Atmospheric Filters 
@@ -1093,11 +1072,6 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
         </>
       )}
       {theme.season === 'spring' && (
-        <div className="absolute top-2 left-2 z-20 flex items-center space-x-1 bg-emerald-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-emerald-800 font-bold border border-emerald-500/15">
-          <span>🌱 新芽复苏</span>
-        </div>
-      )}
-      {theme.season === 'spring' && (
         <SpringSwallows isNight={theme.isNight} />
       )}
       {theme.season === 'spring' && (
@@ -1140,11 +1114,6 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
       {/* Summer (夏) Decors */}
       {theme.season === 'summer' && !theme.isNight && (
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/8 to-transparent pointer-events-none z-10 mix-blend-overlay rotate-12 scale-150 origin-top" />
-      )}
-      {theme.season === 'summer' && (
-        <div className="absolute top-2 left-2 z-20 flex items-center space-x-1 bg-amber-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-amber-850 font-bold border border-amber-500/15">
-          <span>☀️ 仲夏蝉鸣</span>
-        </div>
       )}
       {theme.season === 'summer' && (
         <div className="absolute top-1/3 right-1.5 md:right-3 pointer-events-none z-10">
@@ -1247,11 +1216,6 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
         </>
       )}
       {theme.season === 'autumn' && (
-        <div className="absolute top-2 left-2 z-20 flex items-center space-x-1 bg-amber-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-amber-800 font-bold border border-amber-500/15">
-          <span>🍂 金秋落叶</span>
-        </div>
-      )}
-      {theme.season === 'autumn' && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-30">
           {Array.from({ length: 15 }).map((_, i) => {
             const startLeft = -15 + i * 9.5; // Beautifully spaces wide from -15% to 118%
@@ -1348,11 +1312,6 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_35%,rgba(251,191,36,0.12)_0%,rgba(253,251,247,0)_60%)] pointer-events-none z-10" />
       )}
       {theme.season === 'winter' && (
-        <div className="absolute top-2 left-2 z-20 flex items-center space-x-1 bg-stone-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-stone-600 font-bold border border-stone-500/15">
-          <span>❄️ 凛冬风雪</span>
-        </div>
-      )}
-      {theme.season === 'winter' && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-30">
           {Array.from({ length: 32 }).map((_, i) => {
             const startLeft = -5 + i * 3.6; // Outstanding spacing spanning -5% to 110%
@@ -1398,15 +1357,56 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
 
       {/* Header Section: Reduced padding to bring the cabinet closer to the title */}
       <header className="w-full max-w-4xl mx-auto pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
-        <div className="space-y-1">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-amber-100/40 text-[#8C6239] text-[10px] tracking-wider uppercase font-sans font-bold border border-[#E5DACE]/30"
-          >
-            <Heart className="w-3 h-3 text-red-600 fill-red-600" />
-            <span>时光与秘密展柜 · Our Memories</span>
-          </motion.div>
+        <div className="space-y-1.5 w-full md:w-auto">
+          <div className="flex flex-wrap items-center gap-2">
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-amber-100/40 text-[#8C6239] text-[10px] tracking-wider uppercase font-sans font-bold border border-[#E5DACE]/30"
+            >
+              <Heart className="w-3 h-3 text-red-600 fill-red-600" />
+              <span>时光与秘密展柜 · Our Memories</span>
+            </motion.div>
+
+            <div className="flex items-center gap-1.5 flex-nowrap">
+              {theme.season === 'spring' && (
+                <div className="flex items-center space-x-1 bg-emerald-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-emerald-800 font-bold border border-emerald-500/15 whitespace-nowrap">
+                  <span>🌱 新芽复苏</span>
+                </div>
+              )}
+              {theme.season === 'summer' && (
+                <div className="flex items-center space-x-1 bg-amber-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-amber-850 font-bold border border-amber-500/15 whitespace-nowrap">
+                  <span>☀️ 仲夏蝉鸣</span>
+                </div>
+              )}
+              {theme.season === 'autumn' && (
+                <div className="flex items-center space-x-1 bg-amber-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-amber-800 font-bold border border-amber-500/15 whitespace-nowrap">
+                  <span>🍂 金秋落叶</span>
+                </div>
+              )}
+              {theme.season === 'winter' && (
+                <div className="flex items-center space-x-1 bg-stone-700/10 px-2.5 py-0.5 rounded-full text-[9px] text-stone-600 font-bold border border-stone-500/15 whitespace-nowrap">
+                  <span>❄️ 凛冬风雪</span>
+                </div>
+              )}
+
+              {theme.season === 'summer' && theme.isNight && (
+                <motion.button
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  onClick={() => setCricketsEnabled(v => !v)}
+                  className={`flex items-center justify-center p-1 rounded-full border cursor-pointer shadow-xs transition-colors duration-200 active:scale-95 shrink-0 ${
+                    cricketsEnabled 
+                      ? 'bg-amber-500/15 text-amber-600 border-amber-500/30' 
+                      : 'bg-stone-500/10 text-stone-400 border-stone-300'
+                  }`}
+                  title={cricketsEnabled ? '关闭夏夜虫鸣' : '开启夏夜虫鸣'}
+                >
+                  {cricketsEnabled ? <Volume2 className="w-3.5 h-3.5 text-amber-600 animate-pulse" /> : <VolumeX className="w-3.5 h-3.5" />}
+                </motion.button>
+              )}
+            </div>
+          </div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 10 }}
@@ -1427,26 +1427,8 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           </motion.p>
         </div>
 
-        <div className="flex flex-col items-end gap-2.5 w-full md:w-auto mt-2 md:mt-0">
-          {/* Cricket Sound Toggle for Summer Night */}
-          {theme.season === 'summer' && theme.isNight && (
-            <motion.button
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              onClick={() => setCricketsEnabled(v => !v)}
-              className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-full text-[9px] font-bold border cursor-pointer shadow-xs transition-all active:scale-95 ${
-                cricketsEnabled 
-                  ? 'bg-amber-500/15 text-amber-600 border-amber-500/30' 
-                  : 'bg-stone-500/10 text-stone-400 border-[#E5DACE]'
-              }`}
-              title="夏夜虫鸣开关"
-            >
-              {cricketsEnabled ? <Volume2 className="w-3.5 h-3.5 text-amber-600 animate-pulse" /> : <VolumeX className="w-3.5 h-3.5" />}
-              <span>{cricketsEnabled ? '夏夜虫鸣已启' : '虫鸣静音'}</span>
-            </motion.button>
-          )}
-
-          <div className="flex space-x-6 text-[10px] uppercase tracking-[0.2em] font-sans text-[#8C6239]/50 pb-1 border-t md:border-t-0 border-[#E5DACE]/40 pt-2 md:pt-0 w-full md:w-auto justify-between md:justify-end">
+        <div className="flex flex-col items-end justify-end gap-2.5 w-full md:w-auto mt-2 md:mt-0">
+          <div className="flex space-x-6 text-[10px] uppercase tracking-[0.2em] font-sans text-[#8C6239]/50 pb-1 w-full md:w-auto justify-between md:justify-end">
             <span>By 小胡 &bull; 平平</span>
             <span>Since 2026.05</span>
           </div>
@@ -1474,20 +1456,18 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           <div className="absolute inset-0 wood-grain-radial pointer-events-none opacity-85" />
 
           {/* LAYER 1 (Top Shelf) - Heights raised, leaving plenty of vertical space */}
-          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-t-lg" id="shelf-layer-1">
+          <div className="relative h-[400px] md:h-[400px] w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-t-lg" id="shelf-layer-1">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">1st Tier · 信笺</span>
             
-            {/* Optimized Venus Flytrap */}
-            <div className="mb-0.5">
+            <div className="flex justify-start items-end mb-0.5">
               <VenusFlyTrap />
             </div>
 
-            {/* FIRST BOX: Timeless Letter box (Ultra compact style, height reduced significantly so space exists above) */}
-            <div className="relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group">
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('envelopes', true)}
-                className={`w-28 md:w-36 h-[58px] md:h-[72px] ml-[40px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
+                className={`w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
                   boxInFocus === 'envelopes' ? 'ring-3 ring-amber-400 z-50' : 'hover:shadow-2xl hover:border-amber-400/50'
                 }`}
                 id="wooden-box-envelopes"
@@ -1513,23 +1493,20 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               </div>
             </div>
 
-            {/* Hello Kitty Doll */}
-            <div className="mb-0.5">
+            <div className="flex justify-end items-end mb-0.5">
               <HelloKittyDoll />
             </div>
           </div>
 
           {/* LAYER 2 (Middle Shelf) */}
-          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md" id="shelf-layer-2">
+          <div className="relative h-[400px] md:h-[400px] w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md" id="shelf-layer-2">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">2nd Tier · 相册</span>
             
-            {/* Cozy Goldfish Bowl */}
-            <div className="mb-0.5">
+            <div className="flex justify-start items-end mb-0.5">
               <GoldfishBowl />
             </div>
 
-            {/* SECOND BOX: Polaroid snap box (Ultra compact, reduced height for generous breathing space above) */}
-            <div className="relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group">
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('photos', true)}
@@ -1559,25 +1536,24 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               </div>
             </div>
 
-            {/* Analog Clock to support timing elegance */}
-            <div className="flex flex-col items-center mb-1.5 opacity-35 select-none">
-              <div className="w-6.5 h-6.5 rounded-full border border-stone-800 bg-[#FFFDFB] flex items-center justify-center relative shadow-xs">
-                <div className="absolute w-[1.2px] h-2 bg-stone-950 top-1/2 left-1/2 origin-left -rotate-45" />
+            <div className="flex justify-end items-end mb-1.5">
+              <div className="flex flex-col items-center opacity-35 select-none font-sans">
+                <div className="w-6.5 h-6.5 rounded-full border border-stone-800 bg-[#FFFDFB] flex items-center justify-center relative shadow-xs">
+                  <div className="absolute w-[1.2px] h-2 bg-stone-950 top-1/2 left-1/2 origin-left -rotate-45" />
+                </div>
               </div>
             </div>
           </div>
 
           {/* LAYER 3 (Bottom Shelf) */}
-          <div className="relative h-[400px] md:h-[400px] w-full flex items-end justify-between px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-b-lg" id="shelf-layer-3">
+          <div className="relative h-[400px] md:h-[400px] w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-b-lg" id="shelf-layer-3">
             <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">3rd Tier · 珍藏</span>
             
-            {/* Cozy Lemon Bonsai with branch nodes */}
-            <div className="mb-0.5">
+            <div className="flex justify-start items-end mb-0.5">
               <LemonTree />
             </div>
 
-            {/* THIRD BOX: Locked future box (Compact, fits perfectly) */}
-            <div className="relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group">
               <div
                 className="w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-md bg-gradient-to-b from-[#A69580] to-[#736353] border border-[#594d40] relative flex flex-col justify-center items-center p-2 opacity-95 select-none"
                 id="wooden-box-future"
@@ -1601,15 +1577,16 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               </div>
             </div>
 
-            {/* Visual balance */}
-            <div className="w-10 h-2 bg-[#5A3E23]/20 mb-1" />
+            <div className="flex justify-end items-end mb-1">
+              <div className="w-10 h-2 bg-[#5A3E23]/20" />
+            </div>
           </div>
 
         </div>
       </motion.div>
 
-      <footer className="w-full max-w-xl z-20 flex flex-col items-center mt-auto pt-4 pb-2" id="cabinet-action-bar">
-        <div className="mt-3 text-center text-[10px] uppercase tracking-[0.3em] text-brand-text/40 font-auto">
+      <footer className="w-full max-w-xl z-20 flex flex-col items-center mt-6 mb-4" id="cabinet-action-bar">
+        <div className="text-center text-[10px] uppercase tracking-[0.3em] text-brand-text/40 font-auto mt-[260px]">
           CRAFTED WITH LOVE . SEALED WITH US
         </div>
       </footer>

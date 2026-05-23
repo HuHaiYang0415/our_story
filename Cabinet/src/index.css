@@ -38,12 +38,12 @@
   .wood-pattern {
     background: repeating-linear-gradient(
       90deg,
-      #5A3E23 0px,
-      #5A3E23 6px,
-      #6D4C2B 6px,
-      #6D4C2B 14px,
-      #4c3217 14px,
-      #4c3217 20px
+      var(--color-wood-dark) 0px,
+      var(--color-wood-dark) 6px,
+      var(--color-wood-mid) 6px,
+      var(--color-wood-mid) 14px,
+      var(--color-wood-shelf) 14px,
+      var(--color-wood-shelf) 20px
     );
   }
 
