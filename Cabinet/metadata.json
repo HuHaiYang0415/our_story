@@ -1,0 +1,6 @@
+{
+  "name": "Our Story",
+  "description": "A cozy, warm cabinet containing digital memory boxes, handwritten envelopes, and polaroid photos tracking precious moments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

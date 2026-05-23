@@ -1,0 +1,41 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const cabinetRoot = path.resolve(__dirname, '..');
+const distDir = path.join(cabinetRoot, 'dist');
+const siteRoot = path.resolve(cabinetRoot, '..');
+
+const SKIP = new Set(['node_modules', 'src', 'dist', '.git', 'scripts']);
+
+function copyDir(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const from = path.join(src, entry.name);
+    const to = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(from, to);
+    } else {
+      fs.copyFileSync(from, to);
+    }
+  }
+}
+
+function cleanSiteAssets() {
+  const assetsDir = path.join(siteRoot, 'assets');
+  if (fs.existsSync(assetsDir)) {
+    fs.rmSync(assetsDir, { recursive: true, force: true });
+  }
+}
+
+if (!fs.existsSync(distDir)) {
+  console.error('请先执行 npm run build');
+  process.exit(1);
+}
+
+cleanSiteAssets();
+copyDir(distDir, siteRoot);
+
+console.log(`已发布到: ${siteRoot}`);
+console.log('请双击打开: index.html');

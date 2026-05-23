@@ -1,0 +1,24 @@
+# Dependencies
+Cabinet/node_modules/
+node_modules/
+
+# Build cache (站点根目录 index.html + assets/ 需提交以支持 Pages)
+Cabinet/dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+Cabinet/.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/

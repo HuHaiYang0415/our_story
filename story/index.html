@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="520 — 一条路，一颗心">
+  <meta property="og:title" content="520">
+  <meta property="og:description" content="愿意陪我走一小段路吗？">
+  <title>520</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #1a1520;
+      --text: #f5f0eb;
+      --muted: #b8a99a;
+      --accent: #e8a4b8;
+      --accent2: #c9d6ff;
+      --heart: #e85d75;
+      --btn-bg: rgba(255,255,255,0.12);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-t: env(safe-area-inset-top, 0px);
+    }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="images/bg-road-fog.png" as="image">
+  <link rel="preload" href="images/boy-road-walk.png" as="image">
+  <link rel="preload" href="images/boy-walk-side.png" as="image">
+  <link rel="preload" href="images/ref-girl.png" as="image">
+</head>
+<body>
+  <div id="app">
+    <div id="stage" aria-live="polite"></div>
+    <div id="ui">
+      <p id="narrative"></p>
+    </div>
+    <div id="intro-curtain" aria-hidden="true"></div>
+    <div id="progress"><span id="progress-fill"></span></div>
+  </div>
+  <audio id="bgm" loop preload="auto">
+    <!-- 可替换为 assets/bgm.mp3 -->
+  </audio>
+  <script src="figures.js"></script>
+  <script src="scenes.js"></script>
+  <script src="story.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
