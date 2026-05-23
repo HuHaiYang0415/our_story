@@ -276,8 +276,8 @@ const HelloKittyDoll = () => (
 const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-      {/* Swallow Nest - left margin, vertically centered (away from header copy) */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-0 md:left-2 w-20 flex flex-col items-center scale-90 md:scale-100 origin-left">
+      {/* Swallow Nest — 桌面左侧居中；手机固定于视口下方（展柜区域之下），不挡木柜 */}
+      <div className="absolute left-0 md:left-2 w-20 flex flex-col items-center origin-left max-md:fixed max-md:bottom-[11%] max-md:left-2 max-md:z-20 max-md:scale-[0.82] max-md:translate-y-0 md:top-1/2 md:-translate-y-1/2 md:scale-100">
         {/* Nest Structure */}
         <div className="relative w-20 h-10 select-none">
           {/* Mud Texture/Accents background and mud sticks details */}
@@ -339,8 +339,9 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
       {/* Daytime Flying Swallows */}
       {!isNight && (
         <>
-          {/* Swallow 1: Big Swoop */}
+          {/* Swallow 1: Big Swoop (desktop — 手机不飞经展柜区域) */}
           <motion.div
+            className="hidden md:block"
             style={{
               position: 'absolute',
               width: '44px',
@@ -397,8 +398,9 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
             </svg>
           </motion.div>
 
-          {/* Swallow 2: Speed and playfulness offset */}
+          {/* Swallow 2: desktop */}
           <motion.div
+            className="hidden md:block"
             style={{
               position: 'absolute',
               width: '32px',
@@ -440,6 +442,25 @@ const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
                 <path d="M 21 26 C 14 26, 4 14, 0 6 Q 16 18, 21 26 Z" fill="#334155" />
                 <path d="M 35 26 C 42 26, 52 14, 56 6 Q 40 18, 35 26 Z" fill="#334155" />
               </g>
+            </svg>
+          </motion.div>
+
+          {/* 手机：仅在页面底部燕巢附近低飞，不经过展柜 */}
+          <motion.div
+            className="md:hidden"
+            style={{ position: 'absolute', width: '28px', height: '28px', top: 0, left: 0 }}
+            animate={{
+              x: ['4vw', '28vw', '52vw', '32vw', '8vw', '4vw'],
+              y: ['82vh', '86vh', '84vh', '88vh', '83vh', '82vh'],
+              rotate: [10, -15, 20, -10, 5, 10],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <svg className="w-full h-full text-slate-800" viewBox="0 0 60 60" fill="currentColor">
+              <path d="M 28 32 L 20 54 L 28 42 L 36 54 L 28 32" fill="#334155" />
+              <ellipse cx="28" cy="28" rx="7" ry="11" fill="#334155" />
+              <ellipse cx="28" cy="27" rx="5" ry="9" fill="#FFFDF5" />
+              <circle cx="28" cy="16" r="4.5" fill="#1E293B" />
             </svg>
           </motion.div>
         </>
