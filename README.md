@@ -30,4 +30,5 @@ npm run build:site
 | `index.html` | 展柜入口（构建产物） |
 | `assets/` | 打包后的 JS/CSS |
 | `Cabinet/` | React 源码 |
-| `companion-520/` | 520 互动 H5 |
+| `202660520/` | 520 互动 H5（URL 路径：`…/our_story/202660520/`） |
+| `companion-520/` | 旧路径重定向（兼容旧链接） |

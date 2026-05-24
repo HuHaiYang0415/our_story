@@ -4,7 +4,7 @@ export interface Letter {
   oneLiner: string;
   title: string;
   sender: string;
-  /** 打开信封后跳转到外部 H5（如 companion-520） */
+  /** 打开信封后跳转到外部 H5（如 202660520 互动页） */
   href?: string;
   /** 无 href 时在弹窗内阅读的正文 */
   content?: string;

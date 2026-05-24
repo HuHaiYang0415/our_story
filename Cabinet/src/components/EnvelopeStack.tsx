@@ -5,6 +5,7 @@ import { Letter, TimeTheme } from '../types';
 import { ArrowLeft, ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
 import { LetterReader } from './LetterReader';
 import { SeasonAtmosphere } from './SeasonAtmosphere';
+import { applyDocumentTitle, getPageTitle, RETURN_FROM_520_KEY, resolveExternalHref } from '../siteConfig';
 
 interface EnvelopeStackProps {
   theme: TimeTheme;
@@ -44,6 +45,10 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
   const [readLetter, setReadLetter] = useState<Letter | null>(null);
   const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
 
+  useEffect(() => {
+    applyDocumentTitle(getPageTitle('box-envelopes', readLetter?.title ?? null));
+  }, [readLetter]);
+
   // Quick helper to go to previous/next item in a circular, infinite-loop stack.
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + LETTERS_DATA.length) % LETTERS_DATA.length);
@@ -72,8 +77,8 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
     setTimeout(() => {
       if (letter.href) {
         const returnUrl = `${window.location.pathname}${window.location.search}#envelopes`;
-        sessionStorage.setItem('companion520-return', returnUrl);
-        window.location.href = new URL(letter.href, window.location.href).href;
+        sessionStorage.setItem(RETURN_FROM_520_KEY, returnUrl);
+        window.location.href = resolveExternalHref(letter.href);
         return;
       }
 

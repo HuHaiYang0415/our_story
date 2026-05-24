@@ -16,7 +16,7 @@ npm run build:site
 
 （不是 `Cabinet/index.html`，那是开发入口，浏览器无法直接运行。）
 
-构建后会使用相对路径打包 JS/CSS，可直接 `file://` 打开；同级需保留 **`companion-520/`** 文件夹（520 互动页）。
+构建后会使用相对路径打包 JS/CSS，可直接 `file://` 打开；同级需保留 **`202660520/`** 文件夹（520 互动页）。
 
 ## 本地开发
 
@@ -41,7 +41,8 @@ npm run build:site
 2. 将 **`demo/` 根目录** 下这些内容推送到 Pages 仓库：
    - `index.html`
    - `assets/`
-   - `companion-520/`
+   - `202660520/`
+   - `companion-520/`（可选，旧链接自动跳转到 `202660520/`）
 3. 若 Pages 地址带仓库名（如 `https://用户名.gitee.io/仓库名/`），在 `vite.config.ts` 里把 `base: './'` 改为 `base: '/仓库名/'` 后重新 `npm run build:site`
 
 ## 信封邮票图
@@ -55,5 +56,5 @@ npm run build:site
 
 ## 路径说明
 
-- 展柜 → 信盒 → 2026.05.20 信封 → `companion-520/index.html`
+- 展柜 → 信盒 → 2026.05.20 信封 → `202660520/`（线上如 `…/our_story/202660520/`）
 - 520 页「返回」→ 回到信盒（`#envelopes`）

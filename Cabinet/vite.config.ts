@@ -5,7 +5,7 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
-  const companionDir = path.resolve(__dirname, '../companion-520');
+  const interactiveDir = path.resolve(__dirname, '../202660520');
   const cabinetImageDir = path.resolve(__dirname, 'image');
 
   return {
@@ -18,8 +18,8 @@ export default defineConfig(() => {
         configureServer(server) {
           import('sirv').then(({ default: sirv }) => {
             server.middlewares.use(
-              '/companion-520',
-              sirv(companionDir, { dev: true, single: false }),
+              '/202660520',
+              sirv(interactiveDir, { dev: true, single: false }),
             );
             if (fs.existsSync(cabinetImageDir)) {
               server.middlewares.use(

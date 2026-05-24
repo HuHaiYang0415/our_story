@@ -1,4 +1,4 @@
-# companion-520 生图提示词
+# 202660520 生图提示词
 
 画风与 `story/docs/image-prompts.md` 一致：**简约扁平插画**；比例 **9:16 竖屏**（贴纸 `plead-beg` 可用 1:1）。
 
@@ -8,7 +8,7 @@
 
 1. **生成顺序**：主角设定图（男 1 + 女 1）→ 散步插图 2 张 → 贴纸 → 花 → 全屏背景。
 2. **一致性**：从第 2 张人物图起上传上一张满意图，末尾加 Reference 句。
-3. **放入目录**：`companion-520/assets/images/`（或你项目里的 `image/`，需与 `content.js` 的 `ASSETS` 路径一致）。
+3. **放入目录**：`202660520/assets/images/`（或你项目里的 `image/`，需与 `content.js` 的 `ASSETS` 路径一致）。
 4. **出游路牌/小巷**：`travel-photo-1/2` 用**真实照片**，不用 AI 生成。
 5. **每张都加**文末 Negative Prompt；**不要**画面文字、水印、血腥。
 

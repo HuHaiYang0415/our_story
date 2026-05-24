@@ -5,6 +5,7 @@ import { Cabinet } from './components/Cabinet';
 import { EnvelopeStack } from './components/EnvelopeStack';
 import { PolaroidGallery } from './components/PolaroidGallery';
 import { getTimeTheme, applyThemeCssVars } from './theme';
+import { applyDocumentTitle, getPageTitle } from './siteConfig';
 import type { TimeTheme } from './types';
 
 type ViewState = 'cabinet' | 'box-envelopes' | 'box-photos';
@@ -60,6 +61,10 @@ export default function App() {
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
+
+  useEffect(() => {
+    applyDocumentTitle(getPageTitle(currentView));
+  }, [currentView]);
 
   const handleToggleNight = () => {
     setTheme((prev) => ({ ...prev, isNight: !prev.isNight }));

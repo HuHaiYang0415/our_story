@@ -731,7 +731,9 @@
     const btn = document.getElementById('btn-back-envelope');
     if (!btn) return;
     btn.addEventListener('click', () => {
-      const saved = sessionStorage.getItem('companion520-return');
+      const saved =
+        sessionStorage.getItem('our-story-return') ||
+        sessionStorage.getItem('companion520-return');
       if (saved) {
         window.location.href = saved;
         return;

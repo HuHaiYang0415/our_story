@@ -9,9 +9,11 @@
 ## 本地预览
 
 ```bash
-cd companion-520
+cd 202660520
 python -m http.server 8080
 ```
+
+线上路径示例：`https://huhaiyang0415.github.io/our_story/202660520/`
 
 ## 资源目录
 

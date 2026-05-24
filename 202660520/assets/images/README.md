@@ -1,6 +1,6 @@
 # 图片素材
 
-项目实际使用目录：**`companion-520/image/`**（路径在 `content.js` 的 `ASSETS`）。
+项目实际使用目录：**`202660520/image/`**（路径在 `content.js` 的 `ASSETS`）。
 
 ## 已接入（你提供的）
 

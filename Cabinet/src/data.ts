@@ -1,4 +1,5 @@
 import { Letter } from './types';
+import { INTERACTIVE_520_PATH } from './siteConfig';
 
 /** 每封信默认邮票路径：Cabinet/image/stamp-{信封id}.jpg */
 export function getLetterStampSrc(letter: Letter): string {
@@ -12,7 +13,7 @@ export const LETTERS_DATA: Letter[] = [
     title: '散步、玫瑰与美丽的平平',
     oneLiner: '在线上完成世界上第二浪漫的事情吧',
     sender: '小胡',
-    href: 'companion-520/index.html',
+    href: INTERACTIVE_520_PATH,
   },
   {
     id: 'letter-pending',
