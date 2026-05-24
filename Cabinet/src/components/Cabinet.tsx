@@ -1411,10 +1411,18 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-amber-100/40 text-[#8C6239] text-[10px] tracking-wider uppercase font-sans font-bold border border-[#E5DACE]/30"
+              className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] tracking-wider uppercase font-sans font-bold border transition-all duration-300 ${
+                theme.isNight
+                  ? "bg-amber-950/40 text-amber-200 border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.35)]"
+                  : "bg-amber-100/40 text-[#8C6239] border-[#E5DACE]/30"
+              }`}
             >
-              <Heart className="w-3 h-3 text-red-600 fill-red-600" />
-              <span>时光与秘密展柜 · Our Memories</span>
+              <Heart className={`w-3 h-3 transition-all duration-300 ${
+                theme.isNight ? 'text-rose-500 fill-rose-500 drop-shadow-[0_0_4px_rgba(244,63,94,0.85)] animate-pulse' : 'text-red-600 fill-red-600'
+              }`} />
+              <span className={theme.isNight ? "drop-shadow-[0_0_4px_rgba(251,191,36,0.75)] text-amber-200 font-extrabold" : ""}>
+                时光与秘密展柜 · Our Memories
+              </span>
             </motion.div>
 
             <div className="flex items-center gap-1.5 flex-nowrap">
@@ -1496,13 +1504,33 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
           y: 0,
           opacity: 1
         }}
-        className="w-full max-w-3xl bg-stone-950/5 p-2 md:p-3 rounded-3xl border border-stone-800/10 shadow-xl mt-1.5 md:mt-2 mb-2 relative"
+        className={`w-full max-w-3xl p-2 md:p-3 rounded-3xl border transition-all duration-500 mt-1.5 md:mt-2 mb-2 relative ${
+          theme.isNight 
+            ? 'bg-stone-950/25 border-amber-500/30' 
+            : 'bg-stone-950/5 border-stone-800/10 shadow-xl'
+        }`}
+        style={theme.isNight ? {
+          boxShadow: '0 -6px 25px rgba(245, 158, 11, 0.18), 0 0 50px rgba(245, 158, 11, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6)'
+        } : undefined}
         id="wooden-cabinet-wrapper"
       >
         {/* Real wood shelf look with taller layers (h-40 to h-48) */}
-        <div className="absolute inset-1.5 rounded-2xl bg-[#5A3E23] wood-pattern shadow-inner border-4 border-[#6D4C2B] flex flex-col justify-between p-2 md:p-4 space-y-4 md:space-y-6" id="shelf-contents-box">
+        <div 
+          className={`absolute inset-1.5 rounded-2xl bg-[#5A3E23] wood-pattern shadow-inner border-4 transition-all duration-500 flex flex-col justify-between p-2 md:p-4 space-y-4 md:space-y-6 ${
+            theme.isNight ? 'border-amber-700/50 shadow-[inset_0_4px_20px_rgba(245,158,11,0.25)]' : 'border-[#6D4C2B]'
+          }`}
+          id="shelf-contents-box"
+        >
           
           <div className="absolute inset-0 wood-grain-radial pointer-events-none opacity-85" />
+
+          {/* Warm Cozy LED / Neon Tube Light Bar at the cabinet top under the top edge */}
+          {theme.isNight && (
+            <div 
+              className="absolute top-0.5 left-6 right-6 h-[3.5px] bg-gradient-to-r from-amber-500/10 via-amber-400/80 to-amber-500/10 rounded-full shadow-[0_1.5px_8px_rgba(251,191,36,0.45),0_3px_22px_rgba(251,191,36,0.22)] pointer-events-none z-10 animate-pulse" 
+              style={{ animationDuration: '5.5s' }}
+            />
+          )}
 
           {/* LAYER 1 (Top Shelf) - Heights raised, leaving plenty of vertical space */}
           <div className="relative h-[400px] md:h-[400px] w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12 border-[#5A3E23] bg-black/25 shadow-md rounded-t-lg" id="shelf-layer-1">

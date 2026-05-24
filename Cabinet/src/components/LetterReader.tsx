@@ -20,6 +20,22 @@ export function LetterReader({ letter, theme, onClose }: LetterReaderProps) {
       }`}
       id="letter-reader-overlay"
     >
+      {/* Warm candle/fireplace background glow at night */}
+      {theme.isNight && (
+        <motion.div
+          animate={{
+            opacity: [0.3, 0.55, 0.28, 0.48, 0.3],
+            scale: [0.93, 1.06, 0.95, 1.02, 0.93],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 3.5,
+            ease: 'easeInOut',
+          }}
+          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.22)_0%,rgba(0,0,0,0)_70%)] pointer-events-none z-0"
+        />
+      )}
+
       {/* Warm background glow */}
       <div className="absolute inset-0 ambient-glow pointer-events-none" />
 
