@@ -1,0 +1,24 @@
+{
+  "name": "小胡❤平平",
+  "short_name": "小胡❤平平",
+  "description": "Our Story — 写给她的日子",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFFDFB",
+  "theme_color": "#8C6239",
+  "icons": [
+    {
+      "src": "./icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
