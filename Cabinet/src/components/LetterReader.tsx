@@ -15,7 +15,7 @@ export function LetterReader({ letter, theme, onClose }: LetterReaderProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className={`fixed inset-0 z-50 overflow-y-auto backdrop-blur-md flex items-center justify-center p-4 md:p-8 transition-colors duration-500 ${
+      className={`fixed inset-0 z-50 overflow-y-auto backdrop-blur-md flex items-start md:items-center justify-center p-4 md:p-8 transition-colors duration-500 ${
         theme.isNight ? 'bg-black/75' : 'bg-amber-950/40'
       }`}
       id="letter-reader-overlay"
@@ -44,14 +44,14 @@ export function LetterReader({ letter, theme, onClose }: LetterReaderProps) {
         animate={{ y: 0, scale: 1, rotateX: 0 }}
         exit={{ y: 50, scale: 0.9, rotateX: -10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-        className="relative w-full max-w-2xl my-8 paper-texture rounded-2xl p-6 md:p-12 shadow-2xl border border-amber-900/10 flex flex-col justify-between"
+        className="relative w-full max-w-2xl my-4 md:my-8 paper-texture rounded-2xl p-5 md:p-12 shadow-2xl border border-amber-900/10 flex flex-col justify-between"
         id="letter-reader-card"
         style={{ transformPerspective: 1000 }}
       >
         {/* Back Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 left-6 flex items-center space-x-1.5 text-amber-900/60 hover:text-amber-900 bg-amber-100/40 hover:bg-amber-100/80 px-3 py-1.5 rounded-full transition-all text-sm font-medium border border-amber-900/5 cursor-pointer"
+          className="absolute top-5 left-5 md:top-8 md:left-8 flex items-center space-x-1.5 text-amber-900/60 hover:text-amber-900 bg-amber-100/40 hover:bg-amber-100/80 px-3 py-1.5 rounded-full transition-all text-sm font-medium border border-amber-900/5 cursor-pointer z-10"
           id="btn-back-to-stack"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -59,7 +59,7 @@ export function LetterReader({ letter, theme, onClose }: LetterReaderProps) {
         </button>
 
         {/* Nostalgic Stamp and Wax Seal effect in the top-right */}
-        <div className="absolute top-6 right-6 flex flex-col items-end space-y-2 select-none pointer-events-none" id="decorative-stamps">
+        <div className="absolute top-5 right-5 md:top-8 md:right-8 flex flex-col items-end space-y-2 select-none pointer-events-none" id="decorative-stamps">
           {/* Mock Stamp */}
           <div className="w-16 h-20 border-4 border-dashed border-red-800/20 bg-amber-50/50 p-1 flex flex-col justify-between items-center rotate-6 relative shadow-sm">
             <span className="text-[8px] font-mono text-red-900/40">OUR STORY</span>

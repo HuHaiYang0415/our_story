@@ -96,6 +96,7 @@ export function SeasonAtmosphere({ theme, variant = 'cabinet' }: SeasonAtmospher
             transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
             className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(249,115,22,0.15)_0%,rgba(18,15,13,0.58)_85%)] pointer-events-none ${zBase}`}
           />
+          <div className={`absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-amber-950/20 via-orange-950/10 to-transparent pointer-events-none ${zBase}`} />
           <ParticleField count={Math.round(count * particleScale)} className={zParticles} render={(i) => (
             <motion.div
               key={`autumn-ember-${i}`}
@@ -125,6 +126,7 @@ export function SeasonAtmosphere({ theme, variant = 'cabinet' }: SeasonAtmospher
             className={`absolute -bottom-24 -right-24 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.22)_0%,rgba(18,15,13,0)_75%)] pointer-events-none ${zBase}`}
           />
           <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.06)_0%,rgba(15,23,42,0.55)_90%)] pointer-events-none ${zBase}`} />
+          <div className={`absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-orange-950/15 to-transparent pointer-events-none ${zBase}`} />
           <ParticleField count={Math.round(count * particleScale)} className={zParticles} render={(i) => (
             <motion.div
               key={`winter-ember-${i}`}

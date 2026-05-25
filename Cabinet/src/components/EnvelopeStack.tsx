@@ -116,7 +116,8 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
         </button>
 
         <div className="flex flex-col items-center text-center">
-          <span className="font-serif text-[#8C6239] text-sm md:text-base font-bold tracking-wide">时光信箱</span>
+          <span className="font-serif italic text-[#8C6239] text-[10px] tracking-widest uppercase">时光信箱</span>
+          <h2 className="text-sm md:text-base font-serif text-brand-text font-bold">时光与你来信</h2>
         </div>
 
         <div className="flex justify-end">

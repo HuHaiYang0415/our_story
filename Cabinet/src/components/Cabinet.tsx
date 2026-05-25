@@ -710,58 +710,283 @@ const SpringFlowers = () => {
   );
 };
 
-// 1.5. Summer Sleeping Frog Component nestled on lilypad at night
-const Frog = () => (
-  <motion.div
-    animate={{ y: [0, -0.8, 0], scaleY: [1, 1.03, 1] }}
-    transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-    className="absolute -top-7 left-3 w-10 h-8 pointer-events-none z-10"
-  >
-    <svg className="w-full h-full drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.25)]" viewBox="0 0 40 32" fill="none">
-      {/* Back legs / crouching joints */}
-      <path d="M 8 26 C 2 24 2 18 8 18 C 10 18 12 21 11 26 Z" fill="#15803D" stroke="#166534" strokeWidth="0.8" />
-      <path d="M 32 26 C 38 24 38 18 32 18 C 30 18 28 21 29 26 Z" fill="#15803D" stroke="#166534" strokeWidth="0.8" />
-      
-      {/* Little webbed feet at the bottom */}
-      <path d="M 5 26 L 12 26 M 28 26 L 35 26" stroke="#166534" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M 12 26 L 15 28 M 28 26 L 25 28" stroke="#166534" strokeWidth="1.2" strokeLinecap="round" />
+// 1.5. Summer frogs on lilypad at night (click to jump)
+const SingleFrog = ({ 
+  scale = 1, 
+  rotate = 0, 
+  delay = 0, 
+  isIdle = true 
+}: { 
+  scale?: number; 
+  rotate?: number; 
+  delay?: number; 
+  isIdle?: boolean;
+}) => {
+  return (
+    <motion.div
+      style={{
+        scale,
+        rotate,
+        transformOrigin: "bottom center",
+      }}
+      animate={isIdle ? { 
+        y: [0, -0.6, 0], 
+        scaleY: [1, 1.02, 1] 
+      } : {
+        y: 0,
+        scaleY: 1
+      }}
+      transition={{ 
+        repeat: Infinity, 
+        duration: 3 + delay, 
+        ease: "easeInOut",
+        delay 
+      }}
+      className="relative pointer-events-none"
+    >
+      <svg className="w-10 h-8 drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.25)]" viewBox="0 0 40 32" fill="none">
+        <path d="M 8 26 C 2 24 2 18 8 18 C 10 18 12 21 11 26 Z" fill="#15803D" stroke="#166534" strokeWidth="0.8" />
+        <path d="M 32 26 C 38 24 38 18 32 18 C 30 18 28 21 29 26 Z" fill="#15803D" stroke="#166534" strokeWidth="0.8" />
+        <path d="M 5 26 L 12 26 M 28 26 L 35 26" stroke="#166534" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M 12 26 L 15 28 M 28 26 L 25 28" stroke="#166534" strokeWidth="1.2" strokeLinecap="round" />
+        <ellipse cx="20" cy="21" rx="11" ry="9" fill="#22C55E" />
+        <motion.ellipse
+          cx="20"
+          cy="22"
+          rx="7"
+          ry="6"
+          fill="#A3E635"
+          animate={{ scaleX: [1, 1.15, 1], scaleY: [1, 1.12, 1], opacity: [0.85, 1, 0.85] }}
+          transition={{ repeat: Infinity, duration: 2.8 + delay, ease: "easeInOut", delay }}
+          style={{ transformOrigin: "20px 28px" }}
+        />
+        <path d="M 14 22 L 12 28 C 12 28 11 29 11 30" stroke="#15803D" strokeWidth="2" strokeLinecap="round" />
+        <path d="M 26 22 L 28 28 C 28 28 29 29 29 30" stroke="#15803D" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="13" cy="11" r="4.5" fill="#22C55E" stroke="#15803D" strokeWidth="0.8" />
+        <circle cx="27" cy="11" r="4.5" fill="#22C55E" stroke="#15803D" strokeWidth="0.8" />
+        <circle cx="13" cy="11" r="2.5" fill="#14532D" />
+        <circle cx="12" cy="10" r="0.8" fill="#FFFFFF" />
+        <circle cx="27" cy="11" r="2.5" fill="#14532D" />
+        <circle cx="26" cy="10" r="0.8" fill="#FFFFFF" />
+        <path d="M 18 19 Q 20 20.5, 22 19" stroke="#14532D" strokeWidth="1" strokeLinecap="round" fill="none" />
+        <circle cx="12" cy="16" r="1.5" fill="#F43F5E" opacity="0.65" />
+        <circle cx="28" cy="16" r="1.5" fill="#F43F5E" opacity="0.65" />
+      </svg>
+    </motion.div>
+  );
+};
 
-      {/* Main crouching frog body */}
-      <ellipse cx="20" cy="21" rx="11" ry="9" fill="#22C55E" />
-      
-      {/* Soft yellow-green throat that dynamically pulses and breathes */}
-      <motion.ellipse
-        cx="20"
-        cy="22"
-        rx="7"
-        ry="6"
-        fill="#A3E635"
-        animate={{ scaleX: [1, 1.15, 1], scaleY: [1, 1.12, 1], opacity: [0.85, 1, 0.85] }}
-        transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-        style={{ transformOrigin: "20px 28px" }}
-      />
-      
-      {/* Front legs resting on ground */}
-      <path d="M 14 22 L 12 28 C 12 28 11 29 11 30" stroke="#15803D" strokeWidth="2" strokeLinecap="round" />
-      <path d="M 26 22 L 28 28 C 28 28 29 29 29 30" stroke="#15803D" strokeWidth="2" strokeLinecap="round" />
+const Frog = () => {
+  const [leftState, setLeftState] = useState<'idle' | 'jumping' | 'gone' | 'returning'>('idle');
+  const [rightState, setRightState] = useState<'idle' | 'jumping' | 'gone' | 'returning'>('idle');
+  const [leftSplash, setLeftSplash] = useState(false);
+  const [rightSplash, setRightSplash] = useState(false);
 
-      {/* Big bulbous frog eyes on top */}
-      <circle cx="13" cy="11" r="4.5" fill="#22C55E" stroke="#15803D" strokeWidth="0.8" />
-      <circle cx="27" cy="11" r="4.5" fill="#22C55E" stroke="#15803D" strokeWidth="0.8" />
-      
-      {/* Eyes detailing - closed serene sleeping curved eyes for cozy night ambient mood */}
-      <path d="M 10.5 11 Q 13 13.5, 15.5 11" stroke="#14532D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-      <path d="M 24.5 11 Q 27 13.5, 29.5 11" stroke="#14532D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+  const handleFrogClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (leftState !== 'idle' || rightState !== 'idle') return;
 
-      {/* Cute content cheeks & little mouth lines */}
-      <path d="M 18 19 Q 20 20.5, 22 19" stroke="#14532D" strokeWidth="1" strokeLinecap="round" fill="none" />
-      {/* Pink blush cheek circles */}
-      <circle cx="12" cy="16" r="1.5" fill="#F43F5E" opacity="0.65" />
-      <circle cx="28" cy="16" r="1.5" fill="#F43F5E" opacity="0.65" />
-    </svg>
-    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[5px] font-bold text-green-300 bg-green-950/80 px-1 py-0.2 rounded border border-green-500/20 tracking-wider whitespace-nowrap opacity-90">青蛙 Cozy Frog</span>
-  </motion.div>
-);
+    setRightState('jumping');
+    setTimeout(() => {
+      setRightSplash(true);
+      setTimeout(() => setRightSplash(false), 900);
+    }, 800);
+    setTimeout(() => {
+      setRightState('gone');
+    }, 1000);
+
+    setTimeout(() => {
+      setLeftState('jumping');
+      setTimeout(() => {
+        setLeftSplash(true);
+        setTimeout(() => setLeftSplash(false), 900);
+      }, 800);
+      setTimeout(() => {
+        setLeftState('gone');
+      }, 1000);
+    }, 200);
+
+    setTimeout(() => {
+      setLeftState('returning');
+      setLeftSplash(true);
+      setTimeout(() => setLeftSplash(false), 900);
+      setTimeout(() => {
+        setLeftState('idle');
+      }, 1100);
+    }, 5000);
+
+    setTimeout(() => {
+      setRightState('returning');
+      setRightSplash(true);
+      setTimeout(() => setRightSplash(false), 900);
+      setTimeout(() => {
+        setRightState('idle');
+      }, 1100);
+    }, 5200);
+  };
+
+  const isBothIdle = leftState === 'idle' && rightState === 'idle';
+
+  return (
+    <>
+      <div
+        id="cuddly-frogs-pair"
+        className={`absolute -top-[21px] left-[5px] w-14 h-8 z-10 flex items-end justify-center select-none ${
+          isBothIdle ? 'cursor-pointer pointer-events-auto' : 'pointer-events-none'
+        }`}
+        onClick={handleFrogClick}
+      >
+        <motion.div
+          className="flex items-end justify-center origin-bottom"
+          style={{ marginRight: "-6px" }}
+          animate={
+            leftState === 'jumping'
+              ? {
+                  x: [0, 0, 12, 34, 54, 54],
+                  y: [0, 2, -42, -18, 30, 38],
+                  scaleX: [1, 1.15, 0.8, 1.0, 0.65, 0.2],
+                  scaleY: [1, 0.72, 1.3, 1.0, 1.1, 0.2],
+                  rotate: [0, -5, 15, 30, 45, 45],
+                  opacity: [1, 1, 1, 1, 0.8, 0],
+                }
+              : leftState === 'returning'
+              ? {
+                  x: [54, 45, 22, 5, 0, 0],
+                  y: [38, 5, -38, -10, 2, 0],
+                  scaleX: [0.2, 0.8, 1.0, 1.15, 0.95, 1],
+                  scaleY: [0.2, 1.2, 0.95, 0.75, 1.05, 1],
+                  rotate: [-45, -35, -15, 0, 5, 0],
+                  opacity: [0, 1, 1, 1, 1, 1],
+                }
+              : leftState === 'gone'
+              ? {
+                  x: 54,
+                  y: 38,
+                  scaleX: 0.2,
+                  scaleY: 0.2,
+                  opacity: 0,
+                  rotate: 45,
+                }
+              : {
+                  x: 0,
+                  y: 0,
+                  scaleX: 1,
+                  scaleY: 1,
+                  opacity: 1,
+                  rotate: 0,
+                }
+          }
+          transition={{
+            duration: leftState === 'jumping' ? 1.0 : leftState === 'returning' ? 1.1 : 0.3,
+            ease: "easeInOut",
+          }}
+          whileHover={isBothIdle ? { scale: 1.05 } : {}}
+        >
+          <SingleFrog scale={0.72} rotate={5} delay={0} isIdle={leftState === 'idle'} />
+        </motion.div>
+
+        <motion.div
+          className="flex items-end justify-center origin-bottom"
+          style={{ marginLeft: "-6px" }}
+          animate={
+            rightState === 'jumping'
+              ? {
+                  x: [0, 0, 12, 34, 54, 54],
+                  y: [0, 2, -42, -18, 30, 38],
+                  scaleX: [1, 1.15, 0.8, 1.0, 0.65, 0.2],
+                  scaleY: [1, 0.72, 1.3, 1.0, 1.1, 0.2],
+                  rotate: [0, -5, 15, 30, 45, 45],
+                  opacity: [1, 1, 1, 1, 0.8, 0],
+                }
+              : rightState === 'returning'
+              ? {
+                  x: [54, 45, 22, 5, 0, 0],
+                  y: [38, 5, -38, -10, 2, 0],
+                  scaleX: [0.2, 0.8, 1.0, 1.15, 0.95, 1],
+                  scaleY: [0.2, 1.2, 0.95, 0.75, 1.05, 1],
+                  rotate: [-45, -35, -15, 0, 5, 0],
+                  opacity: [0, 1, 1, 1, 1, 1],
+                }
+              : rightState === 'gone'
+              ? {
+                  x: 54,
+                  y: 38,
+                  scaleX: 0.2,
+                  scaleY: 0.2,
+                  opacity: 0,
+                  rotate: 45,
+                }
+              : {
+                  x: 0,
+                  y: 0,
+                  scaleX: 1,
+                  scaleY: 1,
+                  opacity: 1,
+                  rotate: 0,
+                }
+          }
+          transition={{
+            duration: rightState === 'jumping' ? 1.0 : rightState === 'returning' ? 1.1 : 0.3,
+            ease: "easeInOut",
+          }}
+          whileHover={isBothIdle ? { scale: 1.05 } : {}}
+        >
+          <SingleFrog scale={0.60} rotate={-7} delay={0.3} isIdle={rightState === 'idle'} />
+        </motion.div>
+
+        <span className={`absolute -top-[14px] left-1/2 -translate-x-1/2 text-[4.5px] font-bold text-green-300 bg-green-950/80 px-1 py-0.1 rounded border border-green-500/20 tracking-wider whitespace-nowrap transition-opacity duration-300 ${
+          isBothIdle ? "opacity-90" : "opacity-0"
+        }`}>
+          依偎的青蛙 Cuddly Frogs
+        </span>
+      </div>
+
+      {leftSplash && (
+        <motion.div
+          className="absolute pointer-events-none z-0"
+          style={{
+            left: "calc(5px + 55px + 4px)",
+            top: "calc(-21px + 38px + 12px)",
+          }}
+          initial={{ scale: 0.3, opacity: 0.8 }}
+          animate={{ scale: [0.3, 1.5], opacity: [0.8, 0] }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <svg className="w-12 h-6 overflow-visible" viewBox="0 0 40 20" fill="none">
+            <ellipse cx="20" cy="10" rx="16" ry="6" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.8" />
+            <ellipse cx="20" cy="10" rx="10" ry="4.2" stroke="#7DD3FC" strokeWidth="2" opacity="0.9" />
+            <ellipse cx="20" cy="10" rx="4" ry="1.8" stroke="#E0F2FE" strokeWidth="1" opacity="1" />
+            <circle cx="15" cy="4" r="1.5" fill="#E0F2FE" />
+            <circle cx="20" cy="1" r="1.8" fill="#E0F2FE" />
+            <circle cx="25" cy="5" r="1.2" fill="#E0F2FE" />
+          </svg>
+        </motion.div>
+      )}
+
+      {rightSplash && (
+        <motion.div
+          className="absolute pointer-events-none z-0"
+          style={{
+            left: "calc(5px + 55px + 16px)",
+            top: "calc(-21px + 38px + 12px)",
+          }}
+          initial={{ scale: 0.3, opacity: 0.8 }}
+          animate={{ scale: [0.3, 1.5], opacity: [0.8, 0] }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <svg className="w-12 h-6 overflow-visible" viewBox="0 0 40 20" fill="none">
+            <ellipse cx="20" cy="10" rx="16" ry="6" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.8" />
+            <ellipse cx="20" cy="10" rx="10" ry="4.2" stroke="#7DD3FC" strokeWidth="2" opacity="0.9" />
+            <ellipse cx="20" cy="10" rx="4" ry="1.8" stroke="#E0F2FE" strokeWidth="1" opacity="1" />
+            <circle cx="15" cy="4" r="1.5" fill="#E0F2FE" />
+            <circle cx="20" cy="1" r="1.8" fill="#E0F2FE" />
+            <circle cx="25" cy="5" r="1.2" fill="#E0F2FE" />
+          </svg>
+        </motion.div>
+      )}
+    </>
+  );
+};
 
 // 2. Summer Pond (夏日荷塘) - Refined lilypads with veins, blooming lotus with seeds and filaments
 const SummerPond = ({ isNight }: { isNight: boolean }) => {
