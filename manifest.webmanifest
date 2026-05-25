@@ -4,7 +4,7 @@
   "description": "Our Story — 写给她的日子",
   "start_url": "./",
   "scope": "./",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#FFFDFB",
   "theme_color": "#8C6239",
   "icons": [
