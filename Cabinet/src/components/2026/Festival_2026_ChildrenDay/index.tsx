@@ -30,6 +30,7 @@ export default function Festival_2026_ChildrenDay({
   const [currentPage, setCurrentPage] = useState<ActivePage>('room');
   const [isMuted, setIsMuted] = useState(false);
   const [loadingGame, setLoadingGame] = useState<ActivePage | null>(null);
+  const [showSecretModal, setShowSecretModal] = useState(true);
 
   useEffect(() => {
     // Unmute the retro BGM sound synth by default on children's day mount
@@ -239,6 +240,101 @@ export default function Festival_2026_ChildrenDay({
             <p className="text-xs text-stone-400 mt-2.5 font-serif select-none max-w-sm leading-relaxed z-10">
               无休止的蝉鸣、手工折折剪剪、跳动的发条皮筋、还有香甜的水果硬糖……
             </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. Extremely elegant & dreamy secret popup */}
+      <AnimatePresence>
+        {showSecretModal && !loadingGame && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-md"
+            id="secret-wish-modal-overlay"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="relative w-full max-w-md bg-gradient-to-br from-[#FFFDF9] via-[#FFFDF5] to-[#FFEFE0] rounded-3xl p-8 border border-amber-950/10 shadow-[0_20px_50px_rgba(140,98,57,0.35)] text-center overflow-hidden"
+              id="secret-wish-modal-content"
+            >
+              {/* Confetti dot backdrop pattern */}
+              <div 
+                className="absolute inset-0 opacity-[0.05] pointer-events-none"
+                style={{
+                  backgroundImage: 'radial-gradient(#8C6239 1.5px, transparent 1px)',
+                  backgroundSize: '16px 16px'
+                }} 
+              />
+              
+              {/* Beautiful glowing ambient colors */}
+              <div className="absolute -top-12 -left-12 w-28 h-28 bg-rose-200/50 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -right-12 w-28 h-28 bg-amber-200/50 rounded-full blur-3xl pointer-events-none" />
+              
+              {/* Spinning / floating sparkles */}
+              <div className="absolute top-10 right-10 opacity-30 animate-bounce" style={{ animationDuration: '3s' }}>
+                <Sparkles className="w-5 h-5 text-amber-500" />
+              </div>
+              <div className="absolute bottom-12 left-8 opacity-25 animate-bounce" style={{ animationDuration: '4s' }}>
+                <Sparkles className="w-4 h-4 text-amber-500" />
+              </div>
+
+              {/* Cute floating gift icon */}
+              <div className="mx-auto w-16 h-16 bg-[#FFF2DE] rounded-full border-2 border-dashed border-amber-500/35 flex items-center justify-center mb-5 relative shadow-xs">
+                <motion.span
+                  animate={{ 
+                    rotate: [0, 8, -8, 0],
+                    y: [0, -4, 0] 
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    ease: "easeInOut" 
+                  }}
+                  className="text-3.5xl select-none"
+                >
+                  🎁
+                </motion.span>
+                <div className="absolute -top-1 -right-1">
+                  <Sparkles className="w-5 h-5 text-amber-500 animate-pulse" />
+                </div>
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-xl md:text-2xl font-serif font-black text-[#5A3E23] tracking-tight mb-3">
+                ✨ 童心小屋 ✨
+              </h2>
+
+              {/* Message Banner Block */}
+              <div className="bg-white/80 backdrop-blur-xs border border-dashed border-amber-900/15 rounded-2xl p-5.5 mb-6 text-stone-700 leading-relaxed font-serif text-sm relative shadow-xs">
+                <p className="text-[#8C6239] font-bold text-base text-center mb-3.5 select-text">
+                  恭喜发现了网站的小秘密！✨
+                </p>
+                <p className="text-stone-600 text-xs text-center leading-relaxed select-text font-medium px-1">
+                  晚上可以向小胡许个愿望，小胡会尽力实现哦~
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => {
+                    soundSynth.playScore();
+                    soundSynth.startBgm();
+                    setShowSecretModal(false);
+                  }}
+                  className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#D97706] to-[#8C6239] text-[#FFFDFB] font-serif font-black text-sm shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border border-white/20"
+                >
+                  <span>记下来啦 (๑•̀ㅂ•́)و✧</span>
+                </motion.button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
