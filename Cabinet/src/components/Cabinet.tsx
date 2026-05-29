@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Heart, Key, Volume2, VolumeX, Sparkles } from 'lucide-react';
 import { TimeTheme } from '../types';
 import { startCricketSounds, stopCricketSounds } from '../utils/cricketSounds';
+import { FestiveHourglass } from './FestiveHourglass';
 
 interface CabinetProps {
   onOpenBox: (boxId: string) => void;
@@ -1838,12 +1839,8 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-1.5">
-              <div className="flex flex-col items-center opacity-35 select-none font-sans">
-                <div className="w-6.5 h-6.5 rounded-full border border-stone-800 bg-[#FFFDFB] flex items-center justify-center relative shadow-xs">
-                  <div className="absolute w-[1.2px] h-2 bg-stone-950 top-1/2 left-1/2 origin-left -rotate-45" />
-                </div>
-              </div>
+            <div className="flex justify-end items-end mb-1">
+              <FestiveHourglass />
             </div>
           </div>
 

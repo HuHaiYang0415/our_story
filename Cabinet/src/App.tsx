@@ -76,23 +76,34 @@ export default function App() {
       id="app-root"
     >
       <div
-        className="fixed bottom-3 right-3 md:bottom-4 md:right-4 z-50 flex items-center space-x-1.5 p-1 bg-[#FFFDFB]/90 backdrop-blur-md rounded-full border border-[#E5DACE] shadow-sm select-none"
+        className={`fixed bottom-3 right-3 md:bottom-4 md:right-4 z-50 flex items-center space-x-1.5 p-1 rounded-full select-none transition-all duration-300 opacity-20 hover:opacity-100 focus-within:opacity-100 ${
+          theme.isNight
+            ? 'bg-[#1E1A16]/25 backdrop-blur-[1px] border border-[#ECE5DF]/10 hover:bg-[#1E1A16]/95 hover:border-[#ECE5DF]/20 hover:shadow-md'
+            : 'bg-[#FFFDFB]/25 backdrop-blur-[1px] border border-[#E5DACE]/40 hover:bg-[#FFFDFB]/95 hover:border-[#E5DACE] hover:shadow-md'
+        }`}
         id="theme-status-dial"
         title={`${theme.seasonLabel}季 · ${theme.solarTerm ?? ''} · ${theme.isNight ? '夜间' : '白天'}`}
       >
-        <span className="flex items-center space-x-1 px-2 py-1 text-[10px] font-bold text-[#8C6239]">
-          <Calendar className="w-3.5 h-3.5" />
+        <span
+          className={`flex items-center space-x-1 px-3 py-1 rounded-full text-[10px] font-bold ${
+            theme.isNight ? 'text-[#ECE5DF]/85' : 'text-[#8C6239]'
+          }`}
+        >
+          <Calendar className={`w-3.5 h-3.5 ${theme.isNight ? 'text-[#ECE5DF]/90' : 'text-[#8C6239]'}`} />
           <span>{theme.seasonLabel}季</span>
         </span>
+
+        <div className={`w-[1px] h-4 ${theme.isNight ? 'bg-[#ECE5DF]/25' : 'bg-[#E5DACE]'}`} />
+
         <span className="text-[9px] text-stone-400 font-mono hidden sm:inline px-1">
           {theme.sunrise}~{theme.sunset}
         </span>
-        <div className="w-px h-4 bg-[#E5DACE]" />
+
         <button
           type="button"
           onClick={handleToggleNight}
           className={`p-1.5 rounded-full transition-all cursor-pointer active:scale-90 ${
-            theme.isNight ? 'bg-[#8C6239] text-[#FFFDFB]' : 'hover:bg-stone-100 text-[#8C6239]'
+            theme.isNight ? 'bg-[#ECE5DF]/15 text-[#ECE5DF]' : 'hover:bg-stone-100 text-[#8C6239]'
           }`}
           title={theme.isNight ? '切换为白天' : '切换为夜间'}
         >

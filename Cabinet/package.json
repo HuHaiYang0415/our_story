@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "generate:solar-terms": "python scripts/generate-solar-terms.py"
+    "generate:solar-terms": "python scripts/generate-solar-terms.py",
+    "generate:holidays": "python scripts/generate-holidays.py"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
