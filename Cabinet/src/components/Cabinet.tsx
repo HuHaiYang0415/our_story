@@ -7,6 +7,8 @@ import { FestiveHourglass } from './FestiveHourglass';
 
 interface CabinetProps {
   onOpenBox: (boxId: string) => void;
+  onEnterFestivalArchive: () => void;
+  onEnterFestivalPage: (pageId: string) => void;
   theme: TimeTheme;
 }
 
@@ -1218,7 +1220,7 @@ const AutumnLeavesPile = () => {
   );
 };
 
-export function Cabinet({ onOpenBox, theme }: CabinetProps) {
+export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage, theme }: CabinetProps) {
   const [boxInFocus, setBoxInFocus] = useState<string | null>(null);
   const [cricketsEnabled, setCricketsEnabled] = useState(true);
 
@@ -1840,7 +1842,10 @@ export function Cabinet({ onOpenBox, theme }: CabinetProps) {
             </div>
 
             <div className="flex justify-end items-end mb-1">
-              <FestiveHourglass />
+              <FestiveHourglass
+                onEnterFestivalArchive={onEnterFestivalArchive}
+                onEnterFestivalPage={onEnterFestivalPage}
+              />
             </div>
           </div>
 

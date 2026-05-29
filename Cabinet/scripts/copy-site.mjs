@@ -43,5 +43,18 @@ if (fs.existsSync(cabinetImageDir)) {
   console.log('已复制 Cabinet/image/ -> 站点根目录 image/');
 }
 
+const festivalImageDir = path.join(
+  cabinetRoot,
+  'src/components/2026/Festival_2026_ChildrenDay/image',
+);
+if (fs.existsSync(festivalImageDir)) {
+  const dest = path.join(
+    siteRoot,
+    'src/components/2026/Festival_2026_ChildrenDay/image',
+  );
+  copyDir(festivalImageDir, dest);
+  console.log('已复制节日页图片 -> src/components/2026/Festival_2026_ChildrenDay/image/');
+}
+
 console.log(`已发布到: ${siteRoot}`);
 console.log('请双击打开: index.html');

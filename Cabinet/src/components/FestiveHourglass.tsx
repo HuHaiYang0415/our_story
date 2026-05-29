@@ -898,7 +898,31 @@ const HourglassSVG = ({
     </motion.div>
   );
 };
-export function FestiveHourglass() {
+
+const HOLIDAY_MAP_TO_ENGLISH: Record<string, string> = {
+  元旦: 'NewYear',
+  劳动节: 'LaborDay',
+  儿童节: 'ChildrenDay',
+  国庆节: 'NationalDay',
+  情人节: 'Valentine',
+  圣诞节: 'Christmas',
+  春节: 'SpringFestival',
+  元宵节: 'LanternFestival',
+  端午节: 'DragonBoatFestival',
+  七夕: 'Qixi',
+  中秋节: 'MidAutumn',
+  重阳节: 'Chongyang',
+  除夕: 'Chuxi',
+  清明: 'Qingming',
+};
+
+export function FestiveHourglass({
+  onEnterFestivalArchive,
+  onEnterFestivalPage,
+}: {
+  onEnterFestivalArchive: () => void;
+  onEnterFestivalPage: (pageId: string) => void;
+}) {
   const [currentDate, setCurrentDate] = useState(() => new Date());
 
   useEffect(() => {
@@ -919,6 +943,8 @@ export function FestiveHourglass() {
 
     for (const f of list) {
       if (!f.date) continue;
+      if ('year' in f && f.year === 2026 && f.date < '2026-06-01') continue;
+
       const [fYear, fMonth, fDay] = f.date.split('-').map(Number);
       const fMidnight = new Date(fYear, fMonth - 1, fDay).getTime();
       const diffMs = fMidnight - todayMidnight;
@@ -944,9 +970,36 @@ export function FestiveHourglass() {
   const config = FESTIVAL_CONFIGS[activeHolidayName] || FESTIVAL_CONFIGS['元旦'];
   const isFestivalToday = activeDaysLeft === 0;
 
+  const targetTime = new Date('2026-06-01T00:00:00').getTime();
+  const isAccessible = currentDate.getTime() >= targetTime;
+
+  const handleHourglassClick = () => {
+    if (!isAccessible) return;
+    if (isFestivalToday) {
+      const activeYear = currentDate.getFullYear();
+      const engName = HOLIDAY_MAP_TO_ENGLISH[activeHolidayName] || '';
+      const pageId = `${activeYear}_${engName}`;
+      const BUILT_PAGES = ['2026_ChildrenDay'];
+      if (BUILT_PAGES.includes(pageId)) {
+        onEnterFestivalPage(pageId);
+      } else {
+        onEnterFestivalArchive();
+      }
+    } else {
+      onEnterFestivalArchive();
+    }
+  };
+
   return (
     <div className="w-14 h-14 md:w-18 md:h-18 flex flex-col items-center justify-end select-none relative" id="festive-display-container">
-      <div className="w-[50px] h-[50px] flex flex-col items-center justify-center relative bg-transparent overflow-visible">
+      <div
+        onClick={handleHourglassClick}
+        className={`w-[50px] h-[50px] flex flex-col items-center justify-center relative bg-transparent overflow-visible transition-all duration-200 ${
+          isAccessible
+            ? 'cursor-pointer group/hourglass hover:scale-110 active:scale-95'
+            : 'cursor-default opacity-75'
+        }`}
+      >
         <AnimatePresence mode="wait">
           {isFestivalToday ? (
             <motion.div

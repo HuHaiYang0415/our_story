@@ -7,12 +7,19 @@ export const INTERACTIVE_520_PATH = '202660520/';
 
 export const RETURN_FROM_520_KEY = 'our-story-return';
 
-export type AppView = 'cabinet' | 'box-envelopes' | 'box-photos';
+export type AppView =
+  | 'cabinet'
+  | 'box-envelopes'
+  | 'box-photos'
+  | 'festival-archive'
+  | 'festival-2026-ChildrenDay';
 
 const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   cabinet: null,
   'box-envelopes': '时光信箱',
   'box-photos': '流光相册盒',
+  'festival-archive': '节日风物志',
+  'festival-2026-ChildrenDay': '2026 儿童节',
 };
 
 export function getPageTitle(view: AppView, suffix?: string | null): string {
