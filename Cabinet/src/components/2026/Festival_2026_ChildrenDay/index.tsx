@@ -37,44 +37,6 @@ export default function Festival_2026_ChildrenDay({
     soundSynth.setMute(false);
   }, []);
 
-  // Automatically load the developer-provided image asset from `./image` if it exists.
-  // Developers can place a custom room file like room.png, room.jpg, background.png, background.jpg
-  // inside the /src/components/2026/Festival_2026_ChildrenDay/image folder.
-  const [customBg, setCustomBg] = useState<string | null>(null);
-
-  useEffect(() => {
-    const checkAndSetBg = async () => {
-      // Checked paths both under runtime routes and developer-provided asset folders
-      const candidates = [
-        '/src/components/2026/Festival_2026_ChildrenDay/image/room.png',
-        '/src/components/2026/Festival_2026_ChildrenDay/image/room.jpg',
-        '/src/components/2026/Festival_2026_ChildrenDay/image/background.png',
-        '/src/components/2026/Festival_2026_ChildrenDay/image/background.jpg',
-        // Also look for fallback relative to the standard component import location
-        'src/components/2026/Festival_2026_ChildrenDay/image/room.png',
-        'src/components/2026/Festival_2026_ChildrenDay/image/background.png'
-      ];
-
-      for (const src of candidates) {
-        const canLoad = await new Promise<boolean>((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-        });
-
-        if (canLoad) {
-          setCustomBg(src);
-          break;
-        }
-      }
-    };
-    checkAndSetBg();
-  }, []);
-
-  // Toggle pre-loaded furniture items on/off so custom backgrounds aren't cluttered - permanently enabled as per user's request
-  const showFurniture = true;
-
   // Day vs Night cozy lighting mapped directly to the parent's theme
   const isNight = !!theme?.isNight;
 
@@ -326,7 +288,7 @@ export default function Festival_2026_ChildrenDay({
                   whileTap={{ scale: 0.97 }}
                   onClick={() => {
                     soundSynth.playScore();
-                    soundSynth.startBgm();
+                    soundSynth.startBgm(); // Warm start for the cozy retro background music if not playing
                     setShowSecretModal(false);
                   }}
                   className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#D97706] to-[#8C6239] text-[#FFFDFB] font-serif font-black text-sm shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border border-white/20"
@@ -404,7 +366,7 @@ export default function Festival_2026_ChildrenDay({
             >
               {/* Cozy Room Background Image */}
               <img 
-                src="/src/components/2026/Festival_2026_ChildrenDay/image/room_background.png" 
+                src="/src/components/2026/Festival_2026_ChildrenDay/image/room_background.jpg" 
                 alt="儿童梦幻纸艺屋" 
                 className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
                 referrerPolicy="no-referrer"

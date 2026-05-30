@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Award, CheckCircle2, Sparkles } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
+
+// @ts-ignore
+import roundMoonBgm from './bgm/round_moon.mp3';
 
 interface Card {
   id: number;
@@ -84,6 +87,53 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
 
   useEffect(() => {
     initGame();
+
+    // Pause the default synthesized nursery BGM
+    soundSynth.stopBgm();
+
+    let audio: HTMLAudioElement | null = null;
+    let playTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    let isDestroyed = false;
+    const isMuted = soundSynth.getIsMuted();
+
+    if (!isMuted) {
+      audio = new Audio(roundMoonBgm);
+      audio.loop = false; // Disable continuous looping to support the 8-second delay
+      audio.volume = 0.45; // Cozy and gentle volume for peaceful papercraft moonbgm
+      
+      const handleEnded = () => {
+        if (isDestroyed) return;
+        playTimeoutId = setTimeout(() => {
+          if (!isDestroyed && audio) {
+            audio.currentTime = 0;
+            audio.play().catch((err) => {
+              console.warn("BGM replay was blocked or can load later", err);
+            });
+          }
+        }, 8000);
+      };
+
+      audio.addEventListener('ended', handleEnded);
+
+      audio.play().catch((err) => {
+        console.warn("BGM play was blocked or can load later", err);
+      });
+    }
+
+    return () => {
+      isDestroyed = true;
+      if (playTimeoutId) {
+        clearTimeout(playTimeoutId);
+      }
+      if (audio) {
+        audio.pause();
+        audio = null;
+      }
+      // Resume the synthesized BGM when we return to the room home page if not muted
+      if (!soundSynth.getIsMuted()) {
+        soundSynth.startBgm();
+      }
+    };
   }, []);
 
   const handleCardClick = (index: number) => {

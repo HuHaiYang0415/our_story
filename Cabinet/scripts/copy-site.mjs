@@ -7,8 +7,6 @@ const cabinetRoot = path.resolve(__dirname, '..');
 const distDir = path.join(cabinetRoot, 'dist');
 const siteRoot = path.resolve(cabinetRoot, '..');
 
-const SKIP = new Set(['node_modules', 'src', 'dist', '.git', 'scripts']);
-
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
@@ -20,6 +18,13 @@ function copyDir(src, dest) {
       fs.copyFileSync(from, to);
     }
   }
+}
+
+function syncDir(src, dest) {
+  if (fs.existsSync(dest)) {
+    fs.rmSync(dest, { recursive: true, force: true });
+  }
+  copyDir(src, dest);
 }
 
 function cleanSiteAssets() {
@@ -39,7 +44,7 @@ copyDir(distDir, siteRoot);
 
 const cabinetImageDir = path.join(cabinetRoot, 'image');
 if (fs.existsSync(cabinetImageDir)) {
-  copyDir(cabinetImageDir, path.join(siteRoot, 'image'));
+  syncDir(cabinetImageDir, path.join(siteRoot, 'image'));
   console.log('已复制 Cabinet/image/ -> 站点根目录 image/');
 }
 
@@ -52,7 +57,7 @@ if (fs.existsSync(festivalImageDir)) {
     siteRoot,
     'src/components/2026/Festival_2026_ChildrenDay/image',
   );
-  copyDir(festivalImageDir, dest);
+  syncDir(festivalImageDir, dest);
   console.log('已复制节日页图片 -> src/components/2026/Festival_2026_ChildrenDay/image/');
 }
 

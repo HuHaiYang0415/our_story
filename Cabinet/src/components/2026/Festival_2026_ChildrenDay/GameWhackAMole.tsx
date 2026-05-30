@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, RotateCcw, Sparkles, Heart, Zap, Play, Smile } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
 
+// @ts-ignore
+import digDugFastBgm from './bgm/dig_dug_theme_song_fast.mp3';
+// @ts-ignore
+import digDugThemeBgm from './bgm/dig_dug_theme_song.mp3';
+
 interface Mole {
   id: number;
   active: boolean;
@@ -177,7 +182,8 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   const [score, setScore] = useState(0);
   const [missedCount, setMissedCount] = useState(0);
   const [gameLevel, setGameLevel] = useState(1); // 1 = Normal, 2 = Fast
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasGameStarted, setHasGameStarted] = useState(false);
   
   // Game states
   const [showSurrenderModal, setShowSurrenderModal] = useState(false);
@@ -191,12 +197,13 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
 
   const gameTimerRef = useRef<any>(null);
   const activeTimersRef = useRef<Record<number, any>>({});
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Trigger sound clicks
   const playClick = () => soundSynth.playClick();
 
   // Reset or start game
-  const resetGame = (level = 1) => {
+  const resetGame = (level = 1, autoStart = true) => {
     soundSynth.playClick();
     
     // Clear all existing game loops/timers
@@ -207,7 +214,8 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
     setScore(level === 1 ? 0 : 100); // Level 2 preserves or starts at level 100
     setMissedCount(0);
     setGameLevel(level);
-    setIsPlaying(true);
+    setIsPlaying(autoStart);
+    setHasGameStarted(autoStart);
     setShowSurrenderModal(false);
     setShowJumpscare(false);
     setIsWon(false);
@@ -216,12 +224,63 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   };
 
   useEffect(() => {
-    resetGame(1);
+    // Initial load: do not autoStart moles spawning
+    resetGame(1, false);
     return () => {
       if (gameTimerRef.current) clearInterval(gameTimerRef.current);
       Object.values(activeTimersRef.current).forEach(t => clearTimeout(t as any));
     };
   }, []);
+
+  // Determine current BGM based on game state
+  const isPopupActive = showJumpscare || showSurrenderModal || isWon;
+  const currentBgmSrc = (hasGameStarted && gameLevel === 2 && !isPopupActive)
+    ? digDugFastBgm
+    : digDugThemeBgm;
+
+  // Background music manager with continuous looping
+  useEffect(() => {
+    // Stop parent's melody
+    soundSynth.stopBgm();
+
+    const isMuted = soundSynth.getIsMuted();
+    if (isMuted) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      return;
+    }
+
+    if (!audioRef.current) {
+      audioRef.current = new Audio(currentBgmSrc);
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.4;
+    } else {
+      if (audioRef.current.src !== currentBgmSrc) {
+        audioRef.current.pause();
+        audioRef.current.src = currentBgmSrc;
+        audioRef.current.currentTime = 0;
+      }
+    }
+
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.4;
+
+    audioRef.current.play().catch((err) => {
+      console.warn("BGM play was blocked/delayed in Whack-A-Mole", err);
+    });
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      // Resume parent cabin-room BGM on return
+      if (!soundSynth.getIsMuted()) {
+        soundSynth.startBgm();
+      }
+    };
+  }, [currentBgmSrc]);
 
   // Main game spawning interval loop
   useEffect(() => {
@@ -234,7 +293,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
     }
 
     // Interval between mole pops (faster in Level 2!)
-    const spawnInterval = gameLevel === 1 ? 950 : 550;
+    const spawnInterval = gameLevel === 1 ? 950 : 450;
 
     gameTimerRef.current = setInterval(() => {
       // Pick random inactive hole
@@ -260,10 +319,10 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
           type: moleType
         };
 
-        // Automatic retreat timer (extended by 1000ms for child-friendly play)
+        // Automatic retreat timer (adjusted for child-friendly but responsive play as requested)
         const activeDuration = gameLevel === 1 
-          ? (moleType === 'golden' ? 1700 : 2200) 
-          : (moleType === 'golden' ? 1500 : 1800);
+          ? (moleType === 'golden' ? 1600 : 2100) 
+          : (moleType === 'golden' ? 1400 : 1700);
 
         if (activeTimersRef.current[randomIdx]) {
           clearTimeout(activeTimersRef.current[randomIdx]);
@@ -475,13 +534,13 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
 
               <h3 className="text-2xl font-serif font-black text-amber-800 flex items-center gap-1.5 justify-center">
                 <Sparkles className="w-5 h-5 text-amber-500" />
-                儿童节保卫战完美大胜！
+                地鼠作战大胜利！
                 <Sparkles className="w-5 h-5 text-amber-500" />
               </h3>
 
               <p className="font-serif text-stone-600 text-xs my-4 leading-relaxed max-w-sm">
                 不可思议！平平成功通关了狂暴模式打满 200 分！地鼠军团已经彻底心服口服。
-                <br />你永远是今天最威风、最快乐的小主宰！✨
+                <br />不愧是我最棒的小朋友 ✨
               </p>
 
               <div className="flex gap-3 w-full">
@@ -514,7 +573,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
         </button>
 
         <h2 className="text-lg font-serif font-black flex items-center gap-1">
-          <span>🔨 保卫童画地鼠 </span>
+          <span>🔨 地鼠敲敲敲 </span>
           {gameLevel === 2 && (
             <span className="text-[10px] bg-red-500 text-white font-mono px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse flex items-center gap-0.5">
               <Zap className="w-2.5 h-2.5 fill-white" /> 狂暴模式
@@ -570,7 +629,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
       <div 
         className="w-full max-w-xl aspect-square max-h-[460px] bg-gradient-to-b from-green-300 via-emerald-250 to-green-300 bg-cover bg-center rounded-3xl border-4 border-dashed border-[#8C6239]/20 relative shadow-inner p-1 sm:p-2 grid grid-cols-3 grid-rows-3 gap-0" 
         style={{
-          backgroundImage: "url('/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_game_background.png')"
+          backgroundImage: "url('/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_game_background.jpg')"
         }}
         id="mole-grid-playground"
       >
@@ -646,9 +705,23 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
         })}
       </div>
 
-      <div className="mt-4 text-center text-stone-400 text-[10px] italic leading-relaxed select-none">
-        提示：普通模式打满 100 分即可强制让地鼠求饶，选择【继续挑战】即可解锁高倍速狂暴保卫战，目标为 200 分！
-      </div>
+      {/* START GAME BUTTON - Shown at the bottom when game hasn't started */}
+      {!hasGameStarted && (
+        <div className="mt-6 flex justify-center w-full max-w-xl animate-fade-in" id="start-game-btn-container">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => resetGame(1, true)}
+            className="px-10 py-4 rounded-full bg-gradient-to-r from-amber-600 via-amber-200 to-amber-600 text-white font-serif font-black text-base shadow-[0_4px_15px_rgba(217,119,6,0.35)] hover:shadow-[0_6px_20px_rgba(217,119,6,0.5)] transition-all cursor-pointer flex items-center gap-2.5 border-2 border-white/20 select-none bg-[#8C6239]"
+            style={{
+              backgroundImage: "linear-gradient(135deg, #A16207 0%, #D97706 50%, #8C6239 100%)"
+            }}
+          >
+            <Play className="w-5 h-5 fill-white text-white animate-pulse" />
+            <span>开启地鼠敲敲敲 🎮</span>
+          </motion.button>
+        </div>
+      )}
     </div>
   );
 }
