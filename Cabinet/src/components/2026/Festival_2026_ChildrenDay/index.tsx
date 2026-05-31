@@ -4,6 +4,7 @@ import { ArrowLeft, Sparkles, Volume2, VolumeX } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
 import GameMemory from './GameMemory';
 import GameWhackAMole from './GameWhackAMole';
+import { childrenDayImages } from './assets';
 
 // Types for routing views
 type ActivePage = 'room' | 'memory' | 'whack-mole';
@@ -366,7 +367,7 @@ export default function Festival_2026_ChildrenDay({
             >
               {/* Cozy Room Background Image */}
               <img 
-                src="/src/components/2026/Festival_2026_ChildrenDay/image/room_background.jpg" 
+                src={childrenDayImages.roomBackground} 
                 alt="儿童梦幻纸艺屋" 
                 className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
                 referrerPolicy="no-referrer"
@@ -411,7 +412,7 @@ export default function Festival_2026_ChildrenDay({
                 
                 {/* Embedded papercraft card box image asset */}
                 <img 
-                  src="/src/components/2026/Festival_2026_ChildrenDay/image/card_box.png" 
+                  src={childrenDayImages.cardBox} 
                   alt="Card Box" 
                   className="w-full h-full object-contain select-none pointer-events-none transition-all duration-300 group-hover/cardbox:scale-105 group-hover/cardbox:brightness-105"
                   referrerPolicy="no-referrer"
@@ -431,7 +432,7 @@ export default function Festival_2026_ChildrenDay({
 
                 {/* Embedded mole doll image asset */}
                 <img 
-                  src="/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_doll.png" 
+                  src={childrenDayImages.moleDoll} 
                   alt="Mole Doll" 
                   className="w-full h-full object-contain select-none pointer-events-none transition-all duration-300 group-hover/molehills:scale-105 group-hover/molehills:brightness-105"
                   referrerPolicy="no-referrer"

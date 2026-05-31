@@ -970,11 +970,7 @@ export function FestiveHourglass({
   const config = FESTIVAL_CONFIGS[activeHolidayName] || FESTIVAL_CONFIGS['元旦'];
   const isFestivalToday = activeDaysLeft === 0;
 
-  const targetTime = new Date('2026-06-01T00:00:00').getTime();
-  const isAccessible = currentDate.getTime() >= targetTime;
-
   const handleHourglassClick = () => {
-    if (!isAccessible) return;
     if (isFestivalToday) {
       const activeYear = currentDate.getFullYear();
       const engName = HOLIDAY_MAP_TO_ENGLISH[activeHolidayName] || '';
@@ -994,11 +990,7 @@ export function FestiveHourglass({
     <div className="w-14 h-14 md:w-18 md:h-18 flex flex-col items-center justify-end select-none relative" id="festive-display-container">
       <div
         onClick={handleHourglassClick}
-        className={`w-[50px] h-[50px] flex flex-col items-center justify-center relative bg-transparent overflow-visible transition-all duration-200 ${
-          isAccessible
-            ? 'cursor-pointer group/hourglass hover:scale-110 active:scale-95'
-            : 'cursor-default opacity-75'
-        }`}
+        className="w-[50px] h-[50px] flex flex-col items-center justify-center relative bg-transparent overflow-visible transition-all duration-200 cursor-pointer group/hourglass hover:scale-110 active:scale-95"
       >
         <AnimatePresence mode="wait">
           {isFestivalToday ? (

@@ -38,9 +38,6 @@ export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>(() => viewFromHash());
   const [theme, setTheme] = useState<TimeTheme>(() => getTimeTheme());
 
-  const isFestivalAccessible =
-    new Date().getTime() >= new Date('2026-06-01T00:00:00').getTime();
-
   useEffect(() => {
     applyThemeCssVars(theme.isNight);
     document.documentElement.setAttribute('data-season', theme.season);
@@ -145,11 +142,8 @@ export default function App() {
                 if (boxId === 'envelopes') navigateTo('box-envelopes');
                 else if (boxId === 'photos') navigateTo('box-photos');
               }}
-              onEnterFestivalArchive={() => {
-                if (isFestivalAccessible) navigateTo('festival-archive');
-              }}
+              onEnterFestivalArchive={() => navigateTo('festival-archive')}
               onEnterFestivalPage={(pageId) => {
-                if (!isFestivalAccessible) return;
                 if (pageId === '2026_ChildrenDay') {
                   navigateTo('festival-2026-ChildrenDay');
                 } else {
@@ -186,7 +180,7 @@ export default function App() {
           </motion.div>
         )}
 
-        {currentView === 'festival-archive' && isFestivalAccessible && (
+        {currentView === 'festival-archive' && (
           <motion.div
             key="festival-archive-view"
             initial={{ opacity: 0, scale: 0.98 }}
@@ -209,7 +203,7 @@ export default function App() {
           </motion.div>
         )}
 
-        {currentView === 'festival-2026-ChildrenDay' && isFestivalAccessible && (
+        {currentView === 'festival-2026-ChildrenDay' && (
           <motion.div
             key="festival-children-day-view"
             initial={{ opacity: 0, scale: 1.05 }}

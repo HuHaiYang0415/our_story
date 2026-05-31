@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Award, CheckCircle2, Sparkles } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
+import { getMemoryCardImage } from './assets';
 
 // @ts-ignore
 import roundMoonBgm from './bgm/round_moon.mp3';
@@ -32,9 +33,9 @@ const CARD_THEMES = [
 // Reusable card face component trying to load custom image assets under ./image/gameMemory/ with emoji fallback
 function MemoryCardImage({ filename, fallbackEmoji }: { filename: string; fallbackEmoji: string }) {
   const [hasError, setHasError] = React.useState(false);
-  const fullPath = `/src/components/2026/Festival_2026_ChildrenDay/image/gameMemory/${filename}`;
+  const fullPath = getMemoryCardImage(filename);
 
-  if (hasError) {
+  if (hasError || !fullPath) {
     return (
       <span className="text-2.5xl md:text-3.5xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)] select-none">
         {fallbackEmoji}

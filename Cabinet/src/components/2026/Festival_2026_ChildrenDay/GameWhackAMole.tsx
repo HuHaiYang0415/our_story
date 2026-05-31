@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, RotateCcw, Sparkles, Heart, Zap, Play, Smile } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
+import { childrenDayImages } from './assets';
 
 // @ts-ignore
 import digDugFastBgm from './bgm/dig_dug_theme_song_fast.mp3';
@@ -28,8 +29,8 @@ function MoleDoll({ type, whacked, rowIndex = 2 }: { type: 'standard' | 'shiny' 
 
   if (!imgError) {
     const srcPath = whacked
-      ? '/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_getting_hit.png'
-      : '/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_popping_out.png';
+      ? childrenDayImages.moleGettingHit
+      : childrenDayImages.molePoppingOut;
 
     // Top row (r=0) is smaller in perspective; middle row (r=1) is medium; bottom row (r=2) is large.
     let scaleClass = 'scale-[1.38] sm:scale-[1.44] md:scale-[1.5]';
@@ -114,7 +115,7 @@ function LosingMoleDollComponent() {
   if (!imgError) {
     return (
       <img
-        src="/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_doll_lunging.png"
+        src={childrenDayImages.moleDollLunging}
         alt="Losing Mole Doll"
         className="w-56 h-56 md:w-64 md:h-64 object-contain select-none pointer-events-none filter drop-shadow-2xl"
         onError={() => setImgError(true)}
@@ -629,7 +630,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
       <div 
         className="w-full max-w-xl aspect-square max-h-[460px] bg-gradient-to-b from-green-300 via-emerald-250 to-green-300 bg-cover bg-center rounded-3xl border-4 border-dashed border-[#8C6239]/20 relative shadow-inner p-1 sm:p-2 grid grid-cols-3 grid-rows-3 gap-0" 
         style={{
-          backgroundImage: "url('/src/components/2026/Festival_2026_ChildrenDay/image/gameWhackAMole/mole_game_background.jpg')"
+          backgroundImage: `url('${childrenDayImages.moleGameBackground}')`
         }}
         id="mole-grid-playground"
       >
