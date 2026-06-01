@@ -198,7 +198,7 @@ export default function Festival_2026_ChildrenDay({
             </div>
 
             <h3 className="text-xl font-serif font-black text-[#8C6239] animate-pulse z-10">
-              正在打开童心纸艺屋... ✨
+              正在打开童心小游戏... ✨
             </h3>
             <p className="text-xs text-stone-400 mt-2.5 font-serif select-none max-w-sm leading-relaxed z-10">
               无休止的蝉鸣、手工折折剪剪、跳动的发条皮筋、还有香甜的水果硬糖……
@@ -355,7 +355,7 @@ export default function Festival_2026_ChildrenDay({
           {/* Cottage description titles */}
           <div className="w-full max-w-4xl text-center mb-5 z-20" id="welcome-room-banner">
             <h1 className="text-3xl md:text-3.5xl font-serif font-black text-[#5A3E23] tracking-tight relative block">
-              六一儿童节 · 梦幻小屋
+              六一儿童节 · 童心小屋
             </h1>
           </div>
 
