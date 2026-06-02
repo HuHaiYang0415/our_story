@@ -7,6 +7,7 @@ import { startCricketSounds, stopCricketSounds } from '@/shared/utils/cricketSou
 import { FestiveHourglass } from './components/FestiveHourglass';
 import { getCabinetFooterStyle } from './cabinetFooterStyles';
 import { CabinetAtmosphere } from './CabinetAtmosphere';
+import { CabinetEdgeDecor } from './CabinetEdgeDecor';
 import { CabinetFloor } from './CabinetFloor';
 import {
   VenusFlyTrap,
@@ -56,6 +57,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
       id="cabinet-root-page"
       className="h-full min-h-0 w-full"
       atmosphere={<CabinetAtmosphere theme={theme} />}
+      edgeDecor={<CabinetEdgeDecor theme={theme} />}
       floor={<CabinetFloor theme={theme} />}
       footer={
         <div

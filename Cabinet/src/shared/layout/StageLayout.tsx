@@ -5,6 +5,7 @@ export interface StageLayoutProps {
   id?: string;
   className?: string;
   atmosphere?: React.ReactNode;
+  edgeDecor?: React.ReactNode;
   floor?: React.ReactNode;
   footer?: React.ReactNode;
   children: React.ReactNode;
@@ -12,16 +13,16 @@ export interface StageLayoutProps {
 
 /**
  * 展柜舞台骨架：
- * - stage-main：全宽主区 + 横向安全边距
- * - stage-header：标题区（可选，见 `.stage-header`）
- * - stage-cabinet：木柜窄栏（用 StageCabinet 包裹，见 `.stage-cabinet`）
- * - stage-floor：花草/水面 SVG，全宽无底色容器
- * - stage-footer：absolute bottom-3 叠在花草带上方（z-35）
+ * - stage-main-body：标题 + 木柜，带横向安全边距
+ * - stage-cabinet-gap + stage-edge-deco-slot：全宽贴边区（燕巢/知了等）
+ * - stage-header / stage-cabinet：见 index.css
+ * - stage-floor / stage-footer：底栏全宽
  */
 export function StageLayout({
   id,
   className = '',
   atmosphere,
+  edgeDecor,
   floor,
   footer,
   children,
@@ -56,9 +57,15 @@ export function StageLayout({
       }
       foot={foot}
     >
-      <div className="stage-main flex min-h-full w-full flex-1 flex-col px-5 pt-3 pb-0 sm:px-6 md:px-8 md:pt-5">
-        {children}
-        <div className="stage-cabinet-gap min-h-6 flex-1 shrink-0" aria-hidden />
+      <div className="stage-main flex min-h-full w-full flex-1 flex-col">
+        <div className="stage-main-body flex w-full flex-col px-5 pt-3 pb-0 sm:px-6 md:px-8 md:pt-5">
+          {children}
+        </div>
+        <div className="stage-cabinet-gap relative min-h-6 w-full flex-1 shrink-0" aria-hidden>
+          {edgeDecor != null && (
+            <div className="stage-edge-deco-slot">{edgeDecor}</div>
+          )}
+        </div>
       </div>
     </ViewportShell>
   );

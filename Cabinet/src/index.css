@@ -169,7 +169,7 @@
   }
 
   /*
-   * 木柜窄栏：仅包裹 wooden-cabinet；两侧留白由 stage-main 的 px 与本宽度共同决定
+   * 木柜窄栏：仅包裹 wooden-cabinet；两侧留白由 stage-main-body 的 px 与本宽度共同决定
    * 42rem ≈ max-w-2xl；小屏再收 1.5rem 避免贴边
    */
   .stage-cabinet {
@@ -177,6 +177,29 @@
     max-width: 100%;
     margin-inline: auto;
     flex-shrink: 0;
+  }
+
+  /* 展柜与底栏之间的全宽垫片；贴边装饰槽见 .stage-edge-deco-slot */
+  .stage-cabinet-gap {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .stage-edge-deco-slot {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  /* 贴边装饰：左下对齐 gap 底边（花草带上方），兼容 safe-area */
+  .stage-edge-deco {
+    position: absolute;
+    bottom: 0;
+    left: max(0px, env(safe-area-inset-left, 0px));
+    pointer-events: none;
   }
 
   /*
@@ -207,19 +230,6 @@
     }
   }
 
-  /* 夏日知了：与燕巢同锚点（主区底边 + 左侧） */
-  .stage-atmosphere-cicada {
-    bottom: 3rem;
-    left: 1rem;
-    right: auto;
-  }
-
-  @media (min-width: 768px) {
-    .stage-atmosphere-cicada {
-      bottom: 4.5rem;
-      left: 3rem;
-    }
-  }
 }
 
 html {

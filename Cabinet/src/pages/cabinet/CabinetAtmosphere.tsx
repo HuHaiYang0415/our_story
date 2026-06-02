@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import type { TimeTheme } from '@/shared/types';
 import {
   layoutFallingParticle,
+  layoutFirefly,
+  FIREFLY_COUNT,
   STAGE_FALL_TOP,
 } from '@/shared/motion/stageMotion';
 import { SpringSwallows } from './cabinetDecorComponents';
@@ -94,21 +96,6 @@ export function CabinetAtmosphere({ theme }: { theme: TimeTheme }) {
       )}
 
       {/* Summer (夏) Decors */}
-      {theme.season === 'summer' && (
-        <div
-          className="stage-atmosphere-cicada pointer-events-none absolute z-10"
-          aria-hidden
-        >
-          <svg className="w-5 h-8 text-stone-700/30" viewBox="0 0 24 40" fill="currentColor">
-            <path d="M12 2C8 2 6 6 6 12C6 18 10 24 12 26C14 24 18 18 18 12C18 6 16 2 12 2Z" fill="#3D2B1F" />
-            <path d="M12 10C5 10 3 18 3 28C3 30 5 30 7 28C9 26 12 12 12 10Z" fill="#8B7355" opacity="0.3" />
-            <path d="M12 10C19 10 21 18 21 28C21 30 19 30 17 28C15 26 12 12 12 10Z" fill="#8B7355" opacity="0.3" />
-            <ellipse cx="8" cy="4" rx="2" ry="2" fill="#FFC107" />
-            <ellipse cx="16" cy="4" rx="2" ry="2" fill="#FFC107" />
-          </svg>
-          <span className="text-[5.5px] font-bold text-stone-500/30 block text-center rotate-90 mt-0.5">鸣蝉</span>
-        </div>
-      )}
       {theme.season === 'summer' && theme.isNight && (
         <>
           {/* Cozy forest pool nighttime depth gradient with breathing pulse */}
@@ -119,30 +106,41 @@ export function CabinetAtmosphere({ theme }: { theme: TimeTheme }) {
           />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-emerald-950/20 to-transparent pointer-events-none z-10" />
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-30">
-            {Array.from({ length: 14 }).map((_, i) => {
-              const startLeft = 5 + i * 7;
+            {Array.from({ length: FIREFLY_COUNT }).map((_, i) => {
+              const layout = layoutFirefly(i);
+              const xDrift = layout.flipX
+                ? [0, -layout.wiggleX, layout.wiggleX * 0.75, -layout.wiggleX * 0.35, 0]
+                : [0, layout.wiggleX, -layout.wiggleX * 0.75, layout.wiggleX * 0.35, 0];
+
               return (
                 <motion.div
                   key={`firefly-${i}`}
-                  initial={{ 
-                    x: 0, 
-                    y: `${25 + (i % 4) * 16}%`, 
-                    opacity: 0, 
-                    scale: 0.5 
-                  }}
+                  initial={{ x: 0, y: 0, opacity: layout.initialOpacity, scale: layout.scale }}
                   animate={{
-                    opacity: [0, 0.9, 0, 0.9, 0],
-                    y: [`${25 + (i % 4) * 16}%`, `${25 + (i % 4) * 16 - 40}px`, `${25 + (i % 4) * 16 + 30}px`, `${25 + (i % 4) * 16}%`],
-                    x: [0, 25, -25, 0],
-                    scale: [0.5, 1.25, 0.7, 1.35, 0.5]
+                    opacity: [
+                      layout.initialOpacity,
+                      layout.peakOpacity,
+                      layout.dimOpacity,
+                      layout.peakOpacity * 0.82,
+                      layout.initialOpacity,
+                    ],
+                    y: [0, -layout.wiggleYUp, layout.wiggleYDown, -layout.wiggleYUp * 0.4, 0],
+                    x: xDrift,
+                    scale: [
+                      layout.scale,
+                      layout.scale * layout.scaleMulHigh,
+                      layout.scale * layout.scaleMulLow,
+                      layout.scale * layout.scaleMulMid,
+                      layout.scale,
+                    ],
                   }}
                   transition={{
                     repeat: Infinity,
-                    duration: 8 + (i % 5),
-                    delay: i * 0.6,
-                    ease: 'easeInOut'
+                    duration: layout.duration,
+                    delay: -layout.phase * layout.duration,
+                    ease: 'easeInOut',
                   }}
-                  style={{ left: `${startLeft}%` }}
+                  style={{ left: `${layout.startLeft}%`, top: `${layout.baseTop}%` }}
                   className="absolute w-2 h-2 rounded-full bg-amber-200 pointer-events-none filter blur-[1px] shadow-[0_0_8px_#fef08a,0_0_15px_#eab308]"
                 />
               );
