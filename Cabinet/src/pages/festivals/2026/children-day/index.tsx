@@ -5,6 +5,7 @@ import { soundSynth } from './SoundSynth';
 import GameMemory from './GameMemory';
 import GameWhackAMole from './GameWhackAMole';
 import { childrenDayImages } from './assets';
+import { ViewportShell } from '@/shared/layout/ViewportShell';
 
 // Types for routing views
 type ActivePage = 'room' | 'memory' | 'whack-mole';
@@ -154,10 +155,11 @@ export default function Festival_2026_ChildrenDay({
   // The light will react directly to the parent's season/night theme switch!
 
   return (
-    <div 
-      className="w-full min-h-screen select-none bg-gradient-to-b from-[#FFF8F3] via-[#FCFAF4] to-[#F4EBE0] overflow-x-hidden p-3 md:p-6 relative"
+    <ViewportShell
       id="children-day-applet-wrapper"
+      className="select-none bg-gradient-to-b from-[#FFF8F3] via-[#FCFAF4] to-[#F4EBE0]"
     >
+    <div className="relative min-h-full overflow-x-hidden p-3 md:p-6">
 
       {/* 1. Jumping Sweets & Toys Loader overlay */}
       <AnimatePresence>
@@ -525,5 +527,6 @@ export default function Festival_2026_ChildrenDay({
       </div>
 
     </div>
+    </ViewportShell>
   );
 }

@@ -59,7 +59,155 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* 视口舞台：仅用 dvh，勿用 -webkit-fill-available 覆盖（会导致页面高于可视区、底部露白） */
+  .min-h-dvh {
+    min-height: 100dvh;
+  }
+
+  .h-dvh {
+    height: 100dvh;
+  }
+
+  .max-h-dvh {
+    max-height: 100dvh;
+  }
+
+  .bottom-safe {
+    bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .right-safe {
+    right: max(0.75rem, env(safe-area-inset-right, 0px));
+  }
+
+  .pb-safe-sm {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* 展柜木层板厚度（与仓库原版 border-b-12 一致） */
+  .border-b-12 {
+    border-bottom-width: 12px;
+  }
+
+  /* 展柜顶板：仅顶条为木纹棕色（与图2一致），非整柜铺满 */
+  .cabinet-wood-top {
+    height: 14px;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    border: 1px solid #3e2715;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 1px 2px rgba(45, 36, 30, 0.2);
+  }
+
+  @media (min-width: 768px) {
+    .cabinet-wood-top {
+      height: 16px;
+    }
+  }
+
+  /* 腔体：不透明灰底，避免下层木纹透出成竖条 */
+  .cabinet-shelf-cavity {
+    background-color: rgba(0, 0, 0, 0.28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  @media (max-width: 768px) {
+    .ios-safe-no-blend {
+      mix-blend-mode: normal !important;
+    }
+
+    .ios-safe-no-blur {
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+
+    html,
+    body {
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+
+    #app-root,
+    .viewport-shell,
+    .stage-root {
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+  }
+
+  /* App 内视图层：承接 #app-root 的 h-dvh，子页面用 h-full 填满 */
+  #app-root > .view-layer {
+    min-height: 0;
+  }
+
+  /*
+   * 主题拨盘：PC 悬停显现；触屏点击后保持显现，点外部收起
+   * （.theme-status-dial--revealed 由 App.tsx 在 pointerdown 时切换）
+   */
+  .theme-status-dial {
+    opacity: 0.2;
+    touch-action: manipulation;
+  }
+
+  .theme-status-dial:hover,
+  .theme-status-dial:focus-within,
+  .theme-status-dial.theme-status-dial--revealed,
+  .theme-status-dial:active {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    .theme-status-dial {
+      opacity: 0.45;
+    }
+
+    .theme-status-dial.theme-status-dial--revealed,
+    .theme-status-dial:active,
+    .theme-status-dial:focus-within {
+      opacity: 1;
+    }
+  }
+
+  /* 夏日知了：与燕巢同锚点（主区底边 + 左侧） */
+  .stage-atmosphere-cicada {
+    bottom: 3rem;
+    left: 1rem;
+    right: auto;
+  }
+
+  @media (min-width: 768px) {
+    .stage-atmosphere-cicada {
+      bottom: 4.5rem;
+      left: 3rem;
+    }
+  }
 }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+  background-color: var(--color-brand-bg);
+}
+
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--color-brand-bg);
+}
+
+/* 钉在可视视口，避免 100dvh 短于屏幕时出现底部不可滚动的露白 */
+#app-root {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 
 /* Custom scrollbar to keep layout clean and organic */
 ::-webkit-scrollbar {

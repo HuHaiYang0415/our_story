@@ -5,6 +5,7 @@ import { Letter, TimeTheme } from '@/shared/types';
 import { ArrowLeft, ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
 import { LetterReader } from './LetterReader';
 import { SeasonAtmosphere } from '@/shared/ui/SeasonAtmosphere';
+import { ViewportShell } from '@/shared/layout/ViewportShell';
 import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
 
 interface EnvelopeStackProps {
@@ -97,7 +98,11 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
     : '点击信封抽出 • 再次点击打开阅读';
 
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-4 px-3 md:px-6 overflow-x-hidden select-none transition-colors duration-700" id="envelope-stack-page">
+    <ViewportShell
+      id="envelope-stack-page"
+      className="select-none transition-colors duration-700"
+    >
+      <div className="relative flex min-h-full flex-col px-3 py-4 md:px-6">
       <SeasonAtmosphere theme={theme} variant="envelope" />
 
       {/* Header bar */}
@@ -431,6 +436,7 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
         </div>
 
       </div>
+      </div>
 
       {/* 无外链信件（如「未完待续」）才打开弹窗阅读 */}
       <AnimatePresence>
@@ -442,6 +448,6 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
           />
         )}
       </AnimatePresence>
-    </div>
+    </ViewportShell>
   );
 }

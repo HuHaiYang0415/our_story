@@ -3,6 +3,8 @@ import type { TimeTheme } from '@/shared/types';
 
 export type { Season };
 
+export const SEASON_ORDER: Season[] = ['spring', 'summer', 'autumn', 'winter'];
+
 const SEASON_SCHEDULE: Record<
   Season,
   { label: string; sunrise: string; sunset: string }
@@ -24,6 +26,23 @@ function isNightAt(timeString: string, sunrise: string, sunset: string): boolean
 }
 
 /** 按节气日期表取季节，再按四季日出日落判断昼夜 */
+export function nextSeason(season: Season): Season {
+  const i = SEASON_ORDER.indexOf(season);
+  return SEASON_ORDER[(i + 1) % SEASON_ORDER.length];
+}
+
+/** 开发预览：仅覆盖季节相关字段，保留用户手动切换的 isNight */
+export function applySeasonToTheme(theme: TimeTheme, season: Season): TimeTheme {
+  const { label, sunrise, sunset } = SEASON_SCHEDULE[season];
+  return {
+    ...theme,
+    season,
+    seasonLabel: label,
+    sunrise,
+    sunset,
+  };
+}
+
 export function getTimeTheme(now: Date = new Date()): TimeTheme {
   const dateKey = formatDateKey(now);
   const season = getSeasonOnDate(dateKey) ?? 'spring';

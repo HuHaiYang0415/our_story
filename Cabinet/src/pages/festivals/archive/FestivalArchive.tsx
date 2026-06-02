@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, ChevronRight, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
+import { ViewportShell } from '@/shared/layout/ViewportShell';
 
 const CHILDREN_DAY_2026 = {
   name: '儿童节',
@@ -66,10 +67,11 @@ export default function FestivalArchive({
   }, []);
 
   return (
-    <div
-      className="w-full min-h-screen relative flex flex-col justify-start items-center p-3 md:p-6 bg-[#FCFAF2] text-stone-800"
+    <ViewportShell
       id="festival-archive-root"
+      className="bg-[#FCFAF2] text-stone-800"
     >
+    <div className="relative flex min-h-full flex-col items-center p-3 md:p-6">
       <div className="absolute top-[5%] left-[3%] w-24 h-24 rounded-full border border-[#8C6239]/12 opacity-40 flex items-center justify-center text-[#8C6239]/20 font-serif text-sm pointer-events-none select-none">
         岁 · 时
       </div>
@@ -185,5 +187,6 @@ export default function FestivalArchive({
         </div>
       </div>
     </div>
+    </ViewportShell>
   );
 }

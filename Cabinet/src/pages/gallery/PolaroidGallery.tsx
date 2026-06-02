@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Hammer, Wrench, Paintbrush, Heart } from 'lucide-react';
 import type { TimeTheme } from '@/shared/types';
+import { ViewportShell } from '@/shared/layout/ViewportShell';
 
 interface PolaroidGalleryProps {
   theme: TimeTheme;
@@ -10,7 +11,11 @@ interface PolaroidGalleryProps {
 
 export function PolaroidGallery({ theme, onBackToCabinet }: PolaroidGalleryProps) {
   return (
-    <div className="relative w-full min-h-screen bg-brand-bg flex flex-col justify-between py-6 px-4 md:px-8 overflow-hidden select-none animate-fadeIn transition-colors duration-700" id="polaroid-gallery-page">
+    <ViewportShell
+      id="polaroid-gallery-page"
+      className="select-none animate-fadeIn transition-colors duration-700"
+    >
+    <div className="relative flex min-h-full flex-col justify-between py-6 px-4 md:px-8 overflow-hidden">
       
       {/* Spring (春) Decors in Box */}
       {theme.season === 'spring' && !theme.isNight && (
@@ -275,5 +280,6 @@ export function PolaroidGallery({ theme, onBackToCabinet }: PolaroidGalleryProps
         Under Construction &bull; Building Our Digital Home Together
       </footer>
     </div>
+    </ViewportShell>
   );
 }

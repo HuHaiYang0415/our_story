@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Sun, Moon, Calendar } from 'lucide-react';
 import { Cabinet } from '@/pages/cabinet/Cabinet';
@@ -8,19 +8,37 @@ import { OUR_STORY_NAV_MESSAGE } from '@/shared/config/siteConfig';
 import { PolaroidGallery } from '@/pages/gallery/PolaroidGallery';
 import FestivalArchive from '@/pages/festivals/archive/FestivalArchive';
 import Festival_2026_ChildrenDay from '@/pages/festivals/2026/children-day/index';
-import { getTimeTheme, applyThemeCssVars } from '@/shared/theme/theme';
+import {
+  getTimeTheme,
+  applyThemeCssVars,
+  applySeasonToTheme,
+  nextSeason,
+  type Season,
+} from '@/shared/theme/theme';
 import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
+import { ALLOW_SEASON_DEBUG } from '@/shared/config/featureFlags';
 import type { TimeTheme } from '@/shared/types';
 import { VIEW_HASH, viewFromHash, type ViewState } from './routes';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>(() => viewFromHash());
   const [theme, setTheme] = useState<TimeTheme>(() => getTimeTheme());
+  /** 仅 dev：预览季节；不改变昼夜切换逻辑 */
+  const [debugSeason, setDebugSeason] = useState<Season | null>(null);
+  const [themeDialRevealed, setThemeDialRevealed] = useState(false);
+  const themeDialRef = useRef<HTMLDivElement>(null);
+
+  const themeView = useMemo(() => {
+    if (ALLOW_SEASON_DEBUG && debugSeason != null) {
+      return applySeasonToTheme(theme, debugSeason);
+    }
+    return theme;
+  }, [theme, debugSeason]);
 
   useEffect(() => {
-    applyThemeCssVars(theme.isNight);
-    document.documentElement.setAttribute('data-season', theme.season);
-  }, [theme.isNight, theme.season]);
+    applyThemeCssVars(themeView.isNight);
+    document.documentElement.setAttribute('data-season', themeView.season);
+  }, [themeView.isNight, themeView.season]);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -29,7 +47,8 @@ export default function App() {
         if (
           prev.isNight === next.isNight &&
           prev.season === next.season &&
-          prev.dateKey === next.dateKey
+          prev.dateKey === next.dateKey &&
+          prev.timeString === next.timeString
         ) {
           return prev;
         }
@@ -67,48 +86,90 @@ export default function App() {
     applyDocumentTitle(getPageTitle(currentView));
   }, [currentView]);
 
+  useEffect(() => {
+    if (!themeDialRevealed) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const el = themeDialRef.current;
+      if (el && !el.contains(event.target as Node)) {
+        setThemeDialRevealed(false);
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [themeDialRevealed]);
+
   const handleToggleNight = () => {
     setTheme((prev) => ({ ...prev, isNight: !prev.isNight }));
   };
 
+  const handleCycleSeason = () => {
+    if (!ALLOW_SEASON_DEBUG) return;
+    setDebugSeason((prev) => nextSeason(prev ?? theme.season));
+  };
+
+  const seasonLabel = (
+    <>
+      <Calendar
+        className={`w-3.5 h-3.5 ${themeView.isNight ? 'text-[#ECE5DF]/90' : 'text-[#8C6239]'}`}
+      />
+      <span>{themeView.seasonLabel}季</span>
+    </>
+  );
+
   return (
     <div
-      className="min-h-screen bg-brand-bg text-brand-text font-sans transition-colors duration-700 relative overflow-hidden"
+      className="flex flex-col overflow-hidden bg-brand-bg font-sans text-brand-text transition-colors duration-700"
       id="app-root"
     >
       <div
-        className={`fixed bottom-3 right-3 md:bottom-4 md:right-4 z-50 flex items-center space-x-1.5 p-1 rounded-full select-none transition-all duration-300 opacity-20 hover:opacity-100 focus-within:opacity-100 ${
-          theme.isNight
-            ? 'bg-[#1E1A16]/25 backdrop-blur-[1px] border border-[#ECE5DF]/10 hover:bg-[#1E1A16]/95 hover:border-[#ECE5DF]/20 hover:shadow-md'
-            : 'bg-[#FFFDFB]/25 backdrop-blur-[1px] border border-[#E5DACE]/40 hover:bg-[#FFFDFB]/95 hover:border-[#E5DACE] hover:shadow-md'
-        }`}
+        ref={themeDialRef}
+        className={[
+          'theme-status-dial fixed bottom-3 right-3 z-50 flex items-center space-x-1.5 rounded-full p-1 select-none transition-all duration-300 md:bottom-4 md:right-4',
+          themeDialRevealed ? 'theme-status-dial--revealed' : '',
+          themeView.isNight
+            ? 'border border-[#ECE5DF]/10 bg-[#1E1A16]/25 backdrop-blur-[1px] hover:border-[#ECE5DF]/20 hover:bg-[#1E1A16]/95 hover:shadow-md'
+            : 'border border-[#E5DACE]/40 bg-[#FFFDFB]/25 backdrop-blur-[1px] hover:border-[#E5DACE] hover:bg-[#FFFDFB]/95 hover:shadow-md',
+        ].join(' ')}
         id="theme-status-dial"
-        title={`${theme.seasonLabel}季 · ${theme.solarTerm ?? ''} · ${theme.isNight ? '夜间' : '白天'}`}
+        title={`${themeView.seasonLabel}季 · ${themeView.solarTerm ?? ''} · ${themeView.isNight ? '夜间' : '白天'}`}
+        onPointerDown={() => setThemeDialRevealed(true)}
       >
-        <span
-          className={`flex items-center space-x-1 px-3 py-1 rounded-full text-[10px] font-bold ${
-            theme.isNight ? 'text-[#ECE5DF]/85' : 'text-[#8C6239]'
-          }`}
-        >
-          <Calendar className={`w-3.5 h-3.5 ${theme.isNight ? 'text-[#ECE5DF]/90' : 'text-[#8C6239]'}`} />
-          <span>{theme.seasonLabel}季</span>
-        </span>
+        {ALLOW_SEASON_DEBUG ? (
+          <button
+            type="button"
+            onClick={handleCycleSeason}
+            className={`flex items-center space-x-1 rounded-full px-3 py-1 text-[10px] font-bold cursor-pointer ${
+              themeView.isNight ? 'text-[#ECE5DF]/85' : 'text-[#8C6239]'
+            }`}
+            title="开发模式：点击切换季节"
+          >
+            {seasonLabel}
+          </button>
+        ) : (
+          <span
+            className={`flex items-center space-x-1 rounded-full px-3 py-1 text-[10px] font-bold ${
+              themeView.isNight ? 'text-[#ECE5DF]/85' : 'text-[#8C6239]'
+            }`}
+          >
+            {seasonLabel}
+          </span>
+        )}
 
-        <div className={`w-[1px] h-4 ${theme.isNight ? 'bg-[#ECE5DF]/25' : 'bg-[#E5DACE]'}`} />
+        <div className={`w-[1px] h-4 ${themeView.isNight ? 'bg-[#ECE5DF]/25' : 'bg-[#E5DACE]'}`} />
 
         <span className="text-[9px] text-stone-400 font-mono hidden sm:inline px-1">
-          {theme.sunrise}~{theme.sunset}
+          {themeView.sunrise}~{themeView.sunset}
         </span>
 
         <button
           type="button"
           onClick={handleToggleNight}
           className={`p-1.5 rounded-full transition-all cursor-pointer active:scale-90 ${
-            theme.isNight ? 'bg-[#ECE5DF]/15 text-[#ECE5DF]' : 'hover:bg-stone-100 text-[#8C6239]'
+            themeView.isNight ? 'bg-[#ECE5DF]/15 text-[#ECE5DF]' : 'hover:bg-stone-100 text-[#8C6239]'
           }`}
-          title={theme.isNight ? '切换为白天' : '切换为夜间'}
+          title={themeView.isNight ? '切换为白天' : '切换为夜间'}
         >
-          {theme.isNight ? (
+          {themeView.isNight ? (
             <Moon className="w-3.5 h-3.5 fill-[#FFFDFB]/20" />
           ) : (
             <Sun className="w-3.5 h-3.5" />
@@ -124,10 +185,10 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.45 }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <Cabinet
-              theme={theme}
+              theme={themeView}
               onOpenBox={(boxId) => {
                 if (boxId === 'envelopes') navigateTo('box-envelopes');
                 else if (boxId === 'photos') navigateTo('box-photos');
@@ -151,10 +212,10 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <EnvelopeStack
-              theme={theme}
+              theme={themeView}
               onBackToCabinet={() => navigateTo('cabinet')}
               onOpenLetter520={() => navigateTo('letter-520')}
             />
@@ -168,7 +229,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <Letter520Embed />
           </motion.div>
@@ -181,9 +242,9 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
-            <PolaroidGallery theme={theme} onBackToCabinet={() => navigateTo('cabinet')} />
+            <PolaroidGallery theme={themeView} onBackToCabinet={() => navigateTo('cabinet')} />
           </motion.div>
         )}
 
@@ -194,10 +255,10 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.45 }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <FestivalArchive
-              theme={theme}
+              theme={themeView}
               onBackToCabinet={() => navigateTo('cabinet')}
               onEnterFestivalPage={(pageId) => {
                 if (pageId === '2026_ChildrenDay') {
@@ -217,10 +278,10 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="w-full min-h-screen"
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <Festival_2026_ChildrenDay
-              theme={theme}
+              theme={themeView}
               onBackToArchive={() => navigateTo('festival-archive')}
               onBackToCabinet={() => navigateTo('cabinet')}
             />
