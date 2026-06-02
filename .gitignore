@@ -2,7 +2,7 @@
 Cabinet/node_modules/
 node_modules/
 
-# Build cache (站点根目录 index.html + assets/ 需提交以支持 Pages)
+# Build cache
 Cabinet/dist/
 
 # Environment
@@ -27,10 +27,9 @@ Thumbs.db
 __pycache__/
 *.pyc
 
-# 旧路径误复制的节日原图（源码在 Cabinet/src/pages/...）
+# 旧版多入口构建残留（已由 build:site 删除，勿再提交）
 /src/
-
-# build:site 生成到站点根（源码在 Cabinet/src/...）
 /image/
 /20260520/
 /202660520/
+/companion-520/

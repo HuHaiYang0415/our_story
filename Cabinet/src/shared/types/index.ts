@@ -4,14 +4,11 @@ export interface Letter {
   oneLiner: string;
   title: string;
   sender: string;
-  /** 打开信封后跳转到外部 H5（如 20260520 互动页） */
-  href?: string;
-  /** 无 href 时在弹窗内阅读的正文 */
+  /** 展柜内嵌互动页（如 520） */
+  interactive?: '520';
+  /** 无 interactive 时在弹窗内阅读的正文 */
   content?: string;
-  /**
-   * 邮票图（可选覆盖）。默认 image/stamp-{id}.jpg，如 stamp-letter-pending.jpg
-   * 4:3 横图，放在 src/pages/letters/assets/stamps/
-   */
+  /** 邮票图（可选覆盖）；默认使用 assets/stamps 下对应 import */
   stampImage?: string;
 }
 

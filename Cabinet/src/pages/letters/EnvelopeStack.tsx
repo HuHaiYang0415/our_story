@@ -5,11 +5,12 @@ import { Letter, TimeTheme } from '@/shared/types';
 import { ArrowLeft, ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
 import { LetterReader } from './LetterReader';
 import { SeasonAtmosphere } from '@/shared/ui/SeasonAtmosphere';
-import { applyDocumentTitle, getPageTitle, RETURN_FROM_520_KEY, resolveExternalHref } from '@/shared/config/siteConfig';
+import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
 
 interface EnvelopeStackProps {
   theme: TimeTheme;
   onBackToCabinet: () => void;
+  onOpenLetter520: () => void;
 }
 
 function EnvelopeStamp({ letter }: { letter: Letter }) {
@@ -39,7 +40,7 @@ function EnvelopeStamp({ letter }: { letter: Letter }) {
   );
 }
 
-export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
+export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: EnvelopeStackProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [extractingLetterId, setExtractingLetterId] = useState<string | null>(null);
   const [readLetter, setReadLetter] = useState<Letter | null>(null);
@@ -75,10 +76,9 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
     setExtractingLetterId(letter.id);
 
     setTimeout(() => {
-      if (letter.href) {
-        const returnUrl = `${window.location.pathname}${window.location.search}#envelopes`;
-        sessionStorage.setItem(RETURN_FROM_520_KEY, returnUrl);
-        window.location.href = resolveExternalHref(letter.href);
+      if (letter.interactive === '520') {
+        onOpenLetter520();
+        setExtractingLetterId(null);
         return;
       }
 
@@ -92,7 +92,7 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
 
   const loadedLetters = LETTERS_DATA;
   const activeLetter = loadedLetters[activeIndex];
-  const openHint = activeLetter.href
+  const openHint = activeLetter.interactive === '520'
     ? '点击进入 520 互动 • 再次点击打开'
     : '点击信封抽出 • 再次点击打开阅读';
 
@@ -363,7 +363,7 @@ export function EnvelopeStack({ theme, onBackToCabinet }: EnvelopeStackProps) {
                         <span />
                         {isTop && (
                           <span className="animate-pulse font-bold text-[#8C6239] flex items-center space-x-0.5 font-sans mr-6">
-                            <span>{letter.href ? '进入 520' : '点击抽出'}</span>
+                            <span>{letter.interactive === '520' ? '进入 520' : '点击抽出'}</span>
                             <Sparkles className="w-2 h-2" />
                           </span>
                         )}

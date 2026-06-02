@@ -1,9 +1,14 @@
 import { Letter } from '@/shared/types';
-import { INTERACTIVE_520_PATH } from '@/shared/config/siteConfig';
+import stampLetter520 from '../assets/stamps/stamp-letter-520.jpg';
+import stampLetterPending from '../assets/stamps/stamp-letter-pending.jpg';
 
-/** 每封信默认邮票路径：部署后位于站点根 image/stamp-{信封id}.jpg */
+const DEFAULT_STAMPS: Record<string, string> = {
+  'letter-520': stampLetter520,
+  'letter-pending': stampLetterPending,
+};
+
 export function getLetterStampSrc(letter: Letter): string {
-  return letter.stampImage ?? `image/stamp-${letter.id}.jpg`;
+  return letter.stampImage ?? DEFAULT_STAMPS[letter.id] ?? '';
 }
 
 export const LETTERS_DATA: Letter[] = [
@@ -13,7 +18,7 @@ export const LETTERS_DATA: Letter[] = [
     title: '散步、玫瑰与美丽的平平',
     oneLiner: '在线上完成世界上第二浪漫的事情吧',
     sender: '小胡',
-    href: INTERACTIVE_520_PATH,
+    interactive: '520',
   },
   {
     id: 'letter-pending',

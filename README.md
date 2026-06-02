@@ -1,10 +1,6 @@
 # Our Story 展柜
 
-展柜首页 + 时光信箱 + 520 互动 H5，可部署 GitHub Pages。
-
-## 在线访问
-
-推送前在 `Cabinet` 执行 `npm run build:site`，将构建产物推到仓库根目录后，在 GitHub Pages 选择 **master** 分支、根目录 `/`。
+一个站点、一个入口：`index.html`。展柜、信盒、520 互动、节日页都在同一 SPA 内切换；520 静态资源在 `pages/letters/520/` 由展柜 iframe 加载。
 
 ## 本地开发
 
@@ -14,8 +10,7 @@ npm install
 npm run dev
 ```
 
-- 展柜：http://localhost:3000  
-- 520：http://localhost:3000/20260520/（读源码目录，无需根目录 `20260520/`）
+打开 http://localhost:3000 ，从展柜进入信盒，再打开 520 信封即可。
 
 ## 构建发布
 
@@ -24,21 +19,16 @@ cd Cabinet
 npm run build:site
 ```
 
-会在 **仓库根目录** 生成（已 `.gitignore`，勿手改、勿提交）：
-
-| 生成路径 | 源码位置 |
-|----------|----------|
-| `index.html`、`assets/` | Vite 打包 |
-| `image/` | `Cabinet/src/pages/letters/assets/stamps/` |
-| `20260520/` | `Cabinet/src/pages/letters/interactive/520/` |
-| `202660520/index.html` | 构建脚本生成的旧链接跳转 |
-
-部署 Pages 时需包含上述生成结果；本地双击预览前也需先执行一次 `build:site`。
-
-## 仓库内主要目录
+会在仓库根目录生成：
 
 | 路径 | 说明 |
 |------|------|
-| `Cabinet/` | React 与 520 源码（唯一维护入口） |
-| `companion-520/` | 更旧 URL 跳转到 `20260520/` |
-| `story/` | 独立长叙事 H5（可选） |
+| `index.html` | 唯一用户入口 |
+| `assets/` | 展柜打包资源（含邮票图） |
+| `pages/letters/520/` | 520 互动静态页（iframe 子资源，勿单独当入口打开） |
+
+推送 Pages 前执行一次构建即可。`image/`、`20260520/`、`companion-520/` 等为旧方案，构建脚本会自动删除。
+
+## 源码
+
+全部在 `Cabinet/src/`，见 `Cabinet/README.md`。

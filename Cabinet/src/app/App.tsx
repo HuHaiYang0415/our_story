@@ -3,6 +3,8 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Sun, Moon, Calendar } from 'lucide-react';
 import { Cabinet } from '@/pages/cabinet/Cabinet';
 import { EnvelopeStack } from '@/pages/letters/EnvelopeStack';
+import { Letter520Embed } from '@/pages/letters/Letter520Embed';
+import { OUR_STORY_NAV_MESSAGE } from '@/shared/config/siteConfig';
 import { PolaroidGallery } from '@/pages/gallery/PolaroidGallery';
 import FestivalArchive from '@/pages/festivals/archive/FestivalArchive';
 import Festival_2026_ChildrenDay from '@/pages/festivals/2026/children-day/index';
@@ -49,6 +51,17 @@ export default function App() {
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.data?.type !== OUR_STORY_NAV_MESSAGE) return;
+      if (event.data.view === 'box-envelopes') {
+        navigateTo('box-envelopes');
+      }
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [navigateTo]);
 
   useEffect(() => {
     applyDocumentTitle(getPageTitle(currentView));
@@ -140,7 +153,24 @@ export default function App() {
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="w-full min-h-screen"
           >
-            <EnvelopeStack theme={theme} onBackToCabinet={() => navigateTo('cabinet')} />
+            <EnvelopeStack
+              theme={theme}
+              onBackToCabinet={() => navigateTo('cabinet')}
+              onOpenLetter520={() => navigateTo('letter-520')}
+            />
+          </motion.div>
+        )}
+
+        {currentView === 'letter-520' && (
+          <motion.div
+            key="letter-520-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="w-full min-h-screen"
+          >
+            <Letter520Embed />
           </motion.div>
         )}
 

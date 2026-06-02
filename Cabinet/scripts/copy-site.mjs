@@ -27,10 +27,14 @@ function syncDir(src, dest) {
   copyDir(src, dest);
 }
 
-function cleanSiteAssets() {
-  const assetsDir = path.join(siteRoot, 'assets');
-  if (fs.existsSync(assetsDir)) {
-    fs.rmSync(assetsDir, { recursive: true, force: true });
+/** 移除旧版多入口构建遗留的站点根目录 */
+function removeLegacySiteRoots() {
+  for (const name of ['image', '20260520', '202660520', 'companion-520']) {
+    const target = path.join(siteRoot, name);
+    if (fs.existsSync(target)) {
+      fs.rmSync(target, { recursive: true, force: true });
+      console.log(`已移除旧站点目录: ${name}/`);
+    }
   }
 }
 
@@ -39,51 +43,20 @@ if (!fs.existsSync(distDir)) {
   process.exit(1);
 }
 
-cleanSiteAssets();
+function cleanViteOutputAtSiteRoot() {
+  const assetsDir = path.join(siteRoot, 'assets');
+  if (fs.existsSync(assetsDir)) {
+    fs.rmSync(assetsDir, { recursive: true, force: true });
+  }
+  const pagesDir = path.join(siteRoot, 'pages');
+  if (fs.existsSync(pagesDir)) {
+    fs.rmSync(pagesDir, { recursive: true, force: true });
+  }
+}
+
+removeLegacySiteRoots();
+cleanViteOutputAtSiteRoot();
 copyDir(distDir, siteRoot);
 
-const stampSourceDir = path.join(
-  cabinetRoot,
-  'src/pages/letters/assets/stamps',
-);
-if (fs.existsSync(stampSourceDir)) {
-  syncDir(stampSourceDir, path.join(siteRoot, 'image'));
-  console.log('已复制信件邮票 -> 站点根目录 image/');
-}
-
-const interactive520Dir = path.join(
-  cabinetRoot,
-  'src/pages/letters/interactive/520',
-);
-if (fs.existsSync(interactive520Dir)) {
-  syncDir(interactive520Dir, path.join(siteRoot, '20260520'));
-  console.log('已复制 520 互动页 -> 站点根目录 20260520/');
-} else {
-  console.warn('未找到 520 源码: src/pages/letters/interactive/520/');
-}
-
-/** 旧错误路径 202660520 → 20260520（仅构建时生成，不纳入 Git） */
-const legacyRedirectDir = path.join(siteRoot, '202660520');
-const legacyRedirectHtml = path.join(legacyRedirectDir, 'index.html');
-const legacyRedirectBody = `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=../20260520/">
-  <link rel="canonical" href="../20260520/">
-  <title>正在跳转…</title>
-  <script>
-    location.replace('../20260520/' + (location.search || '') + (location.hash || ''));
-  </script>
-</head>
-<body>
-  <p>路径已更正为 20260520，<a href="../20260520/">点此进入</a></p>
-</body>
-</html>
-`;
-fs.mkdirSync(legacyRedirectDir, { recursive: true });
-fs.writeFileSync(legacyRedirectHtml, legacyRedirectBody, 'utf8');
-console.log('已生成旧路径跳转 -> 202660520/index.html');
-
 console.log(`已发布到: ${siteRoot}`);
-console.log('请双击打开: index.html');
+console.log('统一入口: index.html（520 在 pages/letters/520/ 内嵌打开）');

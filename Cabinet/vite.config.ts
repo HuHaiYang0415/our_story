@@ -1,47 +1,50 @@
 import fs from 'node:fs';
+import { cpSync } from 'node:fs';
+import path from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
+
+const cabinetRoot = path.resolve(import.meta.dirname);
+const letter520Src = path.resolve(
+  cabinetRoot,
+  'src/pages/letters/interactive/520',
+);
+
+function copyLetter520ToDist(outDir: string) {
+  const dest = path.join(outDir, 'pages/letters/520');
+  if (fs.existsSync(dest)) {
+    fs.rmSync(dest, { recursive: true, force: true });
+  }
+  cpSync(letter520Src, dest, { recursive: true });
+}
 
 export default defineConfig(() => {
-  const interactiveDir = path.resolve(
-    __dirname,
-    'src/pages/letters/interactive/520',
-  );
-  const stampImageDir = path.resolve(
-    __dirname,
-    'src/pages/letters/assets/stamps',
-  );
-
   return {
     base: './',
     plugins: [
       react(),
       tailwindcss(),
       {
-        name: 'serve-static-extras',
+        name: 'copy-letter-520-static',
+        closeBundle() {
+          copyLetter520ToDist(path.resolve(cabinetRoot, 'dist'));
+        },
         configureServer(server) {
           import('sirv').then(({ default: sirv }) => {
             server.middlewares.use(
-              '/20260520',
-              sirv(interactiveDir, { dev: true, single: false }),
+              '/pages/letters/520',
+              sirv(letter520Src, { dev: true, single: false }),
             );
-            if (fs.existsSync(stampImageDir)) {
-              server.middlewares.use(
-                '/image',
-                sirv(stampImageDir, { dev: true, single: false }),
-              );
-            }
           }).catch(() => {
-            // sirv 仅在本地 dev 需要；缺失时不影响构建与预览
+            // sirv 仅在本地 dev 需要
           });
         },
       },
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'),
+        '@': path.resolve(cabinetRoot, 'src'),
       },
     },
     server: {
