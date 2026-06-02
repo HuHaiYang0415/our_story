@@ -143,6 +143,17 @@
   }
 
   /*
+   * 展柜主内容窄栏：标题 + 木柜共用；两侧留白由 stage-main 的 px 与本宽度共同决定
+   * 42rem ≈ Tailwind max-w-2xl；小屏再收 1.5rem 避免贴边
+   */
+  .stage-content {
+    width: min(42rem, calc(100% - 1.5rem));
+    max-width: 100%;
+    margin-inline: auto;
+    flex-shrink: 0;
+  }
+
+  /*
    * 主题拨盘：PC 悬停显现；触屏点击后保持显现，点外部收起
    * （.theme-status-dial--revealed 由 App.tsx 在 pointerdown 时切换）
    */

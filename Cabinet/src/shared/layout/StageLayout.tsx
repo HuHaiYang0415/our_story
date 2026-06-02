@@ -11,8 +11,10 @@ export interface StageLayoutProps {
 }
 
 /**
- * 展柜底栏（与仓库原版一致）：
- * - stage-floor：花草/水面 SVG，无容器纯色底
+ * 展柜舞台骨架：
+ * - stage-main：全宽主区 + 横向安全边距
+ * - stage-content：展柜/标题窄栏（宽度见 index.css `.stage-content`）
+ * - stage-floor：花草/水面 SVG，全宽无底色容器
  * - stage-footer：absolute bottom-3 叠在花草带上方（z-35）
  */
 export function StageLayout({
@@ -53,8 +55,8 @@ export function StageLayout({
       }
       foot={foot}
     >
-      <div className="stage-main mx-auto flex min-h-full w-full max-w-4xl flex-1 flex-col px-4 pt-3 pb-0 md:pt-5">
-        {children}
+      <div className="stage-main flex min-h-full w-full flex-1 flex-col px-5 pt-3 pb-0 sm:px-6 md:px-8 md:pt-5">
+        <div className="stage-content flex w-full flex-col">{children}</div>
         <div className="stage-cabinet-gap min-h-6 flex-1 shrink-0" aria-hidden />
       </div>
     </ViewportShell>

@@ -70,7 +70,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
       }
     >
       {/* Header Section: Reduced padding to bring the cabinet closer to the title */}
-      <header className="w-full max-w-4xl mx-auto pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
+      <header className="w-full pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
         <div className="space-y-1.5 w-full md:w-auto">
           <div className="flex flex-wrap items-center gap-2">
             <motion.div 
@@ -169,7 +169,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
           y: 0,
           opacity: 1
         }}
-        className={`relative isolate z-10 w-full max-w-3xl rounded-3xl border p-2 transition-all duration-500 mt-1.5 md:mt-2 mb-0 md:p-3 ${
+        className={`relative isolate z-10 w-full rounded-3xl border p-2 transition-all duration-500 mt-1.5 md:mt-2 mb-0 md:p-3 ${
           theme.isNight 
             ? 'bg-stone-950/25 border-amber-500/30' 
             : 'border-stone-800/10 bg-[#F5F0E8]/95 shadow-md'
