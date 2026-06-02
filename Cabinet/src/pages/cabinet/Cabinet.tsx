@@ -25,7 +25,7 @@ interface CabinetProps {
 /** 每层腔体（仅 bg-black/25 透明灰区）；顶板/层板为棕色，不计入此高度 */
 const SHELF_CAVITY_H = 'h-[96px] sm:h-[117px] md:h-[112px]';
 
-const SHELF_CAVITY_CLASS = `cabinet-shelf-cavity relative ${SHELF_CAVITY_H} w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12 border-[#5A3E23] shadow-md`;
+const SHELF_CAVITY_CLASS = `cabinet-shelf-cavity relative ${SHELF_CAVITY_H} w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12`;
 
 export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage, theme }: CabinetProps) {
   const [boxInFocus, setBoxInFocus] = useState<string | null>(null);
@@ -170,14 +170,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
           y: 0,
           opacity: 1
         }}
-        className={`relative isolate z-10 w-full rounded-3xl border p-2 transition-all duration-500 mt-1.5 md:mt-2 mb-0 md:p-3 ${
-          theme.isNight 
-            ? 'bg-stone-950/25 border-amber-500/30' 
-            : 'border-stone-800/10 bg-[#F5F0E8]/95 shadow-md'
-        }`}
-        style={theme.isNight ? {
-          boxShadow: '0 -6px 25px rgba(245, 158, 11, 0.18), 0 0 50px rgba(245, 158, 11, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6)'
-        } : undefined}
+        className="relative isolate z-10 w-full rounded-3xl border border-transparent bg-transparent p-2 transition-all duration-500 mt-1.5 md:mt-2 mb-0 md:p-3"
         id="wooden-cabinet-wrapper"
       >
         {/* 布局占位：与下方 absolute 木柜同高，避免 absolute 导致外层高度塌陷 */}
@@ -193,21 +186,9 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
 
         {/* 外框棕色；顶板+层板为木条；层间 gap 露出页面底色（图2）；腔体仅灰色区域 */}
         <div
-          className={`absolute inset-1.5 flex flex-col gap-2 rounded-2xl border-4 bg-transparent p-2 shadow-inner transition-all duration-500 md:gap-2.5 md:p-3 ${
-            theme.isNight
-              ? 'border-amber-700/50 shadow-[inset_0_4px_20px_rgba(245,158,11,0.25)]'
-              : 'border-[#6D4C2B]'
-          }`}
+          className="absolute inset-1.5 flex flex-col gap-2 rounded-2xl border-4 border-transparent bg-transparent p-2 transition-all duration-500 md:gap-2.5 md:p-3"
           id="shelf-contents-box"
         >
-          {/* Warm Cozy LED / Neon Tube Light Bar at the cabinet top under the top edge */}
-          {theme.isNight && (
-            <div
-              className="pointer-events-none absolute top-0.5 left-6 right-6 z-20 h-[3.5px] animate-pulse rounded-full bg-gradient-to-r from-amber-500/10 via-amber-400/80 to-amber-500/10 shadow-[0_1.5px_8px_rgba(251,191,36,0.45),0_3px_22px_rgba(251,191,36,0.22)]"
-              style={{ animationDuration: '5.5s' }}
-            />
-          )}
-
           <div className="cabinet-wood-top wood-pattern relative z-[1] shrink-0" />
 
           {/* LAYER 1 (Top Shelf) */}

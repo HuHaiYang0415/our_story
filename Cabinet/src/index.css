@@ -90,27 +90,45 @@
     border-bottom-width: 12px;
   }
 
-  /* 展柜顶板：仅顶条为木纹棕色（与图2一致），非整柜铺满 */
+  /* 展柜顶板：略宽于腔体；夜间微光见 [data-theme='night'] */
   .cabinet-wood-top {
     height: 14px;
     flex-shrink: 0;
+    width: calc(100% + 10px);
+    margin-inline: -5px;
     border-radius: 9999px;
     border: 1px solid #3e2715;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 1px 2px rgba(45, 36, 30, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   @media (min-width: 768px) {
     .cabinet-wood-top {
       height: 16px;
+      width: calc(100% + 14px);
+      margin-inline: -7px;
     }
   }
 
-  /* 腔体：不透明灰底，避免下层木纹透出成竖条 */
+  /* 腔体：淡淡展柜色（外/内框仍透明）；层板厚度在 border-bottom */
   .cabinet-shelf-cavity {
-    background-color: rgba(0, 0, 0, 0.28);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    background-color: rgba(140, 98, 57, 0.1);
+    border-bottom-color: #5a3e23;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  [data-theme='night'] .cabinet-wood-top {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 2px 10px rgba(251, 191, 36, 0.28),
+      0 4px 18px rgba(245, 158, 11, 0.14);
+  }
+
+  [data-theme='night'] .cabinet-shelf-cavity {
+    background-color: rgba(30, 22, 14, 0.42);
+    border-bottom-color: #6d4c2b;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 6px 14px -4px rgba(251, 191, 36, 0.32);
   }
 
   @media (max-width: 768px) {
