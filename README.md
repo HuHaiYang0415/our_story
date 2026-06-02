@@ -4,7 +4,7 @@
 
 ## 在线访问
 
-推送后在 GitHub 仓库 Settings → Pages → Source 选 **master** 分支、根目录 `/`。
+推送前在 `Cabinet` 执行 `npm run build:site`，将构建产物推到仓库根目录后，在 GitHub Pages 选择 **master** 分支、根目录 `/`。
 
 ## 本地开发
 
@@ -14,21 +14,31 @@ npm install
 npm run dev
 ```
 
-## 构建并更新站点根目录
+- 展柜：http://localhost:3000  
+- 520：http://localhost:3000/20260520/（读源码目录，无需根目录 `20260520/`）
+
+## 构建发布
 
 ```bash
 cd Cabinet
 npm run build:site
 ```
 
-会更新根目录的 `index.html` 与 `assets/`。
+会在 **仓库根目录** 生成（已 `.gitignore`，勿手改、勿提交）：
 
-## 目录
+| 生成路径 | 源码位置 |
+|----------|----------|
+| `index.html`、`assets/` | Vite 打包 |
+| `image/` | `Cabinet/src/pages/letters/assets/stamps/` |
+| `20260520/` | `Cabinet/src/pages/letters/interactive/520/` |
+| `202660520/index.html` | 构建脚本生成的旧链接跳转 |
+
+部署 Pages 时需包含上述生成结果；本地双击预览前也需先执行一次 `build:site`。
+
+## 仓库内主要目录
 
 | 路径 | 说明 |
 |------|------|
-| `index.html` | 展柜入口（构建产物） |
-| `assets/` | 打包后的 JS/CSS |
-| `Cabinet/` | React 源码 |
-| `202660520/` | 520 互动 H5（URL 路径：`…/our_story/202660520/`） |
-| `companion-520/` | 旧路径重定向（兼容旧链接） |
+| `Cabinet/` | React 与 520 源码（唯一维护入口） |
+| `companion-520/` | 更旧 URL 跳转到 `20260520/` |
+| `story/` | 独立长叙事 H5（可选） |

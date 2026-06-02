@@ -22,3 +22,15 @@ Thumbs.db
 # Editor
 .idea/
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+
+# 旧路径误复制的节日原图（源码在 Cabinet/src/pages/...）
+/src/
+
+# build:site 生成到站点根（源码在 Cabinet/src/...）
+/image/
+/20260520/
+/202660520/

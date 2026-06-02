@@ -11,9 +11,9 @@ from PIL import Image
 
 CABINET_ROOT = Path(__file__).resolve().parent.parent
 FESTIVAL_IMAGE_DIR = (
-    CABINET_ROOT / "src/components/2026/Festival_2026_ChildrenDay/image"
+    CABINET_ROOT / "src/pages/festivals/2026/children-day/images"
 )
-STAMP_IMAGE_DIR = CABINET_ROOT / "image"
+STAMP_IMAGE_DIR = CABINET_ROOT / "src/pages/letters/assets/stamps"
 ICON_PATHS = [
     CABINET_ROOT / "public/icon.png",
     CABINET_ROOT.parent / "icon.png",
@@ -24,17 +24,17 @@ STAMP_JPEG_QUALITY = 85
 
 # Longest side limits tuned to actual UI display sizes (@2x retina headroom).
 MAX_SIDE_RULES: list[tuple[str, int]] = [
-    ("gameMemory/", 256),
-    ("gameWhackAMole/mole_game_background.jpg", 768),
-    ("gameWhackAMole/", 512),
-    ("room_background.jpg", 1024),
-    ("room_background.png", 1536),
-    ("card_box.png", 512),
+    ("memory/", 256),
+    ("whack-a-mole/mole_game_background.jpg", 768),
+    ("whack-a-mole/", 512),
+    ("room/room_background.jpg", 1024),
+    ("room/room_background.png", 1536),
+    ("room/card_box.png", 512),
 ]
 
 JPEG_QUALITY_RULES: list[tuple[str, int]] = [
-    ("room_background.jpg", 82),
-    ("gameWhackAMole/mole_game_background.jpg", 82),
+    ("room/room_background.jpg", 82),
+    ("whack-a-mole/mole_game_background.jpg", 82),
 ]
 DEFAULT_JPEG_QUALITY = 85
 

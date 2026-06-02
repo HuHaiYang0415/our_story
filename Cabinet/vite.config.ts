@@ -5,8 +5,14 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
-  const interactiveDir = path.resolve(__dirname, '../202660520');
-  const cabinetImageDir = path.resolve(__dirname, 'image');
+  const interactiveDir = path.resolve(
+    __dirname,
+    'src/pages/letters/interactive/520',
+  );
+  const stampImageDir = path.resolve(
+    __dirname,
+    'src/pages/letters/assets/stamps',
+  );
 
   return {
     base: './',
@@ -18,13 +24,13 @@ export default defineConfig(() => {
         configureServer(server) {
           import('sirv').then(({ default: sirv }) => {
             server.middlewares.use(
-              '/202660520',
+              '/20260520',
               sirv(interactiveDir, { dev: true, single: false }),
             );
-            if (fs.existsSync(cabinetImageDir)) {
+            if (fs.existsSync(stampImageDir)) {
               server.middlewares.use(
                 '/image',
-                sirv(cabinetImageDir, { dev: true, single: false }),
+                sirv(stampImageDir, { dev: true, single: false }),
               );
             }
           }).catch(() => {
@@ -35,7 +41,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
     server: {

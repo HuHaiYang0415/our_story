@@ -2,21 +2,13 @@
 
 ## 直接打开 index.html 查看（推荐）
 
-在项目目录执行一次构建并发布到上级 `demo` 目录：
-
 ```bash
 cd Cabinet
 npm install
 npm run build:site
 ```
 
-然后双击打开：
-
-**`demo/index.html`**
-
-（不是 `Cabinet/index.html`，那是开发入口，浏览器无法直接运行。）
-
-构建后会使用相对路径打包 JS/CSS，可直接 `file://` 打开；同级需保留 **`202660520/`** 文件夹（520 互动页）。
+然后双击 **`demo/index.html`**（不是 `Cabinet/index.html`）。
 
 ## 本地开发
 
@@ -25,36 +17,38 @@ cd Cabinet
 npm run dev
 ```
 
-访问 http://localhost:3000
+- 展柜：http://localhost:3000  
+- 520 互动：http://localhost:3000/20260520/
 
-## 重新构建
+## 源码结构（`src/`）
 
-修改代码后再次执行：
+| 路径 | 说明 |
+|------|------|
+| `app/` | 路由壳、`App.tsx` |
+| `pages/cabinet/` | 展柜主页 |
+| `pages/letters/` | 时光信箱、邮票、`interactive/520/` |
+| `pages/gallery/` | 流光相册盒 |
+| `pages/festivals/` | 节日风物志、儿童节等 |
+| `shared/` | 主题、类型、全站配置 |
+| `data/` | 节气、节假日 JSON |
 
-```bash
-npm run build:site
-```
+## 构建发布
 
-## Gitee Pages 部署
+`npm run build:site` 会在上级 `demo/` 根目录**生成**（不提交 Git）：
 
-1. 执行 `npm run build:site`
-2. 将 **`demo/` 根目录** 下这些内容推送到 Pages 仓库：
-   - `index.html`
-   - `assets/`
-   - `202660520/`
-   - `companion-520/`（可选，旧链接自动跳转到 `202660520/`）
-3. 若 Pages 地址带仓库名（如 `https://用户名.gitee.io/仓库名/`），在 `vite.config.ts` 里把 `base: './'` 改为 `base: '/仓库名/'` 后重新 `npm run build:site`
+1. `index.html` + `assets/` — Vite 打包  
+2. `image/` — 来自 `src/pages/letters/assets/stamps/`  
+3. `20260520/` — 来自 `src/pages/letters/interactive/520/`  
+4. `202660520/index.html` — 旧错误路径跳转页
 
-## 信封邮票图
+## 信封邮票
 
-每封信均有 **4:3** 空白占位框。将图片放入 `Cabinet/image/`，按信封 `id` 命名：
+放入 `src/pages/letters/assets/stamps/`：
 
-- `stamp-letter-520.jpg` — 520 信封
-- `stamp-letter-pending.jpg` — 未完待续
-
-执行 `npm run build:site` 后随站点发布。无图片时显示空白虚线框。
+- `stamp-letter-520.jpg`
+- `stamp-letter-pending.jpg`
 
 ## 路径说明
 
-- 展柜 → 信盒 → 2026.05.20 信封 → `202660520/`（线上如 `…/our_story/202660520/`）
-- 520 页「返回」→ 回到信盒（`#envelopes`）
+- 展柜 → 信盒 → 2026.05.20 信封 → `20260520/`
+- 520 页「返回」→ 信盒（`#envelopes`）

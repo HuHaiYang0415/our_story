@@ -42,24 +42,48 @@ if (!fs.existsSync(distDir)) {
 cleanSiteAssets();
 copyDir(distDir, siteRoot);
 
-const cabinetImageDir = path.join(cabinetRoot, 'image');
-if (fs.existsSync(cabinetImageDir)) {
-  syncDir(cabinetImageDir, path.join(siteRoot, 'image'));
-  console.log('已复制 Cabinet/image/ -> 站点根目录 image/');
+const stampSourceDir = path.join(
+  cabinetRoot,
+  'src/pages/letters/assets/stamps',
+);
+if (fs.existsSync(stampSourceDir)) {
+  syncDir(stampSourceDir, path.join(siteRoot, 'image'));
+  console.log('已复制信件邮票 -> 站点根目录 image/');
 }
 
-const festivalImageDir = path.join(
+const interactive520Dir = path.join(
   cabinetRoot,
-  'src/components/2026/Festival_2026_ChildrenDay/image',
+  'src/pages/letters/interactive/520',
 );
-if (fs.existsSync(festivalImageDir)) {
-  const dest = path.join(
-    siteRoot,
-    'src/components/2026/Festival_2026_ChildrenDay/image',
-  );
-  syncDir(festivalImageDir, dest);
-  console.log('已复制节日页图片 -> src/components/2026/Festival_2026_ChildrenDay/image/');
+if (fs.existsSync(interactive520Dir)) {
+  syncDir(interactive520Dir, path.join(siteRoot, '20260520'));
+  console.log('已复制 520 互动页 -> 站点根目录 20260520/');
+} else {
+  console.warn('未找到 520 源码: src/pages/letters/interactive/520/');
 }
+
+/** 旧错误路径 202660520 → 20260520（仅构建时生成，不纳入 Git） */
+const legacyRedirectDir = path.join(siteRoot, '202660520');
+const legacyRedirectHtml = path.join(legacyRedirectDir, 'index.html');
+const legacyRedirectBody = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=../20260520/">
+  <link rel="canonical" href="../20260520/">
+  <title>正在跳转…</title>
+  <script>
+    location.replace('../20260520/' + (location.search || '') + (location.hash || ''));
+  </script>
+</head>
+<body>
+  <p>路径已更正为 20260520，<a href="../20260520/">点此进入</a></p>
+</body>
+</html>
+`;
+fs.mkdirSync(legacyRedirectDir, { recursive: true });
+fs.writeFileSync(legacyRedirectHtml, legacyRedirectBody, 'utf8');
+console.log('已生成旧路径跳转 -> 202660520/index.html');
 
 console.log(`已发布到: ${siteRoot}`);
 console.log('请双击打开: index.html');
