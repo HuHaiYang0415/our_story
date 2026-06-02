@@ -142,11 +142,19 @@
     min-height: 0;
   }
 
+  /* 标题区：沿用 max-w-4xl 阅读宽度，不收窄 */
+  .stage-header {
+    width: 100%;
+    max-width: 56rem;
+    margin-inline: auto;
+    flex-shrink: 0;
+  }
+
   /*
-   * 展柜主内容窄栏：标题 + 木柜共用；两侧留白由 stage-main 的 px 与本宽度共同决定
-   * 42rem ≈ Tailwind max-w-2xl；小屏再收 1.5rem 避免贴边
+   * 木柜窄栏：仅包裹 wooden-cabinet；两侧留白由 stage-main 的 px 与本宽度共同决定
+   * 42rem ≈ max-w-2xl；小屏再收 1.5rem 避免贴边
    */
-  .stage-content {
+  .stage-cabinet {
     width: min(42rem, calc(100% - 1.5rem));
     max-width: 100%;
     margin-inline: auto;

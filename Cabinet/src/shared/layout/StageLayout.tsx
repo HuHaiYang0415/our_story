@@ -13,7 +13,8 @@ export interface StageLayoutProps {
 /**
  * 展柜舞台骨架：
  * - stage-main：全宽主区 + 横向安全边距
- * - stage-content：展柜/标题窄栏（宽度见 index.css `.stage-content`）
+ * - stage-header：标题区（可选，见 `.stage-header`）
+ * - stage-cabinet：木柜窄栏（用 StageCabinet 包裹，见 `.stage-cabinet`）
  * - stage-floor：花草/水面 SVG，全宽无底色容器
  * - stage-footer：absolute bottom-3 叠在花草带上方（z-35）
  */
@@ -56,7 +57,7 @@ export function StageLayout({
       foot={foot}
     >
       <div className="stage-main flex min-h-full w-full flex-1 flex-col px-5 pt-3 pb-0 sm:px-6 md:px-8 md:pt-5">
-        <div className="stage-content flex w-full flex-col">{children}</div>
+        {children}
         <div className="stage-cabinet-gap min-h-6 flex-1 shrink-0" aria-hidden />
       </div>
     </ViewportShell>

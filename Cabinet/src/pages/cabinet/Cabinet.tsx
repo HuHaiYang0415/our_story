@@ -2,7 +2,7 @@
 import { motion } from 'motion/react';
 import { Heart, Key, Volume2, VolumeX, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
-import { StageLayout } from '@/shared/layout/StageLayout';
+import { StageLayout, StageCabinet } from '@/shared/layout';
 import { startCricketSounds, stopCricketSounds } from '@/shared/utils/cricketSounds';
 import { FestiveHourglass } from './components/FestiveHourglass';
 import { getCabinetFooterStyle } from './cabinetFooterStyles';
@@ -70,7 +70,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
       }
     >
       {/* Header Section: Reduced padding to bring the cabinet closer to the title */}
-      <header className="w-full pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
+      <header className="stage-header w-full pt-2 pb-2 md:pt-4 md:pb-3 px-2 md:px-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 z-20 border-b border-[#E5DACE]/60" id="cabinet-title-section">
         <div className="space-y-1.5 w-full md:w-auto">
           <div className="flex flex-wrap items-center gap-2">
             <motion.div 
@@ -158,6 +158,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
       </header>
 
       {/* Wooden Cabinet Structure: Shrunk boxes, raised row container heights, closer to the header */}
+      <StageCabinet>
       <motion.div
         animate={boxInFocus ? {
           scale: 2.3,
@@ -337,6 +338,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
 
         </div>
       </motion.div>
+      </StageCabinet>
     </StageLayout>
   );
 }
