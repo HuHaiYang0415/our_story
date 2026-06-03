@@ -194,10 +194,11 @@
     z-index: 20;
   }
 
-  /* 贴边装饰：左下对齐 gap 底边（花草带上方），兼容 safe-area */
+  /* 贴边装饰：垂直居中 gap 容器，兼容 safe-area */
   .stage-edge-deco {
     position: absolute;
-    bottom: 0;
+    top: 50%;
+    transform: translateY(-50%);
     left: max(0px, env(safe-area-inset-left, 0px));
     pointer-events: none;
   }

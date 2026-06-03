@@ -104,16 +104,20 @@ export function layoutFirefly(index: number): FireflyLayout {
 export const FIREFLY_COUNT = 20;
 
 /**
- * 飞燕路径：left/top 相对大气层；轨迹整体上移，最低点不低于展柜顶沿（约视口 30% 以内）。
+ * 飞燕路径：left/top 相对大气层；7 关键帧宽 sweep，在 header 与展柜之间（约 6–14%）。
  */
 export const SWALLOW_FLIGHT_1 = {
-  left: ['8%', '42%', '76%', '52%', '22%', '8%'],
-  top: ['10%', '5%', '14%', '4%', '8%', '10%'],
-  rotate: [15, -10, 45, -30, 25, 15],
+  left: ['20%', '48%', '78%', '85%', '52%', '20%', '20%'],
+  top: ['11%', '14%', '8%', '6%', '13%', '11%', '11%'],
+  rotate: [15, 5, -25, -10, 15, 15, 15],
 } as const;
 
+export const SWALLOW_FLIGHT_1_TIMES = [0, 0.18, 0.32, 0.45, 0.68, 0.85, 1.0] as const;
+
 export const SWALLOW_FLIGHT_2 = {
-  left: ['72%', '44%', '12%', '38%', '78%', '72%'],
-  top: ['5%', '13%', '4%', '9%', '5%', '5%'],
-  rotate: [-20, 30, -45, 10, -10, -20],
+  left: ['16%', '42%', '75%', '81%', '81%', '55%', '16%'],
+  top: ['13%', '9%', '7%', '12%', '12%', '14%', '13%'],
+  rotate: [-10, 20, -15, 25, 25, -20, -10],
 } as const;
+
+export const SWALLOW_FLIGHT_2_TIMES = [0, 0.12, 0.25, 0.35, 0.45, 0.72, 1.0] as const;

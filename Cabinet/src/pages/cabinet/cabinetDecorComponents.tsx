@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { SWALLOW_FLIGHT_1, SWALLOW_FLIGHT_2 } from '@/shared/motion/stageMotion';
+import { SWALLOW_FLIGHT_1, SWALLOW_FLIGHT_1_TIMES, SWALLOW_FLIGHT_2, SWALLOW_FLIGHT_2_TIMES } from '@/shared/motion/stageMotion';
 // ----------------------------------------------------------------------
 // High-Quality Optimized Vector Decors (SVG + CSS Animations)
 // ----------------------------------------------------------------------
@@ -347,6 +347,7 @@ export const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
               duration: 14,
               repeat: Infinity,
               ease: 'easeInOut',
+              times: [...SWALLOW_FLIGHT_1_TIMES],
             }}
           >
             <svg className="w-full h-full text-slate-800" viewBox="0 0 60 60" fill="currentColor">
@@ -401,10 +402,10 @@ export const SpringSwallows = ({ isNight }: { isNight: boolean }) => {
               rotate: [...SWALLOW_FLIGHT_2.rotate],
             }}
             transition={{
-              duration: 11.5,
+              duration: 14,
               repeat: Infinity,
               ease: 'easeInOut',
-              delay: 3,
+              times: [...SWALLOW_FLIGHT_2_TIMES],
             }}
           >
             <svg className="w-full h-full text-slate-800" viewBox="0 0 60 60" fill="currentColor">

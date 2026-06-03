@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Heart, Key, Volume2, VolumeX, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
@@ -24,13 +24,47 @@ interface CabinetProps {
 }
 
 /** 每层腔体（仅 bg-black/25 透明灰区）；顶板/层板为棕色，不计入此高度 */
-const SHELF_CAVITY_H = 'h-[96px] sm:h-[117px] md:h-[112px]';
-
-const SHELF_CAVITY_CLASS = `cabinet-shelf-cavity relative ${SHELF_CAVITY_H} w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12`;
+const SHELF_CAVITY_CLASS = `cabinet-shelf-cavity relative w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12`;
 
 export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage, theme }: CabinetProps) {
   const [boxInFocus, setBoxInFocus] = useState<string | null>(null);
   const [cricketsEnabled, setCricketsEnabled] = useState(true);
+
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1024,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800,
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const referenceHeight = 820; // 视口正常基准高度
+  const scale = Math.max(0.62, Math.min(1, windowDimensions.height / referenceHeight));
+  
+  const baseCavityHeight = 
+    windowDimensions.width >= 768 ? 112 : 
+    windowDimensions.width >= 640 ? 117 : 96;
+  const cavityH = Math.round(baseCavityHeight * scale);
+
+  const isDesktop = windowDimensions.width >= 768;
+  const flytrapH = (isDesktop ? 88 : 64) * scale;
+  const envelopesH = (isDesktop ? 72 : 58) * scale;
+  const kittyH = (isDesktop ? 96 : 80) * scale;
+  const goldfishH = (isDesktop ? 72 : 56) * scale;
+  const photosH = (isDesktop ? 72 : 58) * scale;
+  const hourglassH = (isDesktop ? 72 : 56) * scale;
+  const lemontreeH = (isDesktop ? 96 : 72) * scale;
+  const futureH = (isDesktop ? 72 : 58) * scale;
+  const spacerH = 8 * scale;
 
   useEffect(() => {
     if (theme.season === 'summer' && theme.isNight && cricketsEnabled) {
@@ -181,9 +215,9 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
           aria-hidden
         >
           <div className="cabinet-wood-top wood-pattern" />
-          <div className={SHELF_CAVITY_H} />
-          <div className={SHELF_CAVITY_H} />
-          <div className={SHELF_CAVITY_H} />
+          <div style={{ height: `${cavityH}px` }} />
+          <div style={{ height: `${cavityH}px` }} />
+          <div style={{ height: `${cavityH}px` }} />
         </div>
 
         {/* 外框棕色；顶板+层板为木条；层间 gap 露出页面底色（图2）；腔体仅灰色区域 */}
@@ -194,14 +228,16 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
           <div className="cabinet-wood-top wood-pattern relative z-[1] shrink-0" />
 
           {/* LAYER 1 (Top Shelf) */}
-          <div className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0 rounded-t-lg`} id="shelf-layer-1">
-            <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">1st Tier · 信笺</span>
+          <div style={{ height: `${cavityH}px` }} className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0 rounded-t-lg`} id="shelf-layer-1">
+            <span className={`absolute top-2 left-3 text-[8px] md:text-[9px] uppercase tracking-widest font-mono transition-colors duration-300 ${
+              theme.isNight ? 'text-amber-100/40' : 'text-[#5A3E23]/60'
+            }`}>1st Tier · 信笺</span>
             
-            <div className="flex justify-start items-end mb-0.5">
+            <div className="flex justify-start items-end mb-0.5" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom left', height: `${flytrapH}px` }}>
               <VenusFlyTrap />
             </div>
 
-            <div className="flex justify-center items-end relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${envelopesH}px` }}>
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('envelopes', true)}
@@ -231,20 +267,22 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-0.5">
+            <div className="flex justify-end items-end mb-0.5" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${kittyH}px` }}>
               <HelloKittyDoll />
             </div>
           </div>
 
           {/* LAYER 2 (Middle Shelf) */}
-          <div className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0`} id="shelf-layer-2">
-            <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">2nd Tier · 相册</span>
+          <div style={{ height: `${cavityH}px` }} className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0`} id="shelf-layer-2">
+            <span className={`absolute top-2 left-3 text-[8px] md:text-[9px] uppercase tracking-widest font-mono transition-colors duration-300 ${
+              theme.isNight ? 'text-amber-100/40' : 'text-[#5A3E23]/60'
+            }`}>2nd Tier · 相册</span>
             
-            <div className="flex justify-start items-end mb-0.5">
+            <div className="flex justify-start items-end mb-0.5" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom left', height: `${goldfishH}px` }}>
               <GoldfishBowl />
             </div>
 
-            <div className="flex justify-center items-end relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${photosH}px` }}>
               <motion.div
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('photos', true)}
@@ -274,7 +312,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-1">
+            <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${hourglassH}px` }}>
               <FestiveHourglass
                 onEnterFestivalArchive={onEnterFestivalArchive}
                 onEnterFestivalPage={onEnterFestivalPage}
@@ -283,14 +321,16 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
           </div>
 
           {/* LAYER 3 (Bottom Shelf) */}
-          <div className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0 rounded-b-lg`} id="shelf-layer-3">
-            <span className="absolute top-2 left-3 text-[8px] md:text-[9px] text-amber-100/40 uppercase tracking-widest font-mono">3rd Tier · 珍藏</span>
+          <div style={{ height: `${cavityH}px` }} className={`${SHELF_CAVITY_CLASS} relative z-[1] shrink-0 rounded-b-lg`} id="shelf-layer-3">
+            <span className={`absolute top-2 left-3 text-[8px] md:text-[9px] uppercase tracking-widest font-mono transition-colors duration-300 ${
+              theme.isNight ? 'text-amber-100/40' : 'text-[#5A3E23]/60'
+            }`}>3rd Tier · 珍藏</span>
             
-            <div className="flex justify-start items-end mb-0.5">
+            <div className="flex justify-start items-end mb-0.5" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom left', height: `${lemontreeH}px` }}>
               <LemonTree />
             </div>
 
-            <div className="flex justify-center items-end relative mb-0.5 group">
+            <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${futureH}px` }}>
               <div
                 className="w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-md bg-gradient-to-b from-[#A69580] to-[#736353] border border-[#594d40] relative flex flex-col justify-center items-center p-2 opacity-95 select-none"
                 id="wooden-box-future"
@@ -314,7 +354,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-1">
+            <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${spacerH}px` }}>
               <div className="w-10 h-2 bg-[#5A3E23]/20" />
             </div>
           </div>
