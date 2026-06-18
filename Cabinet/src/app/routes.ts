@@ -1,10 +1,13 @@
+import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
+
 export type ViewState =
   | 'cabinet'
   | 'box-envelopes'
   | 'letter-520'
   | 'box-photos'
   | 'festival-archive'
-  | 'festival-2026-ChildrenDay';
+  | 'festival-2026-ChildrenDay'
+  | 'festival-2026-DragonBoat';
 
 export const VIEW_HASH: Record<ViewState, string> = {
   cabinet: '',
@@ -13,6 +16,7 @@ export const VIEW_HASH: Record<ViewState, string> = {
   'box-photos': '#photos',
   'festival-archive': '#festivals',
   'festival-2026-ChildrenDay': '#festivals/children-day',
+  'festival-2026-DragonBoat': '#festivals/dragon-boat-2026',
 };
 
 export function viewFromHash(): ViewState {
@@ -22,5 +26,8 @@ export function viewFromHash(): ViewState {
   if (hash === '#photos') return 'box-photos';
   if (hash === '#festivals') return 'festival-archive';
   if (hash === '#festivals/children-day') return 'festival-2026-ChildrenDay';
+  if (hash === '#festivals/dragon-boat-2026') {
+    return canAccessDragonBoat2026() ? 'festival-2026-DragonBoat' : 'festival-archive';
+  }
   return 'cabinet';
 }

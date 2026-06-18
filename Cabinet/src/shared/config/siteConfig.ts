@@ -18,7 +18,8 @@ export type AppView =
   | 'letter-520'
   | 'box-photos'
   | 'festival-archive'
-  | 'festival-2026-ChildrenDay';
+  | 'festival-2026-ChildrenDay'
+  | 'festival-2026-DragonBoat';
 
 const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   cabinet: null,
@@ -27,6 +28,7 @@ const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   'box-photos': '流光相册盒',
   'festival-archive': '节日风物志',
   'festival-2026-ChildrenDay': '2026 儿童节',
+  'festival-2026-DragonBoat': '2026 端午节',
 };
 
 export function getPageTitle(view: AppView, suffix?: string | null): string {

@@ -3,12 +3,70 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, ChevronRight, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
+import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
+import { DRAGON_BOAT_2026_RELEASE } from '@/pages/festivals/2026/dragon-boat/visibility';
 
-const CHILDREN_DAY_2026 = {
-  name: '儿童节',
-  date: '2026-06-01',
-  pageId: '2026_ChildrenDay',
+type FestivalStatus = 'passed' | 'today' | 'upcoming';
+
+type FestivalCardItem = {
+  name: string;
+  dateStr: string;
+  kind: string;
+  kindTag: string;
+  badge: string;
+  status: FestivalStatus;
+  countdownDays: number;
+  pageId: string;
+  accentToday: 'rose' | 'emerald';
 };
+
+function computeFestivalStatus(dateStr: string): {
+  status: FestivalStatus;
+  countdownDays: number;
+} {
+  const todayMidnight = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate(),
+  ).getTime();
+
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const festMidnight = new Date(y, m - 1, d).getTime();
+
+  if (todayMidnight === festMidnight) {
+    return { status: 'today', countdownDays: 0 };
+  }
+  if (todayMidnight > festMidnight) {
+    return { status: 'passed', countdownDays: 0 };
+  }
+  return {
+    status: 'upcoming',
+    countdownDays: Math.round((festMidnight - todayMidnight) / (1000 * 60 * 60 * 24)),
+  };
+}
+
+const ARCHIVE_FESTIVALS = [
+  {
+    name: '儿童节',
+    date: '2026-06-01',
+    pageId: '2026_ChildrenDay',
+    kind: '公历',
+    kindTag: '阳历',
+    badge: '交互页',
+    accentToday: 'rose' as const,
+    isVisible: () => true,
+  },
+  {
+    name: '端午节',
+    date: DRAGON_BOAT_2026_RELEASE,
+    pageId: '2026_DragonBoatFestival',
+    kind: '农历 · 五月初五',
+    kindTag: '农历',
+    badge: '记胜页',
+    accentToday: 'emerald' as const,
+    isVisible: canAccessDragonBoat2026,
+  },
+];
 
 export default function FestivalArchive({
   onBackToCabinet,
@@ -34,36 +92,21 @@ export default function FestivalArchive({
     };
   }, []);
 
-  const festivalItem = useMemo(() => {
-    const todayMidnight = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate(),
-    ).getTime();
-
-    const [y, m, d] = CHILDREN_DAY_2026.date.split('-').map(Number);
-    const festMidnight = new Date(y, m - 1, d).getTime();
-
-    let status: 'passed' | 'today' | 'upcoming' = 'upcoming';
-    let countdownDays = 0;
-
-    if (todayMidnight === festMidnight) {
-      status = 'today';
-    } else if (todayMidnight > festMidnight) {
-      status = 'passed';
-    } else {
-      countdownDays = Math.round((festMidnight - todayMidnight) / (1000 * 60 * 60 * 24));
-    }
-
-    return {
-      name: CHILDREN_DAY_2026.name,
-      dateStr: CHILDREN_DAY_2026.date,
-      kind: '公历',
-      rawKind: 'solar' as const,
-      status,
-      countdownDays,
-      pageId: CHILDREN_DAY_2026.pageId,
-    };
+  const festivalItems = useMemo((): FestivalCardItem[] => {
+    return ARCHIVE_FESTIVALS.filter((f) => f.isVisible()).map((f) => {
+      const { status, countdownDays } = computeFestivalStatus(f.date);
+      return {
+        name: f.name,
+        dateStr: f.date,
+        kind: f.kind,
+        kindTag: f.kindTag,
+        badge: f.badge,
+        status,
+        countdownDays,
+        pageId: f.pageId,
+        accentToday: f.accentToday,
+      };
+    });
   }, []);
 
   return (
@@ -82,6 +125,7 @@ export default function FestivalArchive({
       <div className="w-full max-w-4xl z-10 flex flex-col items-center">
         <div className="w-full flex justify-between items-center mb-6 md:mb-8 border-b border-[#8C6239]/15 pb-4">
           <button
+            type="button"
             onClick={onBackToCabinet}
             className="flex items-center space-x-1 px-4 py-2 rounded-full border border-[#8C6239]/30 hover:bg-[#8C6239]/10 text-[#5A3E23] text-xs font-serif font-bold transition-all active:scale-95 cursor-pointer"
           >
@@ -129,61 +173,73 @@ export default function FestivalArchive({
           </div>
         </div>
 
-        <div className="w-full mb-10 max-w-sm" id="festival-archive-grids-container">
-          <motion.div
-            whileHover={{ y: -3, scale: 1.01 }}
-            onClick={() => onEnterFestivalPage(festivalItem.pageId)}
-            className={`rounded-2xl border p-4 bg-white relative flex flex-col justify-between items-start transition-all duration-200 shadow-xs select-none group/card overflow-hidden cursor-pointer hover:border-[#8C6239]/45 hover:shadow-md ${
-              festivalItem.status === 'today'
-                ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
-                : 'border-stone-200/90'
-            }`}
-          >
-            <div className="w-full">
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-[8px] px-1.5 py-0.5 rounded-sm bg-stone-100 border border-stone-200/60 font-serif text-stone-500 scale-90 origin-left">
-                  {festivalItem.kind} &bull; 阳历
-                </span>
+        <div
+          className="mb-10 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2"
+          id="festival-archive-grids-container"
+        >
+          {festivalItems.map((festivalItem) => {
+            const todayRing =
+              festivalItem.status === 'today' && festivalItem.accentToday === 'emerald'
+                ? 'border-emerald-300 ring-2 ring-emerald-100 shadow-md ring-offset-1 bg-[#F7FDF9]'
+                : festivalItem.status === 'today'
+                  ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
+                  : 'border-stone-200/90';
 
-                {festivalItem.status === 'today' && (
-                  <span className="text-[8px] px-2 py-0.5 rounded-full bg-red-500 text-white font-serif font-black flex items-center gap-0.5 animate-pulse">
-                    <Sparkles className="w-2.5 h-2.5" /> 今日庆典
+            return (
+              <motion.button
+                key={festivalItem.pageId}
+                type="button"
+                whileHover={{ y: -3, scale: 1.01 }}
+                onClick={() => onEnterFestivalPage(festivalItem.pageId)}
+                className={`rounded-2xl border p-4 bg-white relative flex flex-col justify-between items-start text-left transition-all duration-200 shadow-xs select-none group/card overflow-hidden cursor-pointer hover:border-[#8C6239]/45 hover:shadow-md ${todayRing}`}
+              >
+                <div className="w-full">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-[8px] px-1.5 py-0.5 rounded-sm bg-stone-100 border border-stone-200/60 font-serif text-stone-500 scale-90 origin-left">
+                      {festivalItem.kind} &bull; {festivalItem.kindTag}
+                    </span>
+
+                    {festivalItem.status === 'today' && (
+                      <span className="text-[8px] px-2 py-0.5 rounded-full bg-red-500 text-white font-serif font-black flex items-center gap-0.5 animate-pulse">
+                        <Sparkles className="w-2.5 h-2.5" /> 今日庆典
+                      </span>
+                    )}
+
+                    {festivalItem.status === 'passed' && (
+                      <span className="text-[8px] px-2 py-0.5 rounded-full bg-stone-100 text-stone-400 font-serif">
+                        已流逝
+                      </span>
+                    )}
+
+                    {festivalItem.status === 'upcoming' && (
+                      <span className="text-[8px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 font-mono font-medium">
+                        {festivalItem.countdownDays} 天后
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="text-base font-serif font-black text-[#5A3E23] mb-1 group-hover/card:text-[#8C6239] transition-colors flex items-center gap-1 flex-wrap">
+                    <span>{festivalItem.name}</span>
+                    <span className="text-[10px] scale-90 px-1.5 py-0.2 rounded-md bg-stone-900 text-amber-300 font-sans tracking-tight leading-none text-center">
+                      {festivalItem.badge}
+                    </span>
+                  </h3>
+
+                  <div className="flex items-center text-[10px] text-stone-400 font-mono space-x-1 mt-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-stone-300" />
+                    <span>{festivalItem.dateStr}</span>
+                  </div>
+                </div>
+
+                <div className="w-full border-t border-stone-100/80 pt-2.5 mt-3 flex justify-between items-center text-[9px]">
+                  <span className="text-[#8C6239] font-serif font-bold flex items-center space-x-0.5">
+                    <span>进入交互纪念馆</span>
+                    <ChevronRight className="w-3 h-3 group-hover/card:translate-x-1 transition-transform" />
                   </span>
-                )}
-
-                {festivalItem.status === 'passed' && (
-                  <span className="text-[8px] px-2 py-0.5 rounded-full bg-stone-100 text-stone-400 font-serif">
-                    已流逝
-                  </span>
-                )}
-
-                {festivalItem.status === 'upcoming' && (
-                  <span className="text-[8px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 font-mono font-medium">
-                    {festivalItem.countdownDays} 天后
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-base font-serif font-black text-[#5A3E23] mb-1 group-hover/card:text-[#8C6239] transition-colors flex items-center gap-1">
-                <span>{festivalItem.name}</span>
-                <span className="text-[10px] scale-90 px-1.5 py-0.2 rounded-md bg-stone-900 text-amber-300 font-sans tracking-tight leading-none text-center">
-                  交互页
-                </span>
-              </h3>
-
-              <div className="flex items-center text-[10px] text-stone-400 font-mono space-x-1 mt-1.5">
-                <Calendar className="w-3.5 h-3.5 text-stone-300" />
-                <span>{festivalItem.dateStr}</span>
-              </div>
-            </div>
-
-            <div className="w-full border-t border-stone-100/80 pt-2.5 mt-3 flex justify-between items-center text-[9px]">
-              <span className="text-[#8C6239] font-serif font-bold flex items-center space-x-0.5">
-                <span>进入交互纪念馆</span>
-                <ChevronRight className="w-3 h-3 group-hover/card:translate-x-1 transition-transform" />
-              </span>
-            </div>
-          </motion.div>
+                </div>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </div>

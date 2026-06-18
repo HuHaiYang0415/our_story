@@ -975,7 +975,7 @@ export function FestiveHourglass({
       const activeYear = currentDate.getFullYear();
       const engName = HOLIDAY_MAP_TO_ENGLISH[activeHolidayName] || '';
       const pageId = `${activeYear}_${engName}`;
-      const BUILT_PAGES = ['2026_ChildrenDay'];
+      const BUILT_PAGES = ['2026_ChildrenDay', '2026_DragonBoatFestival'];
       if (BUILT_PAGES.includes(pageId)) {
         onEnterFestivalPage(pageId);
       } else {

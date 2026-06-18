@@ -3,6 +3,7 @@ import React from 'react';
 export interface ViewportShellProps {
   id?: string;
   className?: string;
+  style?: React.CSSProperties;
   overlay?: React.ReactNode;
   foot?: React.ReactNode;
   children: React.ReactNode;
@@ -14,6 +15,7 @@ export interface ViewportShellProps {
 export function ViewportShell({
   id,
   className = '',
+  style,
   overlay,
   foot,
   children,
@@ -21,6 +23,7 @@ export function ViewportShell({
   return (
     <div
       id={id}
+      style={style}
       className={[
         'viewport-shell relative flex h-full w-full min-h-0 flex-col overflow-hidden bg-brand-bg text-brand-text',
         className,

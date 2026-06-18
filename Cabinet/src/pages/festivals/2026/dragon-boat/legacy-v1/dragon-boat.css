@@ -1,0 +1,15 @@
+@media (prefers-reduced-motion: reduce) {
+  .boat-container-1,
+  .boat-container-2,
+  .boat-container-3,
+  .boat-container-1 *,
+  .boat-container-2 *,
+  .boat-container-3 * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+#dragon-boat-lookout-stage {
+  isolation: isolate;
+}

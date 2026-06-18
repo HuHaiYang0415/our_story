@@ -3,11 +3,13 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Sun, Moon, Calendar } from 'lucide-react';
 import { Cabinet } from '@/pages/cabinet/Cabinet';
 import { EnvelopeStack } from '@/pages/letters/EnvelopeStack';
-import { Letter520Embed } from '@/pages/letters/Letter520Embed';
+import { Letter520PageLoader } from '@/pages/letters/Letter520PageLoader';
 import { OUR_STORY_NAV_MESSAGE } from '@/shared/config/siteConfig';
 import { PolaroidGallery } from '@/pages/gallery/PolaroidGallery';
 import FestivalArchive from '@/pages/festivals/archive/FestivalArchive';
-import Festival_2026_ChildrenDay from '@/pages/festivals/2026/children-day/index';
+import { ChildrenDayPageLoader } from '@/pages/festivals/2026/children-day/ChildrenDayPageLoader';
+import { DragonBoatPageLoader } from '@/pages/festivals/2026/dragon-boat/DragonBoatPageLoader';
+import { FestivalPreviewTools } from '@/pages/festivals/2026/dragon-boat/components/FestivalPreviewTools';
 import {
   getTimeTheme,
   applyThemeCssVars,
@@ -16,8 +18,9 @@ import {
   type Season,
 } from '@/shared/theme/theme';
 import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
-import { ALLOW_SEASON_DEBUG } from '@/shared/config/featureFlags';
+import { ALLOW_SEASON_DEBUG, ALLOW_FESTIVAL_PAGE_PREVIEW } from '@/shared/config/featureFlags';
 import type { TimeTheme } from '@/shared/types';
+import { resolveFestivalView } from './festivalNav';
 import { VIEW_HASH, viewFromHash, type ViewState } from './routes';
 
 export default function App() {
@@ -64,6 +67,14 @@ export default function App() {
     const url = `${window.location.pathname}${window.location.search}${hash}`;
     window.history.replaceState(null, '', url);
   }, []);
+
+  const navigateToFestivalPage = useCallback(
+    (pageId: string) => {
+      const view = resolveFestivalView(pageId);
+      navigateTo(view ?? 'festival-archive');
+    },
+    [navigateTo],
+  );
 
   useEffect(() => {
     const onHashChange = () => setCurrentView(viewFromHash());
@@ -194,13 +205,7 @@ export default function App() {
                 else if (boxId === 'photos') navigateTo('box-photos');
               }}
               onEnterFestivalArchive={() => navigateTo('festival-archive')}
-              onEnterFestivalPage={(pageId) => {
-                if (pageId === '2026_ChildrenDay') {
-                  navigateTo('festival-2026-ChildrenDay');
-                } else {
-                  navigateTo('festival-archive');
-                }
-              }}
+              onEnterFestivalPage={navigateToFestivalPage}
             />
           </motion.div>
         )}
@@ -231,7 +236,10 @@ export default function App() {
             transition={{ duration: 0.35 }}
             className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
-            <Letter520Embed />
+            <Letter520PageLoader
+              isNight={themeView.isNight}
+              onBack={() => navigateTo('box-envelopes')}
+            />
           </motion.div>
         )}
 
@@ -260,13 +268,7 @@ export default function App() {
             <FestivalArchive
               theme={themeView}
               onBackToCabinet={() => navigateTo('cabinet')}
-              onEnterFestivalPage={(pageId) => {
-                if (pageId === '2026_ChildrenDay') {
-                  navigateTo('festival-2026-ChildrenDay');
-                } else {
-                  navigateTo('festival-archive');
-                }
-              }}
+              onEnterFestivalPage={navigateToFestivalPage}
             />
           </motion.div>
         )}
@@ -280,7 +282,24 @@ export default function App() {
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
-            <Festival_2026_ChildrenDay
+            <ChildrenDayPageLoader
+              theme={themeView}
+              onBackToArchive={() => navigateTo('festival-archive')}
+              onBackToCabinet={() => navigateTo('cabinet')}
+            />
+          </motion.div>
+        )}
+
+        {currentView === 'festival-2026-DragonBoat' && (
+          <motion.div
+            key="festival-dragon-boat-view"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
+          >
+            <DragonBoatPageLoader
               theme={themeView}
               onBackToArchive={() => navigateTo('festival-archive')}
               onBackToCabinet={() => navigateTo('cabinet')}
@@ -288,6 +307,12 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {ALLOW_FESTIVAL_PAGE_PREVIEW && (
+        <FestivalPreviewTools
+          onOpenDragonBoat={() => navigateTo('festival-2026-DragonBoat')}
+        />
+      )}
     </div>
   );
 }
