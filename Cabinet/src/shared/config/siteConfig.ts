@@ -7,9 +7,26 @@ export const LETTER_520_EMBED_PATH = 'pages/letters/520/index.html';
 
 export const OUR_STORY_NAV_MESSAGE = 'our-story-navigate';
 
-export function getLetter520EmbedSrc(): string {
+/** 当前文档所在目录（兼容 base: './'、/repo/index.html、/repo 无尾斜杠） */
+export function getDocumentBaseUrl(): string {
+  const { origin, pathname } = window.location;
+  if (pathname.endsWith('/')) return `${origin}${pathname}`;
+  const last = pathname.split('/').pop() ?? '';
+  if (/\.[a-zA-Z0-9]+$/.test(last)) {
+    return `${origin}${pathname.replace(/[^/]+$/, '')}`;
+  }
+  return `${origin}${pathname}/`;
+}
+
+/** 解析相对站点根的 public 资源为绝对 URL */
+export function resolvePublicAssetUrl(relativePath: string): string {
   const base = import.meta.env.BASE_URL;
-  return `${base}${LETTER_520_EMBED_PATH}`;
+  const cleaned = relativePath.replace(/^\//, '');
+  return new URL(`${base}${cleaned}`, getDocumentBaseUrl()).href;
+}
+
+export function getLetter520EmbedSrc(): string {
+  return resolvePublicAssetUrl(LETTER_520_EMBED_PATH);
 }
 
 export type AppView =

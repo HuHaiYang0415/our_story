@@ -1,0 +1,61 @@
+---
+description: 专题页懒加载、预载与重试约定（520 / 节日页）
+globs: Cabinet/src/**/*PageLoader*.tsx,Cabinet/src/**/load*.ts,Cabinet/src/shared/load/**,Cabinet/src/shared/ui/FestiveLoadScreen.tsx
+alwaysApply: false
+---
+
+# 页面懒加载原则
+
+## 架构
+
+- `App.tsx` **禁止**静态 import 重型专题页；只 import `*PageLoader` 壳组件。
+- 每个专题页提供：`loadXxx.ts`（资源编排）+ `XxxPageLoader.tsx`（进度 UI）。
+- 共享：`useFestivePageLoader`、`FestiveLoadScreen`、`shared/load/mediaPreload.ts`。
+- 进入懒加载路由时 `App` 递增 `lazyLoaderEpoch[view]` 并作为 `key`，保证再次进入会 remount 并重试。
+
+## 进页门槛（阻塞 await）
+
+| 类型 | 策略 |
+|------|------|
+| JS chunk | `importWithRetry(() => import(...))`，必须成功 |
+| 首屏/体验必需图片 | `preloadImageRequired` + `resolvePublicAssetUrl`，失败 reject |
+| iframe 内页（520） | 配图阻塞预载；**不要** fetch 挡门（iframe 自己加载 index.html） |
+| 大体积 BGM / 音频 | **不阻塞**；`warmAudioStream` 或页内 `canplay` 后边播边载 |
+| 游戏内素材 | 进页不载；在用户点进游戏前的 loading 遮罩里 `preloadChildrenDayGame` 等 |
+
+## 禁止
+
+- 用 `preloadAudio`（`canplaythrough`）挡进页门。
+- 在 `preloadImage`（失败也 resolve）上 await 却期望失败能触发重试。
+- PageLoader 失败后无 `onRetry`；失败态只提供返回、不提供「重新加载」。
+
+## PageLoader 模板
+
+```tsx
+const { progress, label, Page, failed, retry } = useFestivePageLoader(loadXxx, {
+  initialLabel: '…',
+});
+
+return Page ? <Page {...props} /> : (
+  <FestiveLoadScreen failed={failed} onRetry={retry} onBack={...} ... />
+);
+```
+
+## 音频生命周期
+
+- 专题页 mount 注册 BGM；unmount 必须 `dispose` / `stopHtmlAudio`，移除 `canplay` 监听。
+- 子游戏 BGM 在组件 cleanup 停止；**不要**在 cleanup 里误启父级 BGM（由父页 `currentPage` effect 恢复）。
+
+## 新增专题页检查清单
+
+1. `loadXxx.ts` 分清阻塞 vs 后台资源
+2. `XxxPageLoader` 使用 `useFestivePageLoader`
+3. `LAZY_LOAD_VIEWS` + `App.tsx` 的 `key` 与 `navigateTo` 递增
+4. 离开页面时所有 Audio / synth 已停止
+
+## 本地 dev 注意
+
+- 520 静态目录在 `src/pages/letters/interactive/520/`，须由 `vite.config.ts` 中间件映射到 `/pages/letters/520/`。
+- 勿用未安装的 `sirv` 动态 import（失败会被静默吞掉，配图请求落到 SPA 返回 HTML，`preloadImageRequired` 全失败）。
+- 修改 vite 配置后需**重启** `npm run dev`。
+- 中文/空格文件名：中间件与预载 URL 必须 `decodeURIComponent`；mp3 不能返回 HTML。

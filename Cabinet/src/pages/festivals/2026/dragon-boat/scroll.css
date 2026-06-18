@@ -1,4 +1,4 @@
-/* 竞渡长卷 v2 — 单屏切幕 · 艺术字排版 */
+/* 端午长卷 v2 — 单屏切幕 · 艺术字排版 */
 
 #dragon-boat-scroll-root {
   touch-action: none;
@@ -322,7 +322,7 @@
 }
 
 .db-stagger-line--letter {
-  font-size: clamp(0.875rem, 2.6vw, 1.125rem);
+  font-size: clamp(0.75rem, 2.1vw, 0.9375rem);
   line-height: 1.85;
   text-indent: 2em;
   white-space: pre-line;

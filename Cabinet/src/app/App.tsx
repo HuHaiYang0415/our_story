@@ -22,6 +22,7 @@ import { ALLOW_SEASON_DEBUG, ALLOW_FESTIVAL_PAGE_PREVIEW } from '@/shared/config
 import type { TimeTheme } from '@/shared/types';
 import { resolveFestivalView } from './festivalNav';
 import { VIEW_HASH, viewFromHash, type ViewState } from './routes';
+import { isLazyLoadView } from '@/shared/load/lazyLoadViews';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>(() => viewFromHash());
@@ -30,6 +31,8 @@ export default function App() {
   const [debugSeason, setDebugSeason] = useState<Season | null>(null);
   const [themeDialRevealed, setThemeDialRevealed] = useState(false);
   const themeDialRef = useRef<HTMLDivElement>(null);
+  /** 每次进入懒加载页递增，强制 remount 以重新拉取资源 */
+  const [lazyLoaderEpoch, setLazyLoaderEpoch] = useState<Partial<Record<ViewState, number>>>({});
 
   const themeView = useMemo(() => {
     if (ALLOW_SEASON_DEBUG && debugSeason != null) {
@@ -63,6 +66,12 @@ export default function App() {
 
   const navigateTo = useCallback((view: ViewState) => {
     setCurrentView(view);
+    if (isLazyLoadView(view)) {
+      setLazyLoaderEpoch((prev) => ({
+        ...prev,
+        [view]: (prev[view] ?? 0) + 1,
+      }));
+    }
     const hash = VIEW_HASH[view];
     const url = `${window.location.pathname}${window.location.search}${hash}`;
     window.history.replaceState(null, '', url);
@@ -77,7 +86,16 @@ export default function App() {
   );
 
   useEffect(() => {
-    const onHashChange = () => setCurrentView(viewFromHash());
+    const onHashChange = () => {
+      const view = viewFromHash();
+      if (isLazyLoadView(view)) {
+        setLazyLoaderEpoch((prev) => ({
+          ...prev,
+          [view]: (prev[view] ?? 0) + 1,
+        }));
+      }
+      setCurrentView(view);
+    };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
@@ -237,6 +255,7 @@ export default function App() {
             className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <Letter520PageLoader
+              key={`letter-520-${lazyLoaderEpoch['letter-520'] ?? 0}`}
               isNight={themeView.isNight}
               onBack={() => navigateTo('box-envelopes')}
             />
@@ -283,6 +302,7 @@ export default function App() {
             className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <ChildrenDayPageLoader
+              key={`children-day-${lazyLoaderEpoch['festival-2026-ChildrenDay'] ?? 0}`}
               theme={themeView}
               onBackToArchive={() => navigateTo('festival-archive')}
               onBackToCabinet={() => navigateTo('cabinet')}
@@ -300,6 +320,7 @@ export default function App() {
             className="view-layer h-full w-full min-h-0 overflow-hidden"
           >
             <DragonBoatPageLoader
+              key={`dragon-boat-${lazyLoaderEpoch['festival-2026-DragonBoat'] ?? 0}`}
               theme={themeView}
               onBackToArchive={() => navigateTo('festival-archive')}
               onBackToCabinet={() => navigateTo('cabinet')}

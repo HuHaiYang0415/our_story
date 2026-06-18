@@ -54,7 +54,7 @@ export const SCROLL_SCENES: SceneBeat[] = [
     layout: 'center',
     displayMode: 'vertical-pair',
     display: '蒲节记胜',
-    subtitle: '2026 · 五月初五 · 竞渡长卷',
+    subtitle: '二零二六 · 端午长卷',
     body: ['岁序走到重五，江风先热起来了'],
     forwardTransition: 'morph-ink',
     eggs: [

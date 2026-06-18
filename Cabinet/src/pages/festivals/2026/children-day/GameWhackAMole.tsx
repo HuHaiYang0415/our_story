@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, RotateCcw, Sparkles, Heart, Zap, Play, Smile } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
 import { childrenDayImages } from './assets';
+import { stopHtmlAudio } from '@/shared/load/mediaPreload';
 
 // @ts-ignore
 import digDugFastBgm from './audio/dig_dug_theme_song_fast.mp3';
@@ -241,44 +242,39 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
 
   // Background music manager with continuous looping
   useEffect(() => {
-    // Stop parent's melody
     soundSynth.stopBgm();
 
+    let disposed = false;
     const isMuted = soundSynth.getIsMuted();
     if (isMuted) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      return;
+      return () => {
+        disposed = true;
+      };
     }
 
-    if (!audioRef.current) {
-      audioRef.current = new Audio(currentBgmSrc);
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.4;
+    const audio = new Audio(currentBgmSrc);
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 0.4;
+    audioRef.current = audio;
+
+    const startPlay = () => {
+      if (disposed) return;
+      void audio.play().catch(() => {});
+    };
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      startPlay();
     } else {
-      if (audioRef.current.src !== currentBgmSrc) {
-        audioRef.current.pause();
-        audioRef.current.src = currentBgmSrc;
-        audioRef.current.currentTime = 0;
-      }
+      audio.addEventListener('canplay', startPlay, { once: true });
     }
-
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.4;
-
-    audioRef.current.play().catch((err) => {
-      console.warn("BGM play was blocked/delayed in Whack-A-Mole", err);
-    });
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
+      disposed = true;
+      audio.removeEventListener('canplay', startPlay);
+      stopHtmlAudio(audio);
+      if (audioRef.current === audio) {
         audioRef.current = null;
-      }
-      // Resume parent cabin-room BGM on return
-      if (!soundSynth.getIsMuted()) {
-        soundSynth.startBgm();
       }
     };
   }, [currentBgmSrc]);

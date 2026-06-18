@@ -259,6 +259,12 @@ class SoundSynthManager {
       this.bgmIntervalId = null;
     }
   }
+
+  dispose() {
+    this.stopBgm();
+    void this.ctx?.close();
+    this.ctx = null;
+  }
 }
 
 export const soundSynth = new SoundSynthManager();

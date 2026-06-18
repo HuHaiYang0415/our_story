@@ -95,14 +95,28 @@
   function tryStartBgm() {
     if (!bgm || state.bgmUserPaused) return;
     if (state.bgmOn && !bgm.paused) return;
-    bgm
-      .play()
-      .then(() => {
-        state.bgmOn = true;
-        state.bgmUserPaused = false;
-        updateBgmToggleLabel();
-      })
-      .catch(() => {});
+
+    const play = () => {
+      bgm
+        .play()
+        .then(() => {
+          state.bgmOn = true;
+          state.bgmUserPaused = false;
+          updateBgmToggleLabel();
+        })
+        .catch(() => {});
+    };
+
+    if (bgm.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      play();
+      return;
+    }
+
+    bgm.addEventListener('canplay', play, { once: true });
+    if (bgm.preload !== 'auto') {
+      bgm.preload = 'auto';
+      bgm.load();
+    }
   }
 
   function toggleBgm() {

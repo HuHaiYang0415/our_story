@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, RotateCcw, Award, CheckCircle2, Sparkles } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
 import { getMemoryCardImage } from './assets';
+import { stopHtmlAudio } from '@/shared/load/mediaPreload';
 
 // @ts-ignore
 import roundMoonBgm from './audio/round_moon.mp3';
@@ -95,30 +96,37 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
     let audio: HTMLAudioElement | null = null;
     let playTimeoutId: ReturnType<typeof setTimeout> | null = null;
     let isDestroyed = false;
+    let handleEnded: (() => void) | null = null;
+    let startPlay: (() => void) | null = null;
     const isMuted = soundSynth.getIsMuted();
 
     if (!isMuted) {
       audio = new Audio(roundMoonBgm);
-      audio.loop = false; // Disable continuous looping to support the 8-second delay
-      audio.volume = 0.45; // Cozy and gentle volume for peaceful papercraft moonbgm
-      
-      const handleEnded = () => {
+      audio.loop = false;
+      audio.preload = 'auto';
+      audio.volume = 0.45;
+
+      handleEnded = () => {
         if (isDestroyed) return;
         playTimeoutId = setTimeout(() => {
           if (!isDestroyed && audio) {
             audio.currentTime = 0;
-            audio.play().catch((err) => {
-              console.warn("BGM replay was blocked or can load later", err);
-            });
+            void audio.play().catch(() => {});
           }
         }, 8000);
       };
 
       audio.addEventListener('ended', handleEnded);
 
-      audio.play().catch((err) => {
-        console.warn("BGM play was blocked or can load later", err);
-      });
+      startPlay = () => {
+        if (isDestroyed || !audio) return;
+        void audio.play().catch(() => {});
+      };
+      if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+        startPlay();
+      } else {
+        audio.addEventListener('canplay', startPlay, { once: true });
+      }
     }
 
     return () => {
@@ -127,12 +135,10 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
         clearTimeout(playTimeoutId);
       }
       if (audio) {
-        audio.pause();
+        if (handleEnded) audio.removeEventListener('ended', handleEnded);
+        if (startPlay) audio.removeEventListener('canplay', startPlay);
+        stopHtmlAudio(audio);
         audio = null;
-      }
-      // Resume the synthesized BGM when we return to the room home page if not muted
-      if (!soundSynth.getIsMuted()) {
-        soundSynth.startBgm();
       }
     };
   }, []);

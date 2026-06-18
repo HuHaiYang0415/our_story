@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FestiveLoadScreen } from '@/shared/ui/FestiveLoadScreen';
+import { useFestivePageLoader } from '@/shared/load/useFestivePageLoader';
 import { loadLetter520 } from './loadLetter520';
 
 export interface Letter520PageLoaderProps {
@@ -8,30 +9,9 @@ export interface Letter520PageLoaderProps {
 }
 
 export function Letter520PageLoader({ onBack, isNight = false }: Letter520PageLoaderProps) {
-  const [progress, setProgress] = useState(0);
-  const [label, setLabel] = useState('拆信启封');
-  const [Page, setPage] = useState<React.ComponentType | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    loadLetter520((ratio, stepLabel) => {
-      if (cancelled) return;
-      setProgress(ratio);
-      setLabel(stepLabel);
-    })
-      .then((Comp) => {
-        if (!cancelled) setPage(() => Comp);
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { progress, label, Page, failed, retry } = useFestivePageLoader(loadLetter520, {
+    initialLabel: '拆信启封',
+  });
 
   if (Page) return <Page />;
 
@@ -45,6 +25,7 @@ export function Letter520PageLoader({ onBack, isNight = false }: Letter520PageLo
       tone="rose"
       backLabel="返回信箱"
       onBack={onBack}
+      onRetry={retry}
     />
   );
 }

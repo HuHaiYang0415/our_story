@@ -4,6 +4,7 @@
  */
 
 import drumsMp3 from '../../audio/drums.mp3';
+import { stopHtmlAudio } from '@/shared/load/mediaPreload';
 
 const BGM_GAP_MS = 5000;
 
@@ -15,6 +16,7 @@ class DragonBoatSoundManager {
   private bgmIntervalId: ReturnType<typeof setInterval> | null = null;
   private bgmRestartTimer: ReturnType<typeof setTimeout> | null = null;
   private bgmEndedHandler: (() => void) | null = null;
+  private bgmCanPlayHandler: (() => void) | null = null;
   private ambientSrc: string | null = null;
 
   private initContext() {
@@ -44,33 +46,13 @@ class DragonBoatSoundManager {
     if (this.ambientSrc === src) return;
     this.clearBgmAudio();
     this.ambientSrc = src;
+    if (src) this.prefetchAmbient(src);
   }
 
-  private clearBgmRestartTimer() {
-    if (this.bgmRestartTimer) {
-      clearTimeout(this.bgmRestartTimer);
-      this.bgmRestartTimer = null;
-    }
-  }
-
-  private clearBgmAudio() {
-    this.clearBgmRestartTimer();
-    if (this.bgmAudio && this.bgmEndedHandler) {
-      this.bgmAudio.removeEventListener('ended', this.bgmEndedHandler);
-    }
-    this.bgmEndedHandler = null;
-    if (this.bgmAudio) {
-      this.bgmAudio.pause();
-      this.bgmAudio.currentTime = 0;
-      this.bgmAudio = null;
-    }
-  }
-
-  private ensureBgmAudio() {
-    if (!this.ambientSrc) return null;
-    if (this.bgmAudio) return this.bgmAudio;
-
-    const audio = new Audio(this.ambientSrc);
+  /** 进页即拉流，开播时只需缓冲首段 */
+  private prefetchAmbient(src: string) {
+    const audio = new Audio();
+    audio.preload = 'auto';
     audio.volume = 0.22;
     audio.loop = false;
     this.bgmEndedHandler = () => {
@@ -84,8 +66,60 @@ class DragonBoatSoundManager {
       }, BGM_GAP_MS);
     };
     audio.addEventListener('ended', this.bgmEndedHandler);
+    audio.src = src;
     this.bgmAudio = audio;
-    return audio;
+  }
+
+  private tryPlayAmbient() {
+    const audio = this.bgmAudio;
+    if (!audio || this.isMuted) return;
+
+    if (this.bgmCanPlayHandler) {
+      audio.removeEventListener('canplay', this.bgmCanPlayHandler);
+      this.bgmCanPlayHandler = null;
+    }
+
+    const play = () => {
+      if (this.isMuted || !this.bgmAudio) return;
+      void this.bgmAudio.play().catch(() => {});
+    };
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      play();
+    } else {
+      this.bgmCanPlayHandler = play;
+      audio.addEventListener('canplay', play, { once: true });
+    }
+  }
+
+  private clearBgmRestartTimer() {
+    if (this.bgmRestartTimer) {
+      clearTimeout(this.bgmRestartTimer);
+      this.bgmRestartTimer = null;
+    }
+  }
+
+  private clearBgmAudio() {
+    this.clearBgmRestartTimer();
+    if (this.bgmAudio) {
+      if (this.bgmEndedHandler) {
+        this.bgmAudio.removeEventListener('ended', this.bgmEndedHandler);
+      }
+      if (this.bgmCanPlayHandler) {
+        this.bgmAudio.removeEventListener('canplay', this.bgmCanPlayHandler);
+      }
+      stopHtmlAudio(this.bgmAudio);
+    }
+    this.bgmEndedHandler = null;
+    this.bgmCanPlayHandler = null;
+    this.bgmAudio = null;
+  }
+
+  private ensureBgmAudio() {
+    if (!this.ambientSrc) return null;
+    if (this.bgmAudio) return this.bgmAudio;
+    this.prefetchAmbient(this.ambientSrc);
+    return this.bgmAudio;
   }
 
   private tone(
@@ -236,9 +270,8 @@ class DragonBoatSoundManager {
     this.initContext();
 
     if (this.ambientSrc) {
-      const audio = this.ensureBgmAudio();
-      if (!audio) return;
-      void audio.play().catch(() => {});
+      this.ensureBgmAudio();
+      this.tryPlayAmbient();
       return;
     }
 

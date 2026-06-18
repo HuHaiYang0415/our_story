@@ -1,0 +1,36 @@
+---
+description: 专题页与子游戏 BGM / 音效生命周期
+globs: Cabinet/src/**/*Sound*.ts,Cabinet/src/**/SoundSynth.ts,Cabinet/src/**/registerAmbient.ts,Cabinet/src/pages/letters/interactive/**,Cabinet/src/shared/load/mediaPreload.ts
+alwaysApply: false
+---
+
+# 音频与 BGM
+
+## 原则
+
+- 大文件 BGM（>1MB）**不阻塞进页**；`warmAudioStream` 或页内 `canplay` 后边播边播。
+- 浏览器 autoplay 限制：首次播放需用户手势；失败时 `catch` 静默，并在 `pointerdown` 再试。
+- 离开页面必须停止：React cleanup 里 `stopHtmlAudio` / `dispose()`，并移除 `canplay` 监听（避免 cleanup 后再次 `play()`）。
+
+## React 专题页（端午等）
+
+```tsx
+useEffect(() => {
+  registerXxxAmbient(); // 仅 setSrc + prefetch，不 start
+  return () => dragonBoatSound.dispose();
+}, []);
+```
+
+- `setAmbientSrc` / `registerAmbient` 禁止在模块加载时 `startAmbient()`。
+- 子组件 cleanup **不要**误调 `startBgm()` 恢复父级；由父页 `currentPage` effect 负责。
+
+## iframe 内 520（`interactive/520/app.js`）
+
+- BGM 由 iframe 内 `<audio>` 播放，父页 `warmAudioStream` 仅预热 HTTP 缓存。
+- `tryStartBgm`：等 `canplay` 再 `play()`；`preload="auto"`。
+- 播完停 5s 再播：用 `ended` + `setTimeout`，cleanup 时清 timer。
+
+## 共享工具
+
+- `stopHtmlAudio(audio)`：pause + 清空 src + load
+- `preloadAudioCanPlay`：可开播即 resolve（勿用 `canplaythrough` 挡门）

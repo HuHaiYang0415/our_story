@@ -11,6 +11,7 @@
   <link rel="preload" href="image/bg-opening.jpg" as="image" fetchpriority="high">
   <link rel="prefetch" href="image/bg-walk.jpg" as="image">
   <link rel="prefetch" href="image/plead-beg.jpg" as="image">
+  <link rel="prefetch" href="bgm/粉雾海.mp3" as="audio">
 </head>
 <body>
   <div id="app">
@@ -19,7 +20,7 @@
     <div id="choices" class="choices hidden" role="group" aria-label="选项"></div>
     <button type="button" id="bgm-toggle" class="bgm-toggle hidden" aria-label="背景音乐开关" title="音乐">音乐</button>
   </div>
-  <audio id="bgm" preload="metadata" playsinline>
+  <audio id="bgm" preload="auto" playsinline>
     <source src="bgm/粉雾海.mp3" type="audio/mpeg">
   </audio>
   <script src="content.js?v=6660ea3"></script>

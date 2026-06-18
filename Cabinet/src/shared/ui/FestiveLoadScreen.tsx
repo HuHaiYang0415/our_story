@@ -73,6 +73,7 @@ export interface FestiveLoadScreenProps {
   tone?: FestiveLoadTone;
   backLabel?: string;
   onBack?: () => void;
+  onRetry?: () => void;
 }
 
 /** 节日 / 专题页懒加载进度屏 */
@@ -85,6 +86,7 @@ export function FestiveLoadScreen({
   tone = 'emerald',
   backLabel = '返回',
   onBack,
+  onRetry,
 }: FestiveLoadScreenProps) {
   const styles = TONE_STYLES[tone];
   const pct = Math.round(progress * 100);
@@ -154,17 +156,33 @@ export function FestiveLoadScreen({
           </div>
         )}
 
-        {failed && onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            className={[
-              'rounded-full border px-4 py-1.5 text-xs tracking-wide transition active:scale-95',
-              isNight ? styles.btnNight : styles.btnDay,
-            ].join(' ')}
-          >
-            {backLabel}
-          </button>
+        {failed && (
+          <div className="flex flex-col items-center gap-2">
+            {onRetry && (
+              <button
+                type="button"
+                onClick={onRetry}
+                className={[
+                  'rounded-full border px-4 py-1.5 text-xs tracking-wide transition active:scale-95',
+                  isNight ? styles.btnNight : styles.btnDay,
+                ].join(' ')}
+              >
+                重新加载
+              </button>
+            )}
+            {onBack && (
+              <button
+                type="button"
+                onClick={onBack}
+                className={[
+                  'rounded-full border px-4 py-1.5 text-xs tracking-wide transition active:scale-95',
+                  isNight ? 'border-stone-600/40 text-stone-400 hover:bg-stone-900/40' : 'border-stone-300 text-stone-500 hover:bg-stone-50',
+                ].join(' ')}
+              >
+                {backLabel}
+              </button>
+            )}
+          </div>
         )}
       </motion.div>
     </div>

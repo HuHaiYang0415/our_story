@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { TimeTheme } from '@/shared/types';
 import { FestiveLoadScreen } from '@/shared/ui/FestiveLoadScreen';
+import { useFestivePageLoader } from '@/shared/load/useFestivePageLoader';
 import { loadChildrenDayFest, type ChildrenDayPageProps } from './loadChildrenDayFest';
 
 export interface ChildrenDayPageLoaderProps {
@@ -15,30 +16,10 @@ export function ChildrenDayPageLoader({
   onBackToCabinet,
 }: ChildrenDayPageLoaderProps) {
   const isNight = !!theme?.isNight;
-  const [progress, setProgress] = useState(0);
-  const [label, setLabel] = useState('推开 Play 木门');
-  const [Page, setPage] = useState<React.ComponentType<ChildrenDayPageProps> | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    loadChildrenDayFest((ratio, stepLabel) => {
-      if (cancelled) return;
-      setProgress(ratio);
-      setLabel(stepLabel);
-    })
-      .then((Comp) => {
-        if (!cancelled) setPage(() => Comp);
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { progress, label, Page, failed, retry } = useFestivePageLoader<ChildrenDayPageProps>(
+    loadChildrenDayFest,
+    { initialLabel: '推开 Play 木门' },
+  );
 
   if (Page) {
     return (
@@ -56,6 +37,7 @@ export function ChildrenDayPageLoader({
       tone="amber"
       backLabel="返回展柜"
       onBack={onBackToCabinet}
+      onRetry={retry}
     />
   );
 }

@@ -1,0 +1,30 @@
+---
+description: 展柜 hash 路由、ViewState 与新增页面约定
+globs: Cabinet/src/app/**,Cabinet/src/shared/config/siteConfig.ts,Cabinet/src/shared/load/lazyLoadViews.ts
+alwaysApply: false
+---
+
+# 路由与导航
+
+## 单一入口
+
+- 站点只有 `index.html` + hash 路由，无多页 SSR。
+- 路由定义集中在 `app/routes.ts`：`ViewState`、`VIEW_HASH`、`viewFromHash()`。
+- 导航统一走 `App.tsx` 的 `navigateTo()`（`replaceState` + 更新 `currentView`），不要散落 `location.hash =`。
+
+## 新增页面检查清单
+
+1. `ViewState` + `VIEW_HASH` + `viewFromHash()` 分支
+2. `siteConfig.ts`：`AppView` + `VIEW_PAGE_SUFFIX` + `getPageTitle`
+3. `App.tsx`：`AnimatePresence` 内条件渲染 + `applyDocumentTitle`
+4. 重型页：加入 `LAZY_LOAD_VIEWS`，用 `*PageLoader` + `lazyLoaderEpoch` key
+5. iframe 内返回父页：postMessage `{ type: 'our-story-navigate', view: '...' }`（见 `OUR_STORY_NAV_MESSAGE`）
+
+## 节日页门禁
+
+- 时间/预览开关放在 `access.ts` / `visibility.ts`，`viewFromHash` 里做 redirect，不在组件内硬编码日期。
+
+## 禁止
+
+- 在 `App.tsx` 静态 import 节日专题主组件（应走 PageLoader）。
+- 模块顶层注册 BGM / Audio（应在页面 mount 时注册，unmount dispose）。

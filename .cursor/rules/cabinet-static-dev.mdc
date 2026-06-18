@@ -1,0 +1,32 @@
+---
+description: 520 静态资源、dev 中间件与路径解析
+globs: Cabinet/vite.config.ts,Cabinet/src/pages/letters/**,Cabinet/src/shared/config/siteConfig.ts
+alwaysApply: false
+---
+
+# 静态资源与本地 dev
+
+## 520 双轨
+
+| 角色 | 路径 |
+|------|------|
+| 源码 | `src/pages/letters/interactive/520/` |
+| 构建产物 | `dist/pages/letters/520/` → 发布到仓库根 `pages/letters/520/` |
+| 壳层 iframe | `getLetter520EmbedSrc()` → `pages/letters/520/index.html` |
+
+## 路径解析
+
+- 统一用 `resolvePublicAssetUrl()` / `getDocumentBaseUrl()`，不要手写 `./` 拼接。
+- `base: './'` 部署在子目录时必须基于当前文档目录解析。
+
+## dev 中间件（`vite.config.ts`）
+
+- `/pages/letters/520/*` 由 **同步 fs 中间件** 提供，不依赖未安装的 `sirv`。
+- 请求路径必须 `decodeURIComponent`（中文文件名如 `bgm/粉雾海.mp3`）。
+- 修改 vite 配置后需重启 `npm run dev`。
+- 自检：Network 里 jpg/png/mp3 的 `Content-Type` 不能是 `text/html`。
+
+## 新增静态文件
+
+- 改 `interactive/520/` 后需重新 `build:site` 才会进仓库根 `pages/`。
+- 若加入进页预载列表，同步更新 `loadLetter520.ts` 的 `LETTER_520_IMAGE_PATHS` 与 `content.js` ASSETS。

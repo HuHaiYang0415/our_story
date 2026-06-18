@@ -1,1 +1,0 @@
-import{r as t,d as r,f as a,j as e,g as s}from"./index-DSM7bQ95.js";function i(){return t.useEffect(()=>{r(a("letter-520"))},[]),e.jsx("div",{className:"fixed inset-0 z-[60] bg-[#1a1218]",id:"letter-520-embed",children:e.jsx("iframe",{title:"2026.05.20 互动信",src:s(),className:"w-full h-full border-0",allow:"autoplay"})})}export{i as Letter520Embed};

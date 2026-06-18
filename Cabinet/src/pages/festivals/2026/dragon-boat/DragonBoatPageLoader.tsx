@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { TimeTheme } from '@/shared/types';
 import { FestiveLoadScreen } from '@/shared/ui/FestiveLoadScreen';
+import { useFestivePageLoader } from '@/shared/load/useFestivePageLoader';
 import { loadDragonBoatFest } from './loadDragonBoatFest';
 import type { DragonBoatScrollProps } from './scroll/DragonBoatScroll';
 
@@ -17,30 +18,10 @@ export function DragonBoatPageLoader({
   onBackToCabinet,
 }: DragonBoatPageLoaderProps) {
   const isNight = !!theme?.isNight;
-  const [progress, setProgress] = useState(0);
-  const [label, setLabel] = useState('展卷启幕');
-  const [Page, setPage] = useState<React.ComponentType<DragonBoatScrollProps> | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    loadDragonBoatFest((ratio, stepLabel) => {
-      if (cancelled) return;
-      setProgress(ratio);
-      setLabel(stepLabel);
-    })
-      .then((Comp) => {
-        if (!cancelled) setPage(() => Comp);
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { progress, label, Page, failed, retry } = useFestivePageLoader(
+    loadDragonBoatFest,
+    { initialLabel: '展卷启幕' },
+  );
 
   if (Page) {
     return (
@@ -50,7 +31,7 @@ export function DragonBoatPageLoader({
 
   return (
     <FestiveLoadScreen
-      title="竞渡长卷"
+      title="端午长卷"
       label={label}
       progress={progress}
       failed={failed}
@@ -58,6 +39,7 @@ export function DragonBoatPageLoader({
       tone="emerald"
       backLabel="返回展柜"
       onBack={onBackToCabinet}
+      onRetry={retry}
     />
   );
 }

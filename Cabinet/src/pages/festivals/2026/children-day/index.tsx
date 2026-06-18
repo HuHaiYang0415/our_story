@@ -5,6 +5,7 @@ import { soundSynth } from './SoundSynth';
 import GameMemory from './GameMemory';
 import GameWhackAMole from './GameWhackAMole';
 import { childrenDayImages } from './assets';
+import { preloadChildrenDayGame, type ChildrenDayGameId } from './gamePreload';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
 
 // Types for routing views
@@ -35,9 +36,18 @@ export default function Festival_2026_ChildrenDay({
   const [showSecretModal, setShowSecretModal] = useState(true);
 
   useEffect(() => {
-    // Unmute the retro BGM sound synth by default on children's day mount
     soundSynth.setMute(false);
+    return () => {
+      soundSynth.dispose();
+    };
   }, []);
+
+  useEffect(() => {
+    if (currentPage !== 'room' || showSecretModal || isMuted) {
+      return;
+    }
+    soundSynth.startBgm();
+  }, [currentPage, showSecretModal, isMuted]);
 
   // Day vs Night cozy lighting mapped directly to the parent's theme
   const isNight = !!theme?.isNight;
@@ -91,15 +101,16 @@ export default function Festival_2026_ChildrenDay({
     soundSynth.playClick();
   };
 
-  // Launch Game with bouncing candy loading screen
-  const launchGame = (game: ActivePage) => {
+  // Launch Game with bouncing candy loading screen — preload game assets during overlay
+  const launchGame = async (game: Exclude<ActivePage, 'room'>) => {
     soundSynth.playPop();
     setLoadingGame(game);
-    
-    setTimeout(() => {
-      setCurrentPage(game);
-      setLoadingGame(null);
-    }, 1200);
+
+    const minWait = new Promise<void>((resolve) => window.setTimeout(resolve, 900));
+    await Promise.all([minWait, preloadChildrenDayGame(game as ChildrenDayGameId)]);
+
+    setCurrentPage(game);
+    setLoadingGame(null);
   };
 
   // Summer green frog jumping route runner (exactly 5 hops and stops, going forward or backward)

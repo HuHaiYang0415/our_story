@@ -1,4 +1,4 @@
-/** 竞渡长卷 v2 — 分幕材质与配色 */
+/** 端午长卷 v2 — 分幕材质与配色 */
 
 export const SCROLL_REF = {
   skyTop: '#FCFBEB',
