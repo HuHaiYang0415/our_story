@@ -170,7 +170,7 @@ export const SCROLL_SCENES: SceneBeat[] = [
     displayMode: 'finale',
     display: '永远「粽」意你',
     subtitle: '第一个端午节',
-    body: ['糯米成粽、艾菖辟邪，心心相扣岁时韶华'],
+    body: ['糯米成粽 艾菖辟邪 心心相扣 不负岁时韶华'],
     eggs: [
       {
         id: 'egg-finale-story',
