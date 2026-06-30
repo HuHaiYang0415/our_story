@@ -183,13 +183,15 @@ function LosingMoleDollComponent() {
 export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   const [score, setScore] = useState(0);
   const [missedCount, setMissedCount] = useState(0);
-  const [gameLevel, setGameLevel] = useState(1); // 1 = Normal, 2 = Fast
+  const [gameLevel, setGameLevel] = useState<1 | 2 | 3>(1); // 1 = Normal, 2 = Fast, 3 = Endless
+  const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasGameStarted, setHasGameStarted] = useState(false);
   
   // Game states
   const [showSurrenderModal, setShowSurrenderModal] = useState(false);
   const [showJumpscare, setShowJumpscare] = useState(false);
+  const [showEndlessResultModal, setShowEndlessResultModal] = useState(false);
   const [isWon, setIsWon] = useState(false);
 
   // Grid representing 3x3 layout holes (9 cells)
@@ -200,12 +202,40 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   const gameTimerRef = useRef<any>(null);
   const activeTimersRef = useRef<Record<number, any>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const speedMultiplierRef = useRef(1);
+  const gameLevelRef = useRef<1 | 2 | 3>(1);
+
+  const LEVEL2_SPAWN_INTERVAL = 450;
+  const LEVEL2_ACTIVE_DURATION = { golden: 1400, standard: 1700, shiny: 1700 };
+  const LEVEL1_SPAWN_INTERVAL = 950;
+  const LEVEL1_ACTIVE_DURATION = { golden: 1600, standard: 2100, shiny: 2100 };
+
+  const getSpawnInterval = (level: 1 | 2 | 3, multiplier: number) => {
+    if (level === 1) return LEVEL1_SPAWN_INTERVAL;
+    return Math.max(120, Math.round(LEVEL2_SPAWN_INTERVAL / multiplier));
+  };
+
+  const getActiveDuration = (level: 1 | 2 | 3, moleType: Mole['type'], multiplier: number) => {
+    const durations = level === 1 ? LEVEL1_ACTIVE_DURATION : LEVEL2_ACTIVE_DURATION;
+    const base = durations[moleType];
+    if (level === 1) return base;
+    return Math.max(400, Math.round(base / multiplier));
+  };
+
+  const getMoleSpringTransition = (level: 1 | 2 | 3, multiplier: number) => {
+    const scale = level === 1 ? 1 : multiplier;
+    return {
+      type: 'spring' as const,
+      stiffness: Math.min(900, 350 * scale),
+      damping: Math.max(10, 22 / Math.sqrt(scale)),
+    };
+  };
 
   // Trigger sound clicks
   const playClick = () => soundSynth.playClick();
 
   // Reset or start game
-  const resetGame = (level = 1, autoStart = true) => {
+  const resetGame = (level: 1 | 2 | 3 = 1, autoStart = true) => {
     soundSynth.playClick();
     
     // Clear all existing game loops/timers
@@ -213,13 +243,17 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
     Object.values(activeTimersRef.current).forEach(t => clearTimeout(t as any));
     activeTimersRef.current = {};
 
-    setScore(level === 1 ? 0 : 100); // Level 2 preserves or starts at level 100
+    setScore(level === 1 ? 0 : level === 2 ? 100 : 0);
     setMissedCount(0);
     setGameLevel(level);
+    gameLevelRef.current = level;
+    setSpeedMultiplier(1);
+    speedMultiplierRef.current = 1;
     setIsPlaying(autoStart);
     setHasGameStarted(autoStart);
     setShowSurrenderModal(false);
     setShowJumpscare(false);
+    setShowEndlessResultModal(false);
     setIsWon(false);
 
     setMoles(Array.from({ length: 9 }).map((_, i) => ({ id: i, active: false, whacked: false, type: 'standard' })));
@@ -235,8 +269,8 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   }, []);
 
   // Determine current BGM based on game state
-  const isPopupActive = showJumpscare || showSurrenderModal || isWon;
-  const currentBgmSrc = (hasGameStarted && gameLevel === 2 && !isPopupActive)
+  const isPopupActive = showJumpscare || showSurrenderModal || isWon || showEndlessResultModal;
+  const currentBgmSrc = (hasGameStarted && (gameLevel === 2 || gameLevel === 3) && !isPopupActive)
     ? digDugFastBgm
     : digDugThemeBgm;
 
@@ -279,9 +313,24 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
     };
   }, [currentBgmSrc]);
 
+  // Endless mode: every 6 seconds speed up by 8%
+  useEffect(() => {
+    if (!isPlaying || gameLevel !== 3 || showEndlessResultModal) return;
+
+    const rampTimer = setInterval(() => {
+      setSpeedMultiplier((prev) => {
+        const next = prev * 1.08;
+        speedMultiplierRef.current = next;
+        return next;
+      });
+    }, 6000);
+
+    return () => clearInterval(rampTimer);
+  }, [isPlaying, gameLevel, showEndlessResultModal]);
+
   // Main game spawning interval loop
   useEffect(() => {
-    if (!isPlaying || showSurrenderModal || showJumpscare || isWon) {
+    if (!isPlaying || showSurrenderModal || showJumpscare || isWon || showEndlessResultModal) {
       if (gameTimerRef.current) {
         clearInterval(gameTimerRef.current);
         gameTimerRef.current = null;
@@ -289,10 +338,11 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
       return;
     }
 
-    // Interval between mole pops (faster in Level 2!)
-    const spawnInterval = gameLevel === 1 ? 950 : 450;
+    // Interval between mole pops (faster in Level 2 / Endless!)
+    const spawnInterval = getSpawnInterval(gameLevel, speedMultiplier);
 
     gameTimerRef.current = setInterval(() => {
+      const multiplier = speedMultiplierRef.current;
       // Pick random inactive hole
       setMoles((prevMoles) => {
         const inactiveIndices: number[] = [];
@@ -317,9 +367,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
         };
 
         // Automatic retreat timer (adjusted for child-friendly but responsive play as requested)
-        const activeDuration = gameLevel === 1 
-          ? (moleType === 'golden' ? 1600 : 2100) 
-          : (moleType === 'golden' ? 1400 : 1700);
+        const activeDuration = getActiveDuration(gameLevel, moleType, multiplier);
 
         if (activeTimersRef.current[randomIdx]) {
           clearTimeout(activeTimersRef.current[randomIdx]);
@@ -339,7 +387,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
         gameTimerRef.current = null;
       }
     };
-  }, [isPlaying, gameLevel, showSurrenderModal, showJumpscare, isWon]);
+  }, [isPlaying, gameLevel, speedMultiplier, showSurrenderModal, showJumpscare, isWon, showEndlessResultModal]);
 
   const handleMoleRetreat = (index: number) => {
     setMoles((prevMoles) => {
@@ -351,9 +399,12 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
           soundSynth.playFail();
 
           if (nextMissed >= 5) {
-            // Trigger jumpscare cute face game over!
-            setShowJumpscare(true);
             setIsPlaying(false);
+            if (gameLevelRef.current === 3) {
+              setShowEndlessResultModal(true);
+            } else {
+              setShowJumpscare(true);
+            }
           }
           return nextMissed;
         });
@@ -415,15 +466,14 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
   };
 
   const handleContinueLevelTwo = () => {
-    // Choose to continue: Speed up the game and set to level 2!
     resetGame(2);
   };
 
-  const MOLE_EMOJIS = {
-    standard: '🐹',
-    shiny: '🐰',
-    golden: '🦊'
+  const handleStartEndlessMode = () => {
+    resetGame(3);
   };
+
+  const moleSpringTransition = getMoleSpringTransition(gameLevel, speedMultiplier);
 
   return (
     <div 
@@ -540,19 +590,77 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
                 <br />不愧是我最棒的小朋友 ✨
               </p>
 
-              <div className="flex gap-3 w-full">
+              <div className="flex flex-col gap-3 w-full">
                 <button
-                  onClick={() => resetGame(1)}
-                  className="flex-1 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white text-xs font-serif font-black shadow-md transition-all active:scale-95"
+                  onClick={handleStartEndlessMode}
+                  className="w-full py-2.5 rounded-full bg-violet-500 hover:bg-violet-600 text-white text-xs font-serif font-black shadow-md transition-all active:scale-95"
                 >
-                  重温一遍 🎮
+                  无尽模式 ♾️
                 </button>
+                <div className="flex gap-3 w-full">
+                  <button
+                    onClick={() => resetGame(1)}
+                    className="flex-1 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white text-xs font-serif font-black shadow-md transition-all active:scale-95"
+                  >
+                    重温一遍 🎮
+                  </button>
+                  <button
+                    onClick={onBack}
+                    className="flex-1 py-2.5 rounded-full bg-amber-100 text-[#8C6239] hover:bg-amber-200 text-xs font-bold border border-amber-200 transition-all active:scale-95"
+                  >
+                    荣誉而归，回主房
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Endless mode result modal */}
+      <AnimatePresence>
+        {showEndlessResultModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-40" id="endless-result-panel">
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="w-full max-w-md bg-gradient-to-br from-[#FFFCEE] via-white to-[#FFFCEE] rounded-3xl border-4 border-amber-500 p-6 text-center shadow-2xl flex flex-col items-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-4xl mb-3">
+                ♾️
+              </div>
+
+              <h3 className="text-2xl font-serif font-black text-amber-800 flex items-center gap-1.5 justify-center">
+                <Sparkles className="w-5 h-5 text-amber-500" />
+                地鼠无尽模式
+                <Sparkles className="w-5 h-5 text-amber-500" />
+              </h3>
+
+              <div className="my-4 p-4 bg-orange-50/70 border border-orange-200/50 rounded-2xl w-full text-xs font-serif leading-relaxed text-stone-600">
+                分数: {score}
+              </div>
+
+              <div className="flex flex-col gap-3 w-full">
                 <button
-                  onClick={onBack}
-                  className="flex-1 py-2.5 rounded-full bg-amber-100 text-[#8C6239] hover:bg-amber-200 text-xs font-bold border border-amber-200 transition-all active:scale-95"
+                  onClick={() => resetGame(3)}
+                  className="w-full py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 font-serif font-black text-[#FFFDFB] text-xs shadow-md active:scale-95 transition-all outline-none"
                 >
-                  荣誉而归，回主房
+                  再次挑战
                 </button>
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                  <button
+                    onClick={() => resetGame(1)}
+                    className="flex-1 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white text-xs font-serif font-black shadow-md transition-all active:scale-95"
+                  >
+                    重新开始
+                  </button>
+                  <button
+                    onClick={onBack}
+                    className="flex-1 py-2.5 rounded-full bg-amber-100 text-[#8C6239] hover:bg-amber-200 text-xs font-bold border border-amber-200 transition-all active:scale-95"
+                  >
+                    回主房
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -574,6 +682,11 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
           {gameLevel === 2 && (
             <span className="text-[10px] bg-red-500 text-white font-mono px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse flex items-center gap-0.5">
               <Zap className="w-2.5 h-2.5 fill-white" /> 狂暴模式
+            </span>
+          )}
+          {gameLevel === 3 && (
+            <span className="text-[10px] bg-violet-500 text-white font-mono px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse flex items-center gap-0.5">
+              <Zap className="w-2.5 h-2.5 fill-white" /> 无尽模式
             </span>
           )}
         </h2>
@@ -617,7 +730,11 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
         <div>
           <span className="block text-[9px] uppercase font-mono tracking-wider font-bold text-stone-400">挑战目标</span>
           <span className="text-xs font-serif font-black text-amber-600 block mt-1.5">
-            {gameLevel === 1 ? '🥇 100分 迫使投降' : '👑 200分 完美通关'}
+            {gameLevel === 1
+              ? '🥇 100分 迫使投降'
+              : gameLevel === 2
+                ? '👑 200分 完美通关'
+                : `♾️ 生存挑战 · 速度 x${speedMultiplier.toFixed(2)}`}
           </span>
         </div>
       </div>
@@ -670,7 +787,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
                       initial={{ y: "110%" }}
                       animate={{ y: 0 }}
                       exit={{ y: "110%" }}
-                      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                      transition={moleSpringTransition}
                       onClick={() => handleWhackMole(mole.id, mole.type)}
                       className="w-full h-full relative focus:outline-none flex flex-col justify-end items-center cursor-pointer pointer-events-auto"
                     >
