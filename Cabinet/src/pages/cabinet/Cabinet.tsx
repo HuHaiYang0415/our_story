@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Heart, Key, Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { Heart, Key, Volume2, VolumeX } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
 import { StageLayout, StageCabinet } from '@/shared/layout';
 import { startCricketSounds, stopCricketSounds } from '@/shared/utils/cricketSounds';
@@ -15,6 +15,7 @@ import {
   GoldfishBowl,
   LemonTree,
 } from './cabinetDecorComponents';
+import { FlowerBouquet } from './decor/FlowerBouquet';
 
 interface CabinetProps {
   onOpenBox: (boxId: string) => void;
@@ -64,7 +65,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
   const hourglassH = (isDesktop ? 72 : 56) * scale;
   const lemontreeH = (isDesktop ? 96 : 72) * scale;
   const futureH = (isDesktop ? 72 : 58) * scale;
-  const spacerH = 8 * scale;
+  const bouquetH = (isDesktop ? 95 : 80) * scale;
 
   useEffect(() => {
     if (theme.season === 'summer' && theme.isNight && cricketsEnabled) {
@@ -354,8 +355,8 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${spacerH}px` }}>
-              <div className="w-10 h-2 bg-[#5A3E23]/20" />
+            <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${bouquetH}px` }}>
+              <FlowerBouquet onClick={() => onEnterFestivalPage('relationship-anniversary')} />
             </div>
           </div>
 

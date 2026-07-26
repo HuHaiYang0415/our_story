@@ -34,6 +34,7 @@ export type AppView =
   | 'box-envelopes'
   | 'letter-520'
   | 'box-photos'
+  | 'relationship'
   | 'festival-archive'
   | 'festival-2026-ChildrenDay'
   | 'festival-2026-DragonBoat';
@@ -43,6 +44,7 @@ const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   'box-envelopes': '时光信箱',
   'letter-520': '2026.05.20',
   'box-photos': '流光相册盒',
+  relationship: '相恋时光',
   'festival-archive': '节日风物志',
   'festival-2026-ChildrenDay': '2026 儿童节',
   'festival-2026-DragonBoat': '2026 端午节',

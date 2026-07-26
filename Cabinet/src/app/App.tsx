@@ -9,7 +9,7 @@ import { PolaroidGallery } from '@/pages/gallery/PolaroidGallery';
 import FestivalArchive from '@/pages/festivals/archive/FestivalArchive';
 import { ChildrenDayPageLoader } from '@/pages/festivals/2026/children-day/ChildrenDayPageLoader';
 import { DragonBoatPageLoader } from '@/pages/festivals/2026/dragon-boat/DragonBoatPageLoader';
-import { FestivalPreviewTools } from '@/pages/festivals/2026/dragon-boat/components/FestivalPreviewTools';
+import { RelationshipPageLoader } from '@/pages/relationship/RelationshipPageLoader';
 import {
   getTimeTheme,
   applyThemeCssVars,
@@ -18,7 +18,7 @@ import {
   type Season,
 } from '@/shared/theme/theme';
 import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
-import { ALLOW_SEASON_DEBUG, ALLOW_FESTIVAL_PAGE_PREVIEW } from '@/shared/config/featureFlags';
+import { ALLOW_SEASON_DEBUG } from '@/shared/config/featureFlags';
 import type { TimeTheme } from '@/shared/types';
 import { resolveFestivalView } from './festivalNav';
 import { VIEW_HASH, viewFromHash, type ViewState } from './routes';
@@ -275,6 +275,23 @@ export default function App() {
           </motion.div>
         )}
 
+        {currentView === 'relationship' && (
+          <motion.div
+            key="relationship-view"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
+          >
+            <RelationshipPageLoader
+              key={`relationship-${lazyLoaderEpoch.relationship ?? 0}`}
+              theme={themeView}
+              onBackToCabinet={() => navigateTo('cabinet')}
+            />
+          </motion.div>
+        )}
+
         {currentView === 'festival-archive' && (
           <motion.div
             key="festival-archive-view"
@@ -328,12 +345,6 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {ALLOW_FESTIVAL_PAGE_PREVIEW && (
-        <FestivalPreviewTools
-          onOpenDragonBoat={() => navigateTo('festival-2026-DragonBoat')}
-        />
-      )}
     </div>
   );
 }
