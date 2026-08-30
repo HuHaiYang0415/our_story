@@ -23,11 +23,6 @@ const DragonBoatPageLoader = lazy(() =>
     default: module.DragonBoatPageLoader,
   })),
 );
-const QixiPageLoader = lazy(() =>
-  import('@/pages/festivals/2026/qixi/QixiPageLoader').then((module) => ({
-    default: module.QixiPageLoader,
-  })),
-);
 const RelationshipPageLoader = lazy(() =>
   import('@/pages/relationship/RelationshipPageLoader').then((module) => ({
     default: module.RelationshipPageLoader,
@@ -401,23 +396,6 @@ export default function App() {
           </motion.div>
         )}
 
-        {currentView === 'festival-2026-Qixi' && (
-          <motion.div
-            key="festival-qixi-view"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="view-layer h-full w-full min-h-0 overflow-hidden"
-          >
-            <QixiPageLoader
-              key={`qixi-${lazyLoaderEpoch['festival-2026-Qixi'] ?? 0}`}
-              theme={themeView}
-              onBackToArchive={() => navigateTo('festival-archive')}
-              onBackToCabinet={() => navigateTo('cabinet')}
-            />
-          </motion.div>
-        )}
         </AnimatePresence>
       </Suspense>
 

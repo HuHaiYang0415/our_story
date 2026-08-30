@@ -5,8 +5,6 @@ import { TimeTheme } from '@/shared/types';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
 import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
 import { DRAGON_BOAT_2026_RELEASE } from '@/pages/festivals/2026/dragon-boat/visibility';
-import { canAccessQixi2026 } from '@/pages/festivals/2026/qixi/access';
-import { QIXI_2026_RELEASE } from '@/pages/festivals/2026/qixi/visibility';
 import {
   getFestivalNow,
   subscribeFestivalDateOverride,
@@ -23,7 +21,7 @@ type FestivalCardItem = {
   status: FestivalStatus;
   countdownDays: number;
   pageId: string;
-  accentToday: 'rose' | 'emerald' | 'qixi';
+  accentToday: 'rose' | 'emerald';
 };
 
 function computeFestivalStatus(
@@ -74,16 +72,6 @@ const ARCHIVE_FESTIVALS = [
     badge: '记胜页',
     accentToday: 'emerald' as const,
     isVisible: canAccessDragonBoat2026,
-  },
-  {
-    name: '七夕',
-    date: QIXI_2026_RELEASE,
-    pageId: '2026_Qixi',
-    kind: '农历 · 七月初七',
-    kindTag: '农历',
-    badge: '渡桥页',
-    accentToday: 'qixi' as const,
-    isVisible: canAccessQixi2026,
   },
 ];
 
@@ -204,8 +192,6 @@ export default function FestivalArchive({
             const todayRing =
               festivalItem.status === 'today' && festivalItem.accentToday === 'emerald'
                 ? 'border-emerald-300 ring-2 ring-emerald-100 shadow-md ring-offset-1 bg-[#F7FDF9]'
-                : festivalItem.status === 'today' && festivalItem.accentToday === 'qixi'
-                  ? 'border-rose-300/80 ring-2 ring-[#FCE7F3] shadow-md ring-offset-1 bg-[#FFF8FA]'
                   : festivalItem.status === 'today'
                     ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
                     : 'border-stone-200/90';
