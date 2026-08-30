@@ -137,9 +137,9 @@ export function RaceDiagonalLayout({
     far2: string[];
   } | null>(null);
   const drumTapCountRef = useRef(0);
-  const drumTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rowBurstTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rowBurstDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const drumTapResetRef = useRef<number | null>(null);
+  const rowBurstTimerRef = useRef<number | null>(null);
+  const rowBurstDelayRef = useRef<number | null>(null);
   const nearBoatMotionRef = useRef<HTMLDivElement>(null);
   const farBoat1Ref = useRef<HTMLDivElement>(null);
   const farBoat2Ref = useRef<HTMLDivElement>(null);

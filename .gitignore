@@ -33,3 +33,6 @@ __pycache__/
 /20260520/
 /202660520/
 /companion-520/
+
+# 本地开发测试入口（不进入正式提交）
+Cabinet/src/dev-only/

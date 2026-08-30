@@ -82,11 +82,6 @@ export function FlowerBouquet({ onClick }: FlowerBouquetProps) {
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerCancel}
-        onPointerEnter={() => {
-          void import('@/pages/relationship/loadRelationship').then((m) => {
-            void m.loadRelationship();
-          });
-        }}
         onContextMenu={(e) => e.preventDefault()}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {

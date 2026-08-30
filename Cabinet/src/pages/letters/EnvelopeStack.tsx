@@ -14,6 +14,12 @@ interface EnvelopeStackProps {
   onOpenLetter520: () => void;
 }
 
+type ReadableLetter = Letter & { content: string };
+
+function hasLetterContent(letter: Letter): letter is ReadableLetter {
+  return typeof letter.content === 'string' && letter.content.length > 0;
+}
+
 function EnvelopeStamp({ letter }: { letter: Letter }) {
   const src = getLetterStampSrc(letter);
   const [failed, setFailed] = useState(false);
@@ -44,7 +50,7 @@ function EnvelopeStamp({ letter }: { letter: Letter }) {
 export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: EnvelopeStackProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [extractingLetterId, setExtractingLetterId] = useState<string | null>(null);
-  const [readLetter, setReadLetter] = useState<Letter | null>(null);
+  const [readLetter, setReadLetter] = useState<ReadableLetter | null>(null);
   const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
 
   useEffect(() => {
@@ -83,7 +89,7 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
         return;
       }
 
-      if (letter.content) {
+      if (hasLetterContent(letter)) {
         setReadLetter(letter);
       }
 

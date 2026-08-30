@@ -1,0 +1,30 @@
+/* Children Day keeps source artwork proportional while fitting the available viewport. */
+.children-day-fit-shell {
+  container-type: size;
+}
+
+.children-day-room-frame {
+  width: min(100%, 56rem, calc(100cqh * 1.8318));
+  height: auto;
+  aspect-ratio: 1024 / 559;
+  flex: none;
+}
+
+.children-day-square-frame {
+  width: min(100%, 500px, 100cqh);
+  height: auto;
+  aspect-ratio: 1;
+  flex: none;
+}
+
+@supports not (width: 1cqh) {
+  .children-day-room-frame {
+    width: min(100%, 56rem);
+    max-height: 100%;
+  }
+
+  .children-day-square-frame {
+    width: min(100%, 500px);
+    max-height: 100%;
+  }
+}

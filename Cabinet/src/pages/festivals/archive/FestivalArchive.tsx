@@ -1,10 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, ChevronRight, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
 import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
 import { DRAGON_BOAT_2026_RELEASE } from '@/pages/festivals/2026/dragon-boat/visibility';
+import { canAccessQixi2026 } from '@/pages/festivals/2026/qixi/access';
+import { QIXI_2026_RELEASE } from '@/pages/festivals/2026/qixi/visibility';
+import {
+  getFestivalNow,
+  subscribeFestivalDateOverride,
+} from '@/pages/festivals/shared/festivalDateDebug';
 
 type FestivalStatus = 'passed' | 'today' | 'upcoming';
 
@@ -17,17 +23,20 @@ type FestivalCardItem = {
   status: FestivalStatus;
   countdownDays: number;
   pageId: string;
-  accentToday: 'rose' | 'emerald';
+  accentToday: 'rose' | 'emerald' | 'qixi';
 };
 
-function computeFestivalStatus(dateStr: string): {
+function computeFestivalStatus(
+  dateStr: string,
+  now: Date = getFestivalNow(),
+): {
   status: FestivalStatus;
   countdownDays: number;
 } {
   const todayMidnight = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    new Date().getDate(),
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
   ).getTime();
 
   const [y, m, d] = dateStr.split('-').map(Number);
@@ -66,6 +75,16 @@ const ARCHIVE_FESTIVALS = [
     accentToday: 'emerald' as const,
     isVisible: canAccessDragonBoat2026,
   },
+  {
+    name: '七夕',
+    date: QIXI_2026_RELEASE,
+    pageId: '2026_Qixi',
+    kind: '农历 · 七月初七',
+    kindTag: '农历',
+    badge: '渡桥页',
+    accentToday: 'qixi' as const,
+    isVisible: canAccessQixi2026,
+  },
 ];
 
 export default function FestivalArchive({
@@ -77,6 +96,9 @@ export default function FestivalArchive({
   onEnterFestivalPage: (pageId: string) => void;
 }) {
   const selectedYear = 2026;
+  const [nowTick, setNowTick] = useState(0);
+
+  useEffect(() => subscribeFestivalDateOverride(() => setNowTick((n) => n + 1)), []);
 
   const yearZodiacInfo = useMemo(() => {
     const zodiacs = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
@@ -93,8 +115,9 @@ export default function FestivalArchive({
   }, []);
 
   const festivalItems = useMemo((): FestivalCardItem[] => {
+    const now = getFestivalNow();
     return ARCHIVE_FESTIVALS.filter((f) => f.isVisible()).map((f) => {
-      const { status, countdownDays } = computeFestivalStatus(f.date);
+      const { status, countdownDays } = computeFestivalStatus(f.date, now);
       return {
         name: f.name,
         dateStr: f.date,
@@ -107,7 +130,7 @@ export default function FestivalArchive({
         accentToday: f.accentToday,
       };
     });
-  }, []);
+  }, [nowTick]);
 
   return (
     <ViewportShell
@@ -181,9 +204,11 @@ export default function FestivalArchive({
             const todayRing =
               festivalItem.status === 'today' && festivalItem.accentToday === 'emerald'
                 ? 'border-emerald-300 ring-2 ring-emerald-100 shadow-md ring-offset-1 bg-[#F7FDF9]'
-                : festivalItem.status === 'today'
-                  ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
-                  : 'border-stone-200/90';
+                : festivalItem.status === 'today' && festivalItem.accentToday === 'qixi'
+                  ? 'border-rose-300/80 ring-2 ring-[#FCE7F3] shadow-md ring-offset-1 bg-[#FFF8FA]'
+                  : festivalItem.status === 'today'
+                    ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
+                    : 'border-stone-200/90';
 
             return (
               <motion.button

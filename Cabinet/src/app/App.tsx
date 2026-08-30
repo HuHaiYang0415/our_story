@@ -1,15 +1,38 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Sun, Moon, Calendar } from 'lucide-react';
 import { Cabinet } from '@/pages/cabinet/Cabinet';
-import { EnvelopeStack } from '@/pages/letters/EnvelopeStack';
-import { Letter520PageLoader } from '@/pages/letters/Letter520PageLoader';
+const EnvelopeStack = lazy(() =>
+  import('@/pages/letters/EnvelopeStack').then((module) => ({ default: module.EnvelopeStack })),
+);
+const Letter520PageLoader = lazy(() =>
+  import('@/pages/letters/Letter520PageLoader').then((module) => ({ default: module.Letter520PageLoader })),
+);
 import { OUR_STORY_NAV_MESSAGE } from '@/shared/config/siteConfig';
-import { PolaroidGallery } from '@/pages/gallery/PolaroidGallery';
-import FestivalArchive from '@/pages/festivals/archive/FestivalArchive';
-import { ChildrenDayPageLoader } from '@/pages/festivals/2026/children-day/ChildrenDayPageLoader';
-import { DragonBoatPageLoader } from '@/pages/festivals/2026/dragon-boat/DragonBoatPageLoader';
-import { RelationshipPageLoader } from '@/pages/relationship/RelationshipPageLoader';
+const PolaroidGallery = lazy(() =>
+  import('@/pages/gallery/PolaroidGallery').then((module) => ({ default: module.PolaroidGallery })),
+);
+const FestivalArchive = lazy(() => import('@/pages/festivals/archive/FestivalArchive'));
+const ChildrenDayPageLoader = lazy(() =>
+  import('@/pages/festivals/2026/children-day/ChildrenDayPageLoader').then((module) => ({
+    default: module.ChildrenDayPageLoader,
+  })),
+);
+const DragonBoatPageLoader = lazy(() =>
+  import('@/pages/festivals/2026/dragon-boat/DragonBoatPageLoader').then((module) => ({
+    default: module.DragonBoatPageLoader,
+  })),
+);
+const QixiPageLoader = lazy(() =>
+  import('@/pages/festivals/2026/qixi/QixiPageLoader').then((module) => ({
+    default: module.QixiPageLoader,
+  })),
+);
+const RelationshipPageLoader = lazy(() =>
+  import('@/pages/relationship/RelationshipPageLoader').then((module) => ({
+    default: module.RelationshipPageLoader,
+  })),
+);
 import {
   getTimeTheme,
   applyThemeCssVars,
@@ -23,6 +46,25 @@ import type { TimeTheme } from '@/shared/types';
 import { resolveFestivalView } from './festivalNav';
 import { VIEW_HASH, viewFromHash, type ViewState } from './routes';
 import { isLazyLoadView } from '@/shared/load/lazyLoadViews';
+
+
+type LocalFestivalPreviewModule = {
+  FestivalPreviewTools: React.ComponentType<{
+    onOpenFestival: (festival: { view: ViewState | null }) => void;
+  }>;
+};
+
+/**
+ * 本地节日测试入口不属于正式页面代码。
+ * 文件位于被 gitignore 的 src/dev-only/，通过可为空的 glob 读取；提交时删除该目录也不影响正式构建。
+ */
+const LOCAL_FESTIVAL_PREVIEW_MODULES = import.meta.glob(
+  '/src/dev-only/festivalPreview/FestivalPreviewTools.tsx',
+  { eager: true },
+) as Record<string, LocalFestivalPreviewModule>;
+const LocalFestivalPreviewTools = import.meta.env.DEV
+  ? Object.values(LOCAL_FESTIVAL_PREVIEW_MODULES)[0]?.FestivalPreviewTools
+  : undefined;
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>(() => viewFromHash());
@@ -206,7 +248,14 @@ export default function App() {
         </button>
       </div>
 
-      <AnimatePresence mode="wait">
+      <Suspense
+        fallback={
+          <div className="view-layer flex h-full w-full min-h-0 items-center justify-center bg-brand-bg text-sm text-brand-text">
+            正在打开…
+          </div>
+        }
+      >
+        <AnimatePresence mode="wait">
         {currentView === 'cabinet' && (
           <motion.div
             key="cabinet-view"
@@ -224,6 +273,13 @@ export default function App() {
               }}
               onEnterFestivalArchive={() => navigateTo('festival-archive')}
               onEnterFestivalPage={navigateToFestivalPage}
+              festivalPreviewTools={
+                LocalFestivalPreviewTools ? (
+                  <LocalFestivalPreviewTools onOpenFestival={(festival) => {
+                    if (festival.view) navigateTo(festival.view);
+                  }} />
+                ) : undefined
+              }
             />
           </motion.div>
         )}
@@ -344,7 +400,27 @@ export default function App() {
             />
           </motion.div>
         )}
-      </AnimatePresence>
+
+        {currentView === 'festival-2026-Qixi' && (
+          <motion.div
+            key="festival-qixi-view"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="view-layer h-full w-full min-h-0 overflow-hidden"
+          >
+            <QixiPageLoader
+              key={`qixi-${lazyLoaderEpoch['festival-2026-Qixi'] ?? 0}`}
+              theme={themeView}
+              onBackToArchive={() => navigateTo('festival-archive')}
+              onBackToCabinet={() => navigateTo('cabinet')}
+            />
+          </motion.div>
+        )}
+        </AnimatePresence>
+      </Suspense>
+
     </div>
   );
 }

@@ -1,0 +1,19 @@
+---
+description: 项目基线、React 类型、浏览器定时器与年度节日测试入口约定
+globs: Cabinet/src/**/*,Cabinet/package.json,Cabinet/tsconfig.json
+alwaysApply: true
+---
+
+# 项目通用开发约定
+
+详细说明见 `Cabinet/docs/PROJECT-GUIDELINES.md`。执行任务时遵守以下硬约束：
+
+- 以 Git 基线为准，除明确需求外不要改动其他页面；专题页只做最小路由/懒加载集成。
+- 本地只保留季节切换和节日页面预览/切换入口；节日测试统一收敛为沙漏旁的一个通用菜单按钮，可选当前年度全部预设节日，以及节日前、节日当天、节日前 7 天、当前时间四种状态；未开发的节日仅用于日期/沙漏测试。
+- 当前年度节日测试选项统一维护在 `Cabinet/src/dev-only/festivalPreview/festivalPreviewRegistry.ts`，日期来自 `Cabinet/src/data/holidays.json`。进入新的一年时，复制或替换年度条目，更新年份、日期；对已开发页面再更新 `pageId` 和 `view`，并同步检查档案馆、导航、访问门禁和懒加载映射。
+- 调试代码必须由 DEV 或 `VITE_*` 开关保护，生产默认关闭。
+- React 19 的 `key` 是 JSX 特殊属性，不要加入任何组件 Props；先修正 React 类型依赖与 JSX 类型环境。
+- 浏览器定时器使用 `window.setTimeout` 等 API，句柄按 `number` 处理，避免 NodeJS.Timeout 与 DOM 类型冲突。
+- 删除旧版目录后清理源码和文档引用；不要留下失效导入或过时架构说明。
+- 交付前运行 `npm run lint` 与 `npm run build`，并区分本次改动错误与仓库既有错误。
+- 资源加载细则见 `Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md`；新增或重构页面时按该文档进行资源分级、路由拆分和构建检查。

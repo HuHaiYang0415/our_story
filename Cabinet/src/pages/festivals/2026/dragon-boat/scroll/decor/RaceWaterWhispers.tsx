@@ -109,7 +109,7 @@ export function RaceWaterWhispers({ active, isNight }: RaceWaterWhispersProps) {
 
     const runId = runRef.current + 1;
     runRef.current = runId;
-    const timers: ReturnType<typeof setTimeout>[] = [];
+    const timers: number[] = [];
 
     const patchLine = (index: number, patch: Partial<LineRuntime>) => {
       if (runRef.current !== runId) return;

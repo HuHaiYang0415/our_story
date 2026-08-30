@@ -21,13 +21,14 @@ interface CabinetProps {
   onOpenBox: (boxId: string) => void;
   onEnterFestivalArchive: () => void;
   onEnterFestivalPage: (pageId: string) => void;
+  festivalPreviewTools?: React.ReactNode;
   theme: TimeTheme;
 }
 
 /** 每层腔体（仅 bg-black/25 透明灰区）；顶板/层板为棕色，不计入此高度 */
 const SHELF_CAVITY_CLASS = `cabinet-shelf-cavity relative w-full grid grid-cols-3 items-end px-3 md:px-14 border-b-12`;
 
-export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage, theme }: CabinetProps) {
+export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage, festivalPreviewTools, theme }: CabinetProps) {
   const [boxInFocus, setBoxInFocus] = useState<string | null>(null);
   const [cricketsEnabled, setCricketsEnabled] = useState(true);
 
@@ -313,7 +314,10 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               </div>
             </div>
 
-            <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${hourglassH}px` }}>
+            <div className="relative flex justify-end items-end gap-1 mb-1 overflow-visible" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${hourglassH}px` }}>
+              <div className="absolute bottom-[calc(100%+0.25rem)] right-0">
+                {festivalPreviewTools}
+              </div>
               <FestiveHourglass
                 onEnterFestivalArchive={onEnterFestivalArchive}
                 onEnterFestivalPage={onEnterFestivalPage}

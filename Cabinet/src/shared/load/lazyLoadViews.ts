@@ -6,6 +6,7 @@ export const LAZY_LOAD_VIEWS = [
   'relationship',
   'festival-2026-ChildrenDay',
   'festival-2026-DragonBoat',
+  'festival-2026-Qixi',
 ] as const satisfies readonly ViewState[];
 
 export type LazyLoadView = (typeof LAZY_LOAD_VIEWS)[number];

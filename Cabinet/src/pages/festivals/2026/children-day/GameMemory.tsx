@@ -94,7 +94,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
     soundSynth.stopBgm();
 
     let audio: HTMLAudioElement | null = null;
-    let playTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    let playTimeoutId: number | null = null;
     let isDestroyed = false;
     let handleEnded: (() => void) | null = null;
     let startPlay: (() => void) | null = null;
@@ -108,7 +108,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
 
       handleEnded = () => {
         if (isDestroyed) return;
-        playTimeoutId = setTimeout(() => {
+        playTimeoutId = window.setTimeout(() => {
           if (!isDestroyed && audio) {
             audio.currentTime = 0;
             void audio.play().catch(() => {});
@@ -132,7 +132,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
     return () => {
       isDestroyed = true;
       if (playTimeoutId) {
-        clearTimeout(playTimeoutId);
+        window.clearTimeout(playTimeoutId);
       }
       if (audio) {
         if (handleEnded) audio.removeEventListener('ended', handleEnded);
@@ -162,7 +162,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
       const [firstIdx, secondIdx] = newSelected;
       if (cards[firstIdx].pairId === cards[secondIdx].pairId) {
         // MATCHED!
-        setTimeout(() => {
+        window.setTimeout(() => {
           newCards[firstIdx].isMatched = true;
           newCards[secondIdx].isMatched = true;
           setCards(newCards);
@@ -181,7 +181,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
         }, 500);
       } else {
         // NO MATCH! Flip back
-        setTimeout(() => {
+        window.setTimeout(() => {
           newCards[firstIdx].isFlipped = false;
           newCards[secondIdx].isFlipped = false;
           setCards(newCards);
@@ -194,11 +194,11 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
 
   return (
     <div 
-      className="w-full flex flex-col items-center p-4 min-h-[90vh] select-none"
+      className="flex h-full min-h-0 w-full flex-col items-center overflow-hidden p-2 md:p-4 select-none"
       id="game-memory-root"
     >
       {/* Top Banner Row */}
-      <div className="w-full max-w-xl flex items-center justify-between mb-6" id="game-memory-header">
+      <div className="flex w-full max-w-xl shrink-0 items-center justify-between mb-2 md:mb-3" id="game-memory-header">
         <button
           onClick={onBack}
           className="flex items-center space-x-1 px-4 py-2 rounded-full bg-amber-500/10 hover:bg-amber-500/15 border border-amber-200 text-amber-800 text-xs font-bold transition-all active:scale-95"
@@ -220,7 +220,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* Main Stats panel */}
-      <div className="w-full max-w-xl grid grid-cols-2 gap-4 mb-6" id="game-memory-stats">
+      <div className="grid w-full max-w-xl shrink-0 grid-cols-2 gap-2 md:gap-4 mb-2 md:mb-3" id="game-memory-stats">
         <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-amber-200/50 shadow-xs flex items-center justify-center space-x-3 transition-all hover:shadow-xs">
           <div className="w-10 h-10 rounded-xl bg-orange-100/80 flex items-center justify-center text-xl select-none">
             👣
@@ -243,7 +243,8 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* Grid Canvas area */}
-      <div className="w-full max-w-xl aspect-square max-h-[500px] mb-6 p-4 bg-[#FCFAF2] rounded-3xl border-4 border-dashed border-[#8C6239]/20 flex flex-col items-center justify-center relative shadow-inner">
+      <div className="children-day-fit-shell flex min-h-0 w-full flex-1 items-center justify-center overflow-hidden">
+        <div className="children-day-square-frame relative max-w-[500px] rounded-3xl border-4 border-dashed border-[#8C6239]/20 bg-[#FCFAF2] p-2 shadow-inner md:p-4">
         
         {isWon ? (
           // Victory overlays
@@ -325,6 +326,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
           })}
         </div>
 
+        </div>
       </div>
     </div>
   );

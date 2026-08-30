@@ -1,7 +1,7 @@
 # 2026 端午节 · 端午长卷（v2.2）
 
 > 单屏切幕叙事页，接入 Our Story 节日档案馆。  
-> 旧版江畔条案见 `legacy-v1/`。
+>
 
 ---
 
@@ -25,7 +25,7 @@
 | 6 | 陆 | 收 · 记胜 | center | 永远「粽」意你 |
 
 文案配置：`scroll-beats.ts`（分幕）、`letter.ts`（书信）。  
-肆幕**不再引用** `legacy-v1/zongzi.ts`；节物祝福与桥接句均在 `scroll-beats.ts` 内维护。
+节物祝福与桥接句均在 `scroll-beats.ts` 内维护。
 
 ### 叙事弧线（公域 → 私域）
 
@@ -138,7 +138,7 @@ dragon-boat/
 │   └── decor/
 │       ├── DragonBoatSvg.tsx # showLabel 默认 false
 │       └── ZongziMark.tsx
-└── legacy-v1/                # v1 归档；含 zongzi.ts
+
 ```
 
 ---

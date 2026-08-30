@@ -3,6 +3,7 @@ import type { TimeTheme } from '@/shared/types';
 import {
   createProgressTracker,
   importWithRetry,
+  preloadImage,
   warmAudioStream,
   type LoadProgressCallback,
 } from '@/shared/load/mediaPreload';
@@ -27,10 +28,11 @@ export async function loadRelationship(
   track.bump(0.7, '打开纪念册');
   track.done();
 
+  // 只在进入关系页后后台预载插画；共享缓存会避免同一 URL 重复请求。
   for (const url of RELATIONSHIP_PRELOAD_IMAGES) {
-    void fetch(url, { cache: 'force-cache' }).catch(() => undefined);
+    void preloadImage(url);
   }
-  void warmAudioStream(RELATIONSHIP_BGM_URL);
+  warmAudioStream(RELATIONSHIP_BGM_URL);
 
   return mod.default;
 }

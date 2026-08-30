@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Sparkles } from 'lucide-react';
 import holidaysData from '@/data/holidays.json';
+import {
+  getFestivalNow,
+  subscribeFestivalDateOverride,
+} from '@/pages/festivals/shared/festivalDateDebug';
 
 const HOLIDAY_METADATA: Record<string, {
   colorName: string;
@@ -923,11 +927,15 @@ export function FestiveHourglass({
   onEnterFestivalArchive: () => void;
   onEnterFestivalPage: (pageId: string) => void;
 }) {
-  const [currentDate, setCurrentDate] = useState(() => new Date());
+  const [currentDate, setCurrentDate] = useState(() => getFestivalNow());
 
   useEffect(() => {
-    const interval = setInterval(() => setCurrentDate(new Date()), 60000);
-    return () => clearInterval(interval);
+    const interval = window.setInterval(() => setCurrentDate(getFestivalNow()), 60000);
+    const unsubscribe = subscribeFestivalDateOverride(() => setCurrentDate(getFestivalNow()));
+    return () => {
+      window.clearInterval(interval);
+      unsubscribe();
+    };
   }, []);
 
   const getActualState = () => {

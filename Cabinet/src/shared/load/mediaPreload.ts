@@ -1,37 +1,46 @@
-export function preloadAudio(url: string, timeoutMs = 120_000): Promise<void> {
-  return new Promise((resolve) => {
+const imagePreloadCache = new Map<string, Promise<void>>();
+const requiredImagePreloadCache = new Map<string, Promise<void>>();
+const audioPreloadCache = new Map<string, Promise<void>>();
+
+function preloadAudioWithEvent(
+  url: string,
+  eventName: 'canplaythrough' | 'canplay',
+  timeoutMs: number,
+): Promise<void> {
+  const cached = audioPreloadCache.get(`${eventName}:${url}`);
+  if (cached) return cached;
+
+  const promise = new Promise<void>((resolve) => {
     const audio = new Audio();
+    let timer = 0;
     const finish = () => {
-      audio.removeEventListener('canplaythrough', finish);
+      window.clearTimeout(timer);
+      audio.removeEventListener(eventName, finish);
       audio.removeEventListener('error', finish);
       resolve();
     };
+
     audio.preload = 'auto';
-    audio.addEventListener('canplaythrough', finish, { once: true });
+    audio.addEventListener(eventName, finish, { once: true });
     audio.addEventListener('error', finish, { once: true });
     audio.src = url;
-    window.setTimeout(finish, timeoutMs);
+    timer = window.setTimeout(finish, timeoutMs);
   });
+
+  audioPreloadCache.set(`${eventName}:${url}`, promise);
+  return promise;
+}
+
+export function preloadAudio(url: string, timeoutMs = 120_000): Promise<void> {
+  return preloadAudioWithEvent(url, 'canplaythrough', timeoutMs);
 }
 
 /** 缓冲到可开播即 resolve，适合大 BGM 边下边播 */
 export function preloadAudioCanPlay(url: string, timeoutMs = 60_000): Promise<void> {
-  return new Promise((resolve) => {
-    const audio = new Audio();
-    const finish = () => {
-      audio.removeEventListener('canplay', finish);
-      audio.removeEventListener('error', finish);
-      resolve();
-    };
-    audio.preload = 'auto';
-    audio.addEventListener('canplay', finish, { once: true });
-    audio.addEventListener('error', finish, { once: true });
-    audio.src = url;
-    window.setTimeout(finish, timeoutMs);
-  });
+  return preloadAudioWithEvent(url, 'canplay', timeoutMs);
 }
 
-/** 后台拉流预热，不阻塞进页 */
+/** 后台拉流预热，不阻塞进页；同一资源在多个入口只预热一次 */
 export function warmAudioStream(url: string): void {
   void preloadAudioCanPlay(url);
 }
@@ -44,24 +53,19 @@ export function stopHtmlAudio(audio: HTMLAudioElement) {
   audio.load();
 }
 
-export function preloadImage(url: string): Promise<void> {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve();
-    img.onerror = () => resolve();
-    img.src = url;
-  });
-}
+function preloadImageWithCache(
+  url: string,
+  cache: Map<string, Promise<void>>,
+  required: boolean,
+  timeoutMs = 90_000,
+): Promise<void> {
+  const cached = cache.get(url);
+  if (cached) return cached;
 
-/** 图片必须加载成功，失败则 reject（用于进页门槛资源） */
-export function preloadImageRequired(url: string, timeoutMs = 90_000): Promise<void> {
-  return new Promise((resolve, reject) => {
+  const promise = new Promise<void>((resolve, reject) => {
     const img = new Image();
-    const timer = window.setTimeout(() => {
-      cleanup();
-      reject(new Error(`Image timeout: ${url}`));
-    }, timeoutMs);
-
+    img.decoding = 'async';
+    let timer = 0;
     const cleanup = () => {
       window.clearTimeout(timer);
       img.onload = null;
@@ -74,10 +78,38 @@ export function preloadImageRequired(url: string, timeoutMs = 90_000): Promise<v
     };
     img.onerror = () => {
       cleanup();
-      reject(new Error(`Image failed: ${url}`));
+      if (required) {
+        reject(new Error(`Image failed: ${url}`));
+      } else {
+        resolve();
+      }
     };
+    if (required) {
+      timer = window.setTimeout(() => {
+        cleanup();
+        reject(new Error(`Image timeout: ${url}`));
+      }, timeoutMs);
+    }
     img.src = url;
   });
+
+  cache.set(url, promise);
+  if (required) {
+    void promise.catch(() => {
+      // A transient failure should not poison later navigation attempts.
+      cache.delete(url);
+    });
+  }
+  return promise;
+}
+
+export function preloadImage(url: string): Promise<void> {
+  return preloadImageWithCache(url, imagePreloadCache, false);
+}
+
+/** 图片必须加载成功，失败则 reject（用于进页门槛资源） */
+export function preloadImageRequired(url: string, timeoutMs = 90_000): Promise<void> {
+  return preloadImageWithCache(url, requiredImagePreloadCache, true, timeoutMs);
 }
 
 export function preloadFetch(url: string): Promise<void> {

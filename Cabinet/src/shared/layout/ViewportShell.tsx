@@ -4,6 +4,8 @@ export interface ViewportShellProps {
   id?: string;
   className?: string;
   style?: React.CSSProperties;
+  /** Whether the main content may scroll vertically. */
+  scrollable?: boolean;
   overlay?: React.ReactNode;
   foot?: React.ReactNode;
   children: React.ReactNode;
@@ -16,6 +18,7 @@ export function ViewportShell({
   id,
   className = '',
   style,
+  scrollable = true,
   overlay,
   foot,
   children,
@@ -40,7 +43,9 @@ export function ViewportShell({
       <div
         className={[
           'viewport-main relative z-10 flex min-h-0 flex-1 flex-col',
-          'overflow-y-auto overflow-x-hidden overscroll-x-none touch-pan-y',
+          scrollable
+            ? 'overflow-y-auto overflow-x-hidden overscroll-x-none touch-pan-y'
+            : 'overflow-hidden overscroll-none',
         ].join(' ')}
       >
         <div className="viewport-main-inner flex min-h-full flex-1 flex-col">{children}</div>

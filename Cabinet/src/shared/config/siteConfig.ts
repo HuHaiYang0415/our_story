@@ -37,7 +37,8 @@ export type AppView =
   | 'relationship'
   | 'festival-archive'
   | 'festival-2026-ChildrenDay'
-  | 'festival-2026-DragonBoat';
+  | 'festival-2026-DragonBoat'
+  | 'festival-2026-Qixi';
 
 const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   cabinet: null,
@@ -48,6 +49,7 @@ const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
   'festival-archive': '节日风物志',
   'festival-2026-ChildrenDay': '2026 儿童节',
   'festival-2026-DragonBoat': '2026 端午节',
+  'festival-2026-Qixi': '2026 七夕',
 };
 
 export function getPageTitle(view: AppView, suffix?: string | null): string {
