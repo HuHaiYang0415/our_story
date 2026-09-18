@@ -90,6 +90,9 @@
     if (!bgmToggle) return;
     bgmToggle.textContent = state.bgmOn ? '音乐' : '静音';
     bgmToggle.classList.toggle('is-off', !state.bgmOn);
+    bgmToggle.setAttribute('aria-label', state.bgmOn ? '关闭背景音乐' : '开启背景音乐');
+    bgmToggle.setAttribute('aria-pressed', String(state.bgmOn));
+    bgmToggle.title = state.bgmOn ? '关闭背景音乐' : '开启背景音乐';
   }
 
   function tryStartBgm() {
@@ -139,6 +142,18 @@
       return;
     }
     updateBgmToggleLabel();
+  }
+
+  function disposeBgm() {
+    clearBgmGapTimer();
+    if (!bgm) return;
+    bgm.pause();
+    bgm.removeAttribute('src');
+    const source = bgm.querySelector('source');
+    if (source) source.removeAttribute('src');
+    bgm.load();
+    state.bgmOn = false;
+    state.bgmUserPaused = true;
   }
 
   function escapeHtml(s) {
@@ -775,6 +790,7 @@
     const unlockBgm = () => tryStartBgm();
     document.addEventListener('pointerdown', unlockBgm, { once: true, passive: true });
     document.addEventListener('touchstart', unlockBgm, { once: true, passive: true });
+    window.addEventListener('pagehide', disposeBgm, { once: true });
   }
 
   init();

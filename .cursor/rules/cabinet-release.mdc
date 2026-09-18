@@ -6,12 +6,16 @@ alwaysApply: false
 
 # 构建与发布
 
+当前发布边界以根目录 [`SCOPE.md`](../../SCOPE.md) 为准。本次明确排除七夕和本地测试，`build:site` 先核对 SCOPE 授权与产物隔离门禁。
+
 ## 命令
 
 ```bash
 cd Cabinet
-npm run build:site   # vite build + copy-site.mjs
+npm run build        # 只生成 Cabinet/dist/
 ```
+
+本次获用户授权的隔离候选可在 `verify` 与 `check-release` 通过后执行 `npm run build:site`；原工作树包含七夕，不能直接发布。
 
 ## 发布物（复制到上级 `demo/` 根）
 
@@ -24,9 +28,9 @@ npm run build:site   # vite build + copy-site.mjs
 
 ## 提交建议
 
-- 源码改动在 `Cabinet/src/`；**线上可见变更必须包含** `build:site` 后的根目录产物。
+- 源码改动在 `Cabinet/src/`；只有根 `SCOPE.md` 明确授权的发布会话才同步根目录产物。
 - 不要提交 `.env`、密钥；`.cursor/` 规则可提交以便协作。
-- 本地验证：`npm run dev` 测交互；发布前可用 `npm run preview` 或根目录静态服抽查 hash 路由。
+- 本地验证：`npm run dev` 测交互，`npm run preview` 抽查 `Cabinet/dist/` 的 hash 路由。
 
 ## 勿做
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Volume2, VolumeX, ArrowLeft } from 'lucide-react';
 import { RelationshipAmbient } from './AmbientAudio';
+import { StoryBackButton, StoryMuteButton } from '@/shared/ui/StoryControls';
 import {
   PRINCE_SVG,
   daysSinceRelationship,
@@ -27,24 +27,24 @@ export default function RelationshipPage({ theme, onBackToCabinet }: Relationshi
   const [currentHour, setCurrentHour] = useState(() => new Date().getHours());
   const ambientRef = useRef<RelationshipAmbient | null>(null);
 
-  if (!ambientRef.current) {
-    ambientRef.current = new RelationshipAmbient();
-  }
-
   useEffect(() => {
-    setIsPlayingBgm(true);
     return () => {
       ambientRef.current?.stop();
     };
   }, []);
 
-  useEffect(() => {
+  const toggleBgm = () => {
     if (isPlayingBgm) {
-      ambientRef.current?.start();
-    } else {
       ambientRef.current?.stop();
+      setIsPlayingBgm(false);
+      return;
     }
-  }, [isPlayingBgm]);
+
+    const ambient = ambientRef.current ?? new RelationshipAmbient();
+    ambientRef.current = ambient;
+    ambient.start();
+    setIsPlayingBgm(true);
+  };
 
   useEffect(() => {
     const tick = () => {
@@ -131,36 +131,18 @@ export default function RelationshipPage({ theme, onBackToCabinet }: Relationshi
       </div>
 
       <header className="w-full max-w-5xl flex items-center justify-between shrink-0 z-20 pb-4 border-b border-stone-400/10 gap-2">
-        <button
-          type="button"
+        <StoryBackButton
           onClick={onBackToCabinet}
-          className={`flex items-center space-x-2 text-xs font-semibold px-4.5 py-2.5 rounded-full transition-all duration-300 active:scale-95 ${
-            isNight
-              ? 'bg-white/5 hover:bg-white/10 text-[#F3EFE0] border border-white/10'
-              : 'bg-stone-100 hover:bg-stone-200 text-[#4A3C2B] border border-stone-300/30'
-          }`}
-        >
-          <ArrowLeft className="w-3.5 h-3.5" aria-hidden />
-          <span>返回时光展柜</span>
-        </button>
+          label="返回时光展柜"
+          tone={isNight ? 'night' : 'paper'}
+        />
 
-        <button
-          type="button"
-          onClick={() => setIsPlayingBgm((v) => !v)}
-          className={`p-2.5 rounded-full border transition-all duration-300 active:scale-90 ${
-            isPlayingBgm
-              ? 'bg-[#EAA813] text-white border-[#D4AF37] shadow-[0_0_15px_rgba(234,168,19,0.35)]'
-              : 'bg-stone-500/10 text-stone-400 border-stone-300/30'
-          }`}
-          title={isPlayingBgm ? '关闭音乐' : '开启音乐'}
-          aria-pressed={isPlayingBgm}
-        >
-          {isPlayingBgm ? (
-            <Volume2 className="w-4.5 h-4.5 animate-pulse" aria-hidden />
-          ) : (
-            <VolumeX className="w-4.5 h-4.5" aria-hidden />
-          )}
-        </button>
+        <StoryMuteButton
+          muted={!isPlayingBgm}
+          onToggle={toggleBgm}
+          label="音乐"
+          tone={isNight ? 'night' : 'wood'}
+        />
       </header>
 
       <main className="w-full max-w-5xl flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14 py-8 z-20 min-h-0">

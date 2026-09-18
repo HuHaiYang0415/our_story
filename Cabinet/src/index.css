@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Long+Cang&family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Long+Cang&family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --font-serif: "Playfair Display", "Georgia", "Cinzel", serif;
   --font-hand: "Caveat", "Long Cang", cursive;
   
@@ -12,6 +12,29 @@
   --color-wood-mid: #6D4C2B;
   --color-wood-light: #8C6239;
   --color-wood-shelf: #4c3217;
+  --color-surface-paper: #FFFDFB;
+  --color-surface-paper-soft: #FCFAF2;
+  --color-surface-night: #120F0D;
+  --color-ink-muted: #6F6258;
+  --color-line-paper: #E5DACE;
+  --color-seal-amber: #B45309;
+  --color-seal-rose: #B45369;
+  --color-seal-emerald: #16705A;
+}
+
+:root {
+  --story-duration-fast: 160ms;
+  --story-duration-standard: 280ms;
+  --story-duration-scene: 480ms;
+  --story-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --story-space-section: 1.5rem;
+  --story-space-block: 1rem;
+  --story-space-control: 0.5rem;
+  --story-surface: var(--color-brand-bg);
+  --story-surface-raised: var(--color-surface-paper);
+  --story-ink: var(--color-brand-text);
+  --story-ink-muted: var(--color-ink-muted);
+  --story-line: var(--color-line-paper);
 }
 
 @layer utilities {
@@ -155,6 +178,152 @@
     }
   }
 
+  /*
+   * 极窄 CSS 视口（例如桌面浏览器 200% 缩放后的等效宽度）：
+   * 保留木柜三列结构，但收掉装饰性内边距，避免核心入口被 flex/grid 压到触控目标以下。
+   */
+  @media (max-width: 280px) {
+  .stage-main-body {
+      padding-inline: 4px;
+    }
+
+    .stage-cabinet {
+      width: 100%;
+    }
+
+    #wooden-cabinet-wrapper {
+      padding: 0;
+    }
+
+    #shelf-contents-box {
+      inset: 0;
+      padding: 0;
+      border-width: 0;
+    }
+
+    .cabinet-shelf-cavity {
+      padding-inline: 8px;
+    }
+
+    #wooden-box-envelopes,
+    #wooden-box-photos,
+    #flower-bouquet-entrance {
+      min-width: 58px;
+      flex-shrink: 0;
+    }
+  }
+
+  /* Shared story controls: paper/wood materials stay consistent across routes. */
+  .story-action-button,
+  .story-inline-button,
+  .story-icon-button {
+    min-height: 44px;
+    border: 1px solid var(--story-line);
+    border-radius: 9999px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      color var(--story-duration-fast) var(--story-ease-out),
+      background-color var(--story-duration-fast) var(--story-ease-out),
+      border-color var(--story-duration-fast) var(--story-ease-out),
+      transform var(--story-duration-fast) var(--story-ease-out);
+  }
+
+  .story-action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .story-inline-button {
+    padding: 0.5rem 1rem;
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .story-icon-button {
+    display: inline-flex;
+    width: 44px;
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .story-action-button:hover,
+  .story-inline-button:hover,
+  .story-icon-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .story-action-button:active,
+  .story-inline-button:active,
+  .story-icon-button:active {
+    transform: translateY(0);
+  }
+
+  .story-action-button--paper,
+  .story-inline-button--paper,
+  .story-icon-button--paper {
+    background: color-mix(in srgb, var(--story-surface-raised) 92%, transparent);
+    color: var(--story-ink);
+  }
+
+  .story-action-button--wood,
+  .story-inline-button--wood,
+  .story-icon-button--wood {
+    background: color-mix(in srgb, var(--color-wood-light) 12%, var(--story-surface-raised));
+    border-color: color-mix(in srgb, var(--color-wood-light) 42%, var(--story-line));
+    color: var(--color-wood-dark);
+  }
+
+  .story-action-button--night,
+  .story-inline-button--night,
+  .story-icon-button--night {
+    background: color-mix(in srgb, var(--color-wood-dark) 72%, var(--story-surface));
+    border-color: color-mix(in srgb, var(--color-wood-light) 45%, transparent);
+    color: var(--color-brand-text);
+  }
+
+  .story-action-button--emerald,
+  .story-inline-button--emerald,
+  .story-icon-button--emerald {
+    background: color-mix(in srgb, var(--color-seal-emerald) 78%, var(--story-surface));
+    border-color: color-mix(in srgb, var(--color-seal-emerald) 62%, transparent);
+    color: #F0FDF4;
+  }
+
+  .story-action-button--amber,
+  .story-inline-button--amber,
+  .story-icon-button--amber {
+    background: color-mix(in srgb, var(--color-seal-amber) 10%, var(--story-surface-raised));
+    border-color: color-mix(in srgb, var(--color-seal-amber) 38%, var(--story-line));
+    color: #92400E;
+  }
+
+  .story-action-button--rose,
+  .story-inline-button--rose,
+  .story-icon-button--rose {
+    background: color-mix(in srgb, var(--color-seal-rose) 10%, var(--story-surface-raised));
+    border-color: color-mix(in srgb, var(--color-seal-rose) 38%, var(--story-line));
+    color: #9F1239;
+  }
+
+  .story-page-header {
+    width: 100%;
+    border-bottom: 1px solid color-mix(in srgb, var(--story-line) 75%, transparent);
+    padding-block: var(--story-space-control);
+  }
+
+  .story-section-gap {
+    gap: var(--story-space-section);
+  }
+
   /* App 内视图层：承接 #app-root 的 h-dvh，子页面用 h-full 填满 */
   #app-root > .view-layer {
     min-height: 0;
@@ -237,6 +406,38 @@ html {
   -webkit-text-size-adjust: 100%;
   height: 100%;
   background-color: var(--color-brand-bg);
+}
+
+/* Shared keyboard treatment: never hide the focus indicator for keyboard users. */
+:where(button, [role='button'], a, input, select, textarea):focus-visible {
+  outline: 3px solid #b45309;
+  outline-offset: 3px;
+}
+
+/* A named utility keeps small icon controls at the 44px touch target standard. */
+.min-touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-pulse,
+  .animate-spin {
+    animation: none !important;
+  }
 }
 
 body,

@@ -13,7 +13,7 @@ export function ScrollHint({ visible, onDark = true }: ScrollHintProps) {
 
   return (
     <div
-      className={`db-scroll-hint ${onDark ? 'text-stone-300' : 'text-stone-600'}`}
+      className={`db-scroll-hint ${onDark ? 'text-emerald-100/85' : 'text-stone-600'}`}
       aria-hidden
     >
       <motion.div

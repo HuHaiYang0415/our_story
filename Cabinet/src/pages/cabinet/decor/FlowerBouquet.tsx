@@ -76,8 +76,9 @@ export function FlowerBouquet({ onClick }: FlowerBouquetProps) {
 
   return (
     <>
-      <div
-        className="relative cursor-pointer group flex flex-col items-center select-none w-16 h-20 md:w-20 md:h-24 touch-manipulation"
+      <button
+        type="button"
+        className="relative cursor-pointer group flex flex-col items-center select-none w-20 h-20 md:w-20 md:h-24 touch-manipulation border-0 bg-transparent p-0"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -116,7 +117,7 @@ export function FlowerBouquet({ onClick }: FlowerBouquetProps) {
           </div>
           单击进入 · 长按放大预览
         </div>
-      </div>
+      </button>
 
       {typeof document !== 'undefined' &&
         createPortal(

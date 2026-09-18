@@ -33,8 +33,7 @@ function copyLetter520ToDist(outDir: string) {
 }
 
 /** dev 下提供 520 静态目录（不依赖 sirv，避免 import 失败静默 404） */
-function createLetter520DevMiddleware(rootDir: string): Connect.NextHandleFunction {
-  const prefix = '/pages/letters/520';
+function createLetter520DevMiddleware(rootDir: string, prefix = '/pages/letters/520'): Connect.NextHandleFunction {
 
   return (req, res, next) => {
     const rawUrl = req.url?.split('?')[0] ?? '';
@@ -70,9 +69,13 @@ export default defineConfig(() => {
         name: 'copy-letter-520-static',
         closeBundle() {
           copyLetter520ToDist(path.resolve(cabinetRoot, 'dist'));
+          const originals = path.resolve(cabinetRoot, '../gallery/originals');
+          if (existsSync(originals)) cpSync(originals, path.resolve(cabinetRoot, 'dist/gallery/originals'), { recursive: true });
         },
         configureServer(server) {
           server.middlewares.use(createLetter520DevMiddleware(letter520Src));
+          const originals = path.resolve(cabinetRoot, '../gallery/originals');
+          if (existsSync(originals)) server.middlewares.use(createLetter520DevMiddleware(originals, '/gallery/originals'));
         },
       },
     ],
@@ -84,6 +87,11 @@ export default defineConfig(() => {
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+    },
+    build: {
+      // The repository keeps explicit budgets in performance-budget.json; this
+      // threshold prevents Vite's generic warning from masking those budgets.
+      chunkSizeWarningLimit: 1800,
     },
   };
 });

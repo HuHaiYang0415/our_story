@@ -1,36 +1,14 @@
-import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
+import { getPageDefinitionByHash, PAGE_REGISTRY, type AppView } from './pageRegistry';
 
-export type ViewState =
-  | 'cabinet'
-  | 'box-envelopes'
-  | 'letter-520'
-  | 'box-photos'
-  | 'relationship'
-  | 'festival-archive'
-  | 'festival-2026-ChildrenDay'
-  | 'festival-2026-DragonBoat'
+export type { AppView } from './pageRegistry';
 
-export const VIEW_HASH: Record<ViewState, string> = {
-  cabinet: '',
-  'box-envelopes': '#envelopes',
-  'letter-520': '#envelopes/520',
-  'box-photos': '#photos',
-  relationship: '#relationship',
-  'festival-archive': '#festivals',
-  'festival-2026-ChildrenDay': '#festivals/children-day',
-  'festival-2026-DragonBoat': '#festivals/dragon-boat-2026',
-};
+export const VIEW_HASH: Record<AppView, string> = Object.fromEntries(
+  Object.values(PAGE_REGISTRY).map((page) => [page.view, page.hash]),
+) as Record<AppView, string>;
 
-export function viewFromHash(): ViewState {
-  const hash = window.location.hash;
-  if (hash === '#envelopes/520') return 'letter-520';
-  if (hash === '#envelopes') return 'box-envelopes';
-  if (hash === '#photos') return 'box-photos';
-  if (hash === '#relationship') return 'relationship';
-  if (hash === '#festivals') return 'festival-archive';
-  if (hash === '#festivals/children-day') return 'festival-2026-ChildrenDay';
-  if (hash === '#festivals/dragon-boat-2026') {
-    return canAccessDragonBoat2026() ? 'festival-2026-DragonBoat' : 'festival-archive';
-  }
-  return 'cabinet';
+export function viewFromHash(): AppView {
+  const page = getPageDefinitionByHash(window.location.hash);
+  if (!page) return 'cabinet';
+  if (!page.access()) return page.archive ? 'festival-archive' : 'cabinet';
+  return page.view;
 }

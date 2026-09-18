@@ -2,8 +2,6 @@ import type { ComponentType } from 'react';
 import {
   createProgressTracker,
   importWithRetry,
-  preloadImage,
-  warmAudioStream,
   type LoadProgressCallback,
 } from '@/shared/load/mediaPreload';
 import type { DragonBoatScrollProps } from './scroll/DragonBoatScroll';
@@ -18,9 +16,6 @@ export async function loadDragonBoatFest(
   const scrollModule = await importWithRetry(() => import('./scroll/DragonBoatScroll'));
   track.bump(0.82, '长卷就绪');
   track.done();
-
-  void import('./audio/ambient.mp3?url').then((m) => warmAudioStream(m.default));
-  void import('./images/aicao.png?url').then((m) => preloadImage(m.default));
 
   return scrollModule.DragonBoatScroll;
 }

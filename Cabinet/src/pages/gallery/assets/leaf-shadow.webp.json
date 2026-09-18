@@ -1,0 +1,12 @@
+{
+  "sourceType": "user-supplied-generated-image",
+  "prompt": "Origin: user-supplied generated image 叶影.png, integrated at the user's explicit request. Actual generation prompt and tool not supplied; no claim of agent generation. Mechanically exported to WebP for gallery background only; no public-release authorization.",
+  "originalFilename": "叶影.png",
+  "originalSha256": "1f2a142fd4d5a96bb71d5affb1a6eb226e5e06a093b36668dcb1b04570d75ba8",
+  "receivedDate": "2026-09-18",
+  "usage": "gallery-background-only",
+  "authorization": "User supplied the image, requested integration, and explicitly authorized publication of non-Qixi, non-test content on 2026-09-18; see SCOPE.md. The prompt field preserves the original receipt-stage record.",
+  "actualGenerationPrompt": null,
+  "suggestedPromptRecord": "changes/gallery-album/design-implementation-2026-09-18.md",
+  "export": { "format": "webp", "width": 1536, "height": 1024, "quality": 82, "bytes": 28848, "creativeEdits": false }
+}

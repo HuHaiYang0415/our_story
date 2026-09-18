@@ -13,10 +13,12 @@ npm run dev
 ## 构建
 
 ```bash
-npm run build:site
+npm run build
 ```
 
-将 `dist/` 发布到上级 `demo/` 根目录：`index.html` + `assets/` + `pages/letters/520/`。
+仅生成 `Cabinet/dist/`，不会修改上级 `demo/` 根目录发布产物。
+
+`npm run build:site` 核对 SCOPE 授权与 `check-release` 后同步根目录；本次包含五组公开相册，排除七夕专题及本地测试。原图唯一跟踪副本位于根 `gallery/originals/`，构建复制到忽略 Git 的 dist。任何发布动作前必须先阅读仓库根目录的 [`SCOPE.md`](../SCOPE.md)。
 
 ## 源码结构（`src/`）
 

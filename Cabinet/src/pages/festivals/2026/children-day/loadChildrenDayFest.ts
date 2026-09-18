@@ -4,7 +4,6 @@ import {
   createProgressTracker,
   importWithRetry,
   preloadImageRequired,
-  warmAudioStream,
   type LoadProgressCallback,
 } from '@/shared/load/mediaPreload';
 
@@ -40,8 +39,6 @@ export async function loadChildrenDayFest(
 
   await roomAssets;
   track.done();
-
-  void import('./audio/round_moon.mp3?url').then((m) => warmAudioStream(m.default));
 
   return mod.default;
 }

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LETTERS_DATA, getLetterStampSrc } from '@/pages/letters/data/letters';
+import { getLetterStampSrc } from '@/pages/letters/data/letters';
+import { getContentRepository } from '@/data/localContentRepository';
 import { Letter, TimeTheme } from '@/shared/types';
-import { ArrowLeft, ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, Sparkles, Heart, Grid, Minimize2 } from 'lucide-react';
 import { LetterReader } from './LetterReader';
 import { SeasonAtmosphere } from '@/shared/ui/SeasonAtmosphere';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
 import { applyDocumentTitle, getPageTitle } from '@/shared/config/siteConfig';
+import { StoryBackButton } from '@/shared/ui/StoryControls';
 
 interface EnvelopeStackProps {
   theme: TimeTheme;
@@ -15,6 +17,8 @@ interface EnvelopeStackProps {
 }
 
 type ReadableLetter = Letter & { content: string };
+
+const contentRepository = getContentRepository();
 
 function hasLetterContent(letter: Letter): letter is ReadableLetter {
   return typeof letter.content === 'string' && letter.content.length > 0;
@@ -57,13 +61,15 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
     applyDocumentTitle(getPageTitle('box-envelopes', readLetter?.title ?? null));
   }, [readLetter]);
 
+  const loadedLetters = useMemo(() => contentRepository.listLetters(), []);
+
   // Quick helper to go to previous/next item in a circular, infinite-loop stack.
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + LETTERS_DATA.length) % LETTERS_DATA.length);
+    setActiveIndex((prev) => (prev - 1 + loadedLetters.length) % loadedLetters.length);
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % LETTERS_DATA.length);
+    setActiveIndex((prev) => (prev + 1) % loadedLetters.length);
   };
 
   // Quick date selector action:
@@ -71,7 +77,7 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
   const handleSelectDate = (index: number) => {
     if (activeIndex === index) {
       // If clicked again on the already active envelope, open it!
-      handleOpenLetter(LETTERS_DATA[index]);
+      handleOpenLetter(loadedLetters[index]);
     } else {
       setActiveIndex(index);
     }
@@ -97,7 +103,6 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
     }, 850);
   };
 
-  const loadedLetters = LETTERS_DATA;
   const activeLetter = loadedLetters[activeIndex];
   const openHint = activeLetter.interactive === '520'
     ? '点击进入 520 互动 • 再次点击打开'
@@ -113,18 +118,12 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
 
       {/* Header bar */}
       <div className="w-full max-w-3xl mx-auto flex items-center justify-between z-10 py-1 border-b border-[#E5DACE]/40" id="envelope-page-header">
-        <button
+        <StoryBackButton
           onClick={onBackToCabinet}
-          className={`flex items-center space-x-1.5 hover:text-brand-text font-serif text-xs md:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors cursor-pointer border shadow-xs backdrop-blur-sm ${
-            theme.isNight
-              ? 'bg-[#2E241E]/75 hover:bg-[#2E241E] border-[#8C6239]/25 text-stone-300'
-              : 'bg-white/60 hover:bg-stone-100 border-[#E5DACE] text-brand-text/70'
-          }`}
+          label="返回展柜"
+          tone={theme.isNight ? 'night' : 'paper'}
           id="btn-back-cabinet"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>返回展柜</span>
-        </button>
+        />
 
         <div className="flex flex-col items-center text-center">
           <span className="font-serif text-[#8C6239] text-sm md:text-base font-bold tracking-wide">时光信箱</span>
@@ -205,8 +204,9 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
                 </span>
                 <button
                   onClick={() => setIsTimelineExpanded(false)}
-                  className="p-1 hover:bg-stone-100 rounded-full text-brand-text/50 hover:text-brand-text cursor-pointer transition-colors"
+                  className="min-touch-target p-1 hover:bg-stone-100 rounded-full text-brand-text/50 hover:text-brand-text cursor-pointer transition-colors"
                   title="收起"
+                  aria-label="收起全部日期"
                 >
                   <Minimize2 className="w-3.5 h-3.5" />
                 </button>
@@ -268,7 +268,8 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
                 const isExtracting = extractingLetterId === letter.id;
 
                 return (
-                  <motion.div
+                  <motion.button
+                    type="button"
                     key={letter.id}
                     layoutId={`env-${letter.id}`}
                     initial={{ 
@@ -298,8 +299,9 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
                         setActiveIndex(i);
                       }
                     }}
-                    className="absolute w-full h-full rounded-xl cursor-pointer select-none"
+                    className="absolute w-full h-full rounded-xl border-0 bg-transparent p-0 cursor-pointer select-none text-left"
                     id={`env-card-${letter.id}`}
+                    aria-label={`${letter.date} ${letter.title}${isTop ? '，打开信件' : '，选中信件'}`}
                     style={{
                       transformOrigin: 'bottom left',
                     }}
@@ -387,7 +389,7 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
                         </div>
                       )}
                     </motion.div>
-                  </motion.div>
+                  </motion.button>
                 );
               })}
             </AnimatePresence>
@@ -420,9 +422,11 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
           {/* Symmetrical arrows navigation underneath */}
           <div className="flex items-center justify-center space-x-3" id="desktop-arrows">
             <button
+              type="button"
               onClick={handlePrev}
-              className={`p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
+              className={`min-touch-target p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
               title="上一封"
+              aria-label="上一封信"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -432,9 +436,11 @@ export function EnvelopeStack({ theme, onBackToCabinet, onOpenLetter520 }: Envel
             </span>
 
             <button
+              type="button"
               onClick={handleNext}
-              className={`p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
+              className={`min-touch-target p-1.5 rounded-full border transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-xs ${theme.isNight ? 'border-[#8C6239]/25 text-amber-200 bg-[#2E241E]/80 hover:bg-amber-600 hover:text-white hover:border-amber-600' : 'border-[#E5DACE] text-[#8C6239] bg-[#FFFDFB] hover:bg-[#8C6239] hover:text-white hover:border-[#8C6239]'}`}
               title="下一封"
+              aria-label="下一封信"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

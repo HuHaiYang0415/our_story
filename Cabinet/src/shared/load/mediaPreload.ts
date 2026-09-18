@@ -17,6 +17,7 @@ function preloadAudioWithEvent(
       window.clearTimeout(timer);
       audio.removeEventListener(eventName, finish);
       audio.removeEventListener('error', finish);
+      stopHtmlAudio(audio);
       resolve();
     };
 

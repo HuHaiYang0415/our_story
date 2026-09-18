@@ -5,7 +5,7 @@ import {
   SpringFlowers,
   SummerPond,
   AutumnLeavesPile,
-} from './cabinetDecorComponents';
+} from './decor/CabinetFloorDecor';
 
 /** 与仓库原版一致：仅 SVG/装饰，容器不加纯色底 */
 export function CabinetFloor({ theme }: { theme: TimeTheme }) {

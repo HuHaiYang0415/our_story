@@ -5,4 +5,4 @@
 - `stamp-letter-520.jpg`
 - `stamp-letter-pending.jpg`
 
-构建时 `npm run build:site` 会复制到站点根目录 `image/`，供运行时 `getLetterStampSrc` 使用。
+图片由 `letters.ts` import，`npm run build` 时进入 `Cabinet/dist/assets/`，由运行时 `getLetterStampSrc` 使用；不会单独复制到站点根目录 `image/`。

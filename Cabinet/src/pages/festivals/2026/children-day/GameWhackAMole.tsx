@@ -505,7 +505,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
               <LosingMoleDollComponent />
 
               {/* Playful message cloud */}
-              <div className="mt-8 bg-white border-2 border-[#8C6239]/20 px-6 py-3 rounded-full shadow-md text-sm font-serif font-black flex items-center gap-1.5 animate-bounce">
+              <div className="mt-8 bg-white border-2 border-[#8C6239]/20 px-6 py-3 rounded-full shadow-md text-sm font-serif font-black flex items-center gap-1.5">
                 <Smile className="w-4 h-4 text-amber-500" />
                 <span>抓到平平小朋友啦！嘿嘿 🐹</span>
               </div>
@@ -514,7 +514,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
             <div className="flex space-x-3.5 mt-8">
               <button
                 onClick={() => resetGame(1)}
-                className="px-6 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white font-serif font-black text-sm shadow-md active:scale-95 transition-all outline-none flex items-center gap-1"
+                className="min-touch-target px-6 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white font-serif font-black text-sm shadow-md active:scale-95 transition-all flex items-center gap-1"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>不服气，重来一盘！🕹️</span>
@@ -546,7 +546,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
 
               <h3 className="text-xl font-serif font-black text-[#5A3E23]">普通模式第一关完成！🎉</h3>
 
-              <div className="my-4 p-4 bg-orange-50/70 border border-orange-200/50 rounded-2xl w-full text-xs font-serif leading-relaxed text-stone-600">
+              <div className="my-4 p-4 bg-orange-50/70 border border-orange-200/50 rounded-2xl w-full text-xs font-serif leading-relaxed text-amber-950/80">
                 “第一关已经顺利完成啦！再进入第二关，地鼠会更快出现。
                 <br />
                 <b>准备好继续挑战了吗？</b> 第二关结束后，就可以解锁无限模式。”
@@ -555,13 +555,13 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
               <div className="flex flex-col sm:flex-row gap-3 w-full">
                 <button
                   onClick={handleContinueLevelTwo}
-                  className="flex-1 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 font-serif font-black text-[#FFFDFB] text-xs shadow-md active:scale-95 transition-all outline-none"
+                  className="min-touch-target flex-1 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 font-serif font-black text-[#FFFDFB] text-xs shadow-md active:scale-95 transition-all"
                 >
                   进入第二关（速度提升） ⚡
                 </button>
                 <button
                   onClick={onBack}
-                  className="flex-1 py-2.5 rounded-full bg-stone-105 hover:bg-stone-200 text-[#8C6239] font-serif font-bold text-xs border border-stone-200 active:scale-95 transition-all outline-none"
+                  className="min-touch-target flex-1 py-2.5 rounded-full bg-stone-105 hover:bg-stone-200 text-[#8C6239] font-serif font-bold text-xs border border-stone-200 active:scale-95 transition-all"
                 >
                   见好就收，返回小屋
                 </button>
@@ -641,14 +641,14 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
                 <Sparkles className="w-5 h-5 text-amber-500" />
               </h3>
 
-              <div className="my-4 p-4 bg-orange-50/70 border border-orange-200/50 rounded-2xl w-full text-xs font-serif leading-relaxed text-stone-600">
+              <div className="my-4 p-4 bg-orange-50/70 border border-orange-200/50 rounded-2xl w-full text-xs font-serif leading-relaxed text-amber-950/80">
                 分数: {score}
               </div>
 
               <div className="flex flex-col gap-3 w-full">
                 <button
                   onClick={() => resetGame(3)}
-                  className="w-full py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 font-serif font-black text-[#FFFDFB] text-xs shadow-md active:scale-95 transition-all outline-none"
+                  className="min-touch-target w-full py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 font-serif font-black text-[#FFFDFB] text-xs shadow-md active:scale-95 transition-all"
                 >
                   再次挑战
                 </button>
@@ -839,7 +839,7 @@ export default function GameWhackAMole({ onBack }: { onBack: () => void }) {
                       exit={{ y: "110%" }}
                       transition={moleSpringTransition}
                       onClick={() => handleWhackMole(mole.id, mole.type)}
-                      className="w-full h-full relative focus:outline-none flex flex-col justify-end items-center cursor-pointer pointer-events-auto"
+                      className="w-full h-full relative flex flex-col justify-end items-center cursor-pointer pointer-events-auto"
                     >
                       {/* Whack stars overlay if hit/whacked */}
                       {mole.whacked ? (

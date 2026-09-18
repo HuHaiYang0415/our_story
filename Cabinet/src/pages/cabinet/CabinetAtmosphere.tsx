@@ -7,7 +7,7 @@ import {
   FIREFLY_COUNT,
   STAGE_FALL_TOP,
 } from '@/shared/motion/stageMotion';
-import { SpringSwallows } from './cabinetDecorComponents';
+import { SpringSwallows } from './decor/CabinetSeasonalDecor';
 
 export function CabinetAtmosphere({ theme }: { theme: TimeTheme }) {
   return (

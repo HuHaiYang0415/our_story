@@ -17,14 +17,7 @@ export const PRINCE_SVG: Record<PrincePeriod, string> = {
   night: princeNight,
 };
 
-/** 后台预热用；不挡进页门（单文件 3–5MB，勿用 Image 解码门槛） */
-export const RELATIONSHIP_PRELOAD_IMAGES = [
-  princeDawn,
-  princeDay,
-  princeNight,
-] as const;
-
-/** 正式 BGM：仅 warmAudioStream，不挡进页 */
+/** 正式 BGM：仅在用户打开音乐后由 AmbientAudio 创建。 */
 export const RELATIONSHIP_BGM_URL = relationshipBgm;
 
 export function resolvePrincePeriod(

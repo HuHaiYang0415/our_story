@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Calendar, ChevronRight, Sparkles } from 'lucide-react';
+import { Calendar, ChevronRight, Sparkles } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
-import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
-import { DRAGON_BOAT_2026_RELEASE } from '@/pages/festivals/2026/dragon-boat/visibility';
+import { StoryBackButton } from '@/shared/ui/StoryControls';
+import { getFestivalPageDefinitions, type FestivalPageId } from '@/app/pageRegistry';
 import {
   getFestivalNow,
   subscribeFestivalDateOverride,
@@ -20,8 +20,8 @@ type FestivalCardItem = {
   badge: string;
   status: FestivalStatus;
   countdownDays: number;
-  pageId: string;
-  accentToday: 'rose' | 'emerald';
+  pageId: FestivalPageId;
+  accentToday: 'rose' | 'emerald' | 'qixi';
 };
 
 function computeFestivalStatus(
@@ -52,36 +52,13 @@ function computeFestivalStatus(
   };
 }
 
-const ARCHIVE_FESTIVALS = [
-  {
-    name: '儿童节',
-    date: '2026-06-01',
-    pageId: '2026_ChildrenDay',
-    kind: '公历',
-    kindTag: '阳历',
-    badge: '交互页',
-    accentToday: 'rose' as const,
-    isVisible: () => true,
-  },
-  {
-    name: '端午节',
-    date: DRAGON_BOAT_2026_RELEASE,
-    pageId: '2026_DragonBoatFestival',
-    kind: '农历 · 五月初五',
-    kindTag: '农历',
-    badge: '记胜页',
-    accentToday: 'emerald' as const,
-    isVisible: canAccessDragonBoat2026,
-  },
-];
-
 export default function FestivalArchive({
   onBackToCabinet,
   onEnterFestivalPage,
 }: {
   theme: TimeTheme;
   onBackToCabinet: () => void;
-  onEnterFestivalPage: (pageId: string) => void;
+  onEnterFestivalPage: (pageId: FestivalPageId) => void;
 }) {
   const selectedYear = 2026;
   const [nowTick, setNowTick] = useState(0);
@@ -104,18 +81,18 @@ export default function FestivalArchive({
 
   const festivalItems = useMemo((): FestivalCardItem[] => {
     const now = getFestivalNow();
-    return ARCHIVE_FESTIVALS.filter((f) => f.isVisible()).map((f) => {
-      const { status, countdownDays } = computeFestivalStatus(f.date, now);
+    return getFestivalPageDefinitions().filter((page) => page.access()).map((page) => {
+      const { status, countdownDays } = computeFestivalStatus(page.archive.date, now);
       return {
-        name: f.name,
-        dateStr: f.date,
-        kind: f.kind,
-        kindTag: f.kindTag,
-        badge: f.badge,
+        name: page.archive.name,
+        dateStr: page.archive.date,
+        kind: page.archive.kind,
+        kindTag: page.archive.kindTag,
+        badge: page.archive.badge,
         status,
         countdownDays,
-        pageId: f.pageId,
-        accentToday: f.accentToday,
+        pageId: page.pageId,
+        accentToday: page.archive.accentToday,
       };
     });
   }, [nowTick]);
@@ -135,14 +112,11 @@ export default function FestivalArchive({
 
       <div className="w-full max-w-4xl z-10 flex flex-col items-center">
         <div className="w-full flex justify-between items-center mb-6 md:mb-8 border-b border-[#8C6239]/15 pb-4">
-          <button
-            type="button"
+          <StoryBackButton
             onClick={onBackToCabinet}
-            className="flex items-center space-x-1 px-4 py-2 rounded-full border border-[#8C6239]/30 hover:bg-[#8C6239]/10 text-[#5A3E23] text-xs font-serif font-bold transition-all active:scale-95 cursor-pointer"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>返回百宝橱柜</span>
-          </button>
+            label="返回百宝橱柜"
+            tone="wood"
+          />
 
           <span className="text-stone-400 font-mono text-[9px] uppercase tracking-widest hidden sm:inline">
             ── 绘梦馆 &bull; 岁时拾遗 ──
@@ -192,6 +166,8 @@ export default function FestivalArchive({
             const todayRing =
               festivalItem.status === 'today' && festivalItem.accentToday === 'emerald'
                 ? 'border-emerald-300 ring-2 ring-emerald-100 shadow-md ring-offset-1 bg-[#F7FDF9]'
+                : festivalItem.status === 'today' && festivalItem.accentToday === 'qixi'
+                  ? 'border-rose-300/80 ring-2 ring-[#FCE7F3] shadow-md ring-offset-1 bg-[#FFF8FA]'
                   : festivalItem.status === 'today'
                     ? 'border-rose-300 ring-2 ring-rose-100 shadow-md ring-offset-1 bg-[#FFFDFE]'
                     : 'border-stone-200/90';

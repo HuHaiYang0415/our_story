@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { StoryBackButton, StoryInlineButton } from './StoryControls';
 
 export type FestiveLoadTone = 'emerald' | 'amber' | 'rose';
 
@@ -159,28 +160,19 @@ export function FestiveLoadScreen({
         {failed && (
           <div className="flex flex-col items-center gap-2">
             {onRetry && (
-              <button
-                type="button"
+              <StoryInlineButton
                 onClick={onRetry}
-                className={[
-                  'rounded-full border px-4 py-1.5 text-xs tracking-wide transition active:scale-95',
-                  isNight ? styles.btnNight : styles.btnDay,
-                ].join(' ')}
+                tone={tone}
               >
                 重新加载
-              </button>
+              </StoryInlineButton>
             )}
             {onBack && (
-              <button
-                type="button"
+              <StoryBackButton
                 onClick={onBack}
-                className={[
-                  'rounded-full border px-4 py-1.5 text-xs tracking-wide transition active:scale-95',
-                  isNight ? 'border-stone-600/40 text-stone-400 hover:bg-stone-900/40' : 'border-stone-300 text-stone-500 hover:bg-stone-50',
-                ].join(' ')}
-              >
-                {backLabel}
-              </button>
+                label={backLabel}
+                tone={isNight ? 'night' : 'paper'}
+              />
             )}
           </div>
         )}

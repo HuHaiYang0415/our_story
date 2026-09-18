@@ -26,7 +26,7 @@ const CARD_THEMES = [
   { emoji: '🛍️', name: '野原美伢', color: 'from-rose-200 to-rose-100 border-rose-300 text-rose-600', file: 'meiya.png' },
   { emoji: '👶', name: '野原向日葵', color: 'from-emerald-200 to-emerald-100 border-emerald-300 text-emerald-700', file: 'yeyuanxiangrikui.png' },
   { emoji: '🐶', name: '野原小白', color: 'from-sky-200 to-sky-100 border-sky-300 text-sky-600', file: 'yeyuanxiaobai.png' },
-  { emoji: '🌸', name: '大原娜娜子', color: 'from-purple-200 to-purple-100 border-purple-300 text-purple-600', file: 'taiyuannanazi.png' },
+  { emoji: '🌸', name: '大原娜娜子', color: 'from-rose-200 to-rose-100 border-rose-300 text-rose-600', file: 'taiyuannanazi.png' },
   { emoji: '👩‍🏫', name: '吉永绿', color: 'from-pink-200 to-pink-100 border-pink-300 text-pink-500', file: 'jiyonglv.png' },
   { emoji: '🕶️', name: '高仓文太', color: 'from-teal-200 to-teal-100 border-teal-300 text-teal-600', file: 'gaocangwentai.png' }
 ];
@@ -253,7 +253,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
             animate={{ opacity: 1, scale: 1 }}
             className="absolute inset-0 bg-white/95 rounded-3xl z-10 p-6 flex flex-col justify-center items-center text-center space-y-4"
           >
-            <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-4xl animate-bounce">
+            <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-4xl">
               🏆
             </div>
             <h3 className="text-2xl font-serif font-black text-[#5A3E23] flex items-center gap-1.5 justify-center">
@@ -267,13 +267,13 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
             <div className="flex items-center space-x-3 pt-3">
               <button
                 onClick={initGame}
-                className="px-6 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white font-serif font-black text-sm shadow-md active:scale-95 transition-all outline-none"
+                className="min-touch-target px-6 py-2.5 rounded-full bg-[#8C6239] hover:bg-[#5A3E23] text-white font-serif font-black text-sm shadow-md active:scale-95 transition-all"
               >
                 再玩一盘 🎉
               </button>
               <button
                 onClick={onBack}
-                className="px-6 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-[#5A3E23] border border-stone-200 font-serif font-bold text-sm active:scale-95 transition-all outline-none"
+                className="min-touch-target px-6 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-[#5A3E23] border border-stone-200 font-serif font-bold text-sm active:scale-95 transition-all"
               >
                 返回小屋
               </button>
@@ -288,7 +288,7 @@ export default function GameMemory({ onBack }: { onBack: () => void }) {
               <button
                 key={c.id}
                 onClick={() => handleCardClick(idx)}
-                className={`w-full h-full relative focus:outline-hidden perspective-500 cursor-pointer rounded-2xl md:rounded-3xl border transition-all duration-300 ${
+                className={`w-full h-full relative perspective-500 cursor-pointer rounded-2xl md:rounded-3xl border transition-all duration-300 ${
                   flipped 
                     ? 'border-amber-300 shadow-md transform rotate-y-180' 
                     : 'border-yellow-200/60 bg-gradient-to-br from-amber-300 via-yellow-200 to-amber-100 text-amber-800 shadow-xs hover:scale-[1.03] active:scale-95'

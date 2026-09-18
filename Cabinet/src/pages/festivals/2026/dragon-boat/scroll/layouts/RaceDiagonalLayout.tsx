@@ -268,7 +268,7 @@ export function RaceDiagonalLayout({
 
         {beat.subtitle && (
           <motion.p
-            className={['db-ink-subtitle', onDark ? 'text-stone-300' : 'text-stone-600'].join(' ')}
+            className={['db-ink-subtitle', onDark ? 'text-emerald-100/85' : 'text-stone-600'].join(' ')}
             initial={fromJiang ? { opacity: 0 } : reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={isExitingMorph ? { opacity: 0, y: -6 } : { opacity: 1, y: 0 }}
             transition={

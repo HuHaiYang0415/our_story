@@ -15,7 +15,7 @@ export function InkSubtitle({ text, onDark, delay = 0.42 }: InkSubtitleProps) {
   return (
     <div className="db-ink-subtitle-wrap">
       <motion.p
-        className={['db-ink-subtitle', onDark ? 'text-stone-300' : 'text-stone-600'].join(' ')}
+        className={['db-ink-subtitle', onDark ? 'text-emerald-100/85' : 'text-stone-600'].join(' ')}
         initial={reduceMotion ? {} : { opacity: 0, y: 14, letterSpacing: '0.2em' }}
         animate={{ opacity: 1, y: 0, letterSpacing: '0.08em' }}
         transition={{ delay: reduceMotion ? 0 : delay, duration: 0.55, ease: EASE_OUT }}

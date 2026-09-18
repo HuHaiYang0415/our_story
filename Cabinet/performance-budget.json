@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "budgets": {
+    "mainEntryJsBytes": 1800000,
+    "routeJsBytes": 480000,
+    "otherJsBytes": 350000,
+    "mainCssBytes": 220000,
+    "singleSvgBytes": 5500000,
+    "singleAudioBytes": 7500000,
+    "firstScreenImageBytes": 512000
+  },
+  "exceptions": {
+    "mainEntryJs": "现有展柜壳层、注册表和共享运行时仍需继续拆分；当前门禁保留 1.8 MB 上限。",
+    "dragonBoatRouteJs": "端午长卷保留完整场景编排；当前门禁保留 480 KB 上限。",
+    "relationshipArtwork": "相恋时光的三张完整 SVG 只在进入关系页后按当前时段按需请求。",
+    "ambientAudio": "大音频不再进入页面或 loader 时预热，只在用户开启声音后创建。"
+  }
+}

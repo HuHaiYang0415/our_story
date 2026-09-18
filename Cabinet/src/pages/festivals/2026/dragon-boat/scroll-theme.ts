@@ -49,11 +49,11 @@ export function getScrollTheme(isNight: boolean) {
       ? 'radial-gradient(circle at 50% 0%, rgba(252,211,77,0.15) 0%, transparent 55%)'
       : 'radial-gradient(circle at 50% 0%, rgba(252,211,77,0.28) 0%, rgba(130,160,148,0.06) 45%, transparent 70%)',
     headerBtn: isNight
-      ? 'border-emerald-500/40 bg-emerald-950/80 text-stone-100 hover:bg-emerald-900'
-      : 'border-emerald-600/50 bg-emerald-950/75 text-stone-100 hover:bg-emerald-900',
+      ? 'border-emerald-500/40 bg-emerald-950/80 text-emerald-50 hover:bg-emerald-900'
+      : 'border-emerald-600/50 bg-emerald-950/75 text-emerald-50 hover:bg-emerald-900',
     titleOnDark: 'text-stone-100',
     titleOnLight: 'text-stone-900',
-    subtitleOnDark: 'text-stone-300',
+    subtitleOnDark: 'text-emerald-100/85',
     subtitleOnLight: 'text-stone-600',
     egg: isNight ? 'text-emerald-400/70' : 'text-stone-500/80',
     eggHover: isNight ? 'hover:text-amber-200' : 'hover:text-emerald-800',

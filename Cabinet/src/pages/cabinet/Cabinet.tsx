@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Heart, Key, Volume2, VolumeX } from 'lucide-react';
+import { Heart, Key } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
+import type { PageId } from '@/app/pageRegistry';
 import { StageLayout, StageCabinet } from '@/shared/layout';
 import { startCricketSounds, stopCricketSounds } from '@/shared/utils/cricketSounds';
 import { FestiveHourglass } from './components/FestiveHourglass';
@@ -14,13 +15,14 @@ import {
   HelloKittyDoll,
   GoldfishBowl,
   LemonTree,
-} from './cabinetDecorComponents';
+} from './decor/CabinetFurnitureDecor';
 import { FlowerBouquet } from './decor/FlowerBouquet';
+import { StoryMuteButton } from '@/shared/ui/StoryControls';
 
 interface CabinetProps {
   onOpenBox: (boxId: string) => void;
   onEnterFestivalArchive: () => void;
-  onEnterFestivalPage: (pageId: string) => void;
+  onEnterFestivalPage: (pageId: PageId) => void;
   festivalPreviewTools?: React.ReactNode;
   theme: TimeTheme;
 }
@@ -151,19 +153,13 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               )}
 
               {theme.season === 'summer' && theme.isNight && (
-                <motion.button
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  onClick={() => setCricketsEnabled(v => !v)}
-                  className={`flex items-center justify-center p-1 rounded-full border cursor-pointer shadow-xs transition-colors duration-200 active:scale-95 shrink-0 ${
-                    cricketsEnabled 
-                      ? 'bg-amber-500/15 text-amber-600 border-amber-500/30' 
-                      : 'bg-stone-500/10 text-stone-400 border-stone-300'
-                  }`}
-                  title={cricketsEnabled ? '关闭夏夜虫鸣' : '开启夏夜虫鸣'}
-                >
-                  {cricketsEnabled ? <Volume2 className="w-3.5 h-3.5 text-amber-600 animate-pulse" /> : <VolumeX className="w-3.5 h-3.5" />}
-                </motion.button>
+                <StoryMuteButton
+                  muted={!cricketsEnabled}
+                  onToggle={() => setCricketsEnabled((value) => !value)}
+                  label="夏夜虫鸣"
+                  tone="amber"
+                  className="shrink-0"
+                />
               )}
             </div>
           </div>
@@ -240,13 +236,15 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
             </div>
 
             <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${envelopesH}px` }}>
-              <motion.div
+              <motion.button
+                type="button"
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('envelopes', true)}
-                className={`w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
+                className={`w-28 md:w-36 h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#8C6239] to-[#5A3E23] border border-[#6D4C2B] relative flex flex-col justify-center items-center transition-all p-2 ${
                   boxInFocus === 'envelopes' ? 'ring-3 ring-amber-400 z-50' : 'hover:shadow-2xl hover:border-amber-400/50'
                 }`}
                 id="wooden-box-envelopes"
+                aria-label="打开时光信箱"
               >
                 {/* Brass locking hinge decoration */}
                 <div className="w-5 h-5 bg-yellow-500 rounded-full border border-yellow-700 flex items-center justify-center shadow-xs absolute -top-1">
@@ -262,7 +260,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
                     Vol. 01
                   </span>
                 </div>
-              </motion.div>
+              </motion.button>
 
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 p-2 bg-brand-text text-brand-bg text-[10px] rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-40 text-center font-sans">
                 点击打开“时光信箱”，重温心动蜜语。
@@ -285,13 +283,15 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
             </div>
 
             <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${photosH}px` }}>
-              <motion.div
+              <motion.button
+                type="button"
                 whileHover={boxInFocus ? {} : { y: -6, scale: 1.02 }}
                 onClick={() => handleBoxClick('photos', true)}
-                className={`w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#7c5043] to-[#4e342e] border border-[#55362e] relative flex flex-col justify-center items-center transition-all p-2 ${
+                className={`w-28 md:w-36 h-[72px] rounded-xl shadow-xl cursor-pointer bg-gradient-to-b from-[#7c5043] to-[#4e342e] border border-[#55362e] relative flex flex-col justify-center items-center transition-all p-2 ${
                   boxInFocus === 'photos' ? 'ring-3 ring-rose-400 z-50' : 'hover:shadow-2xl hover:border-rose-400/50'
                 }`}
                 id="wooden-box-photos"
+                aria-label="打开流光相册盒"
               >
                 {/* Copper hinge */}
                 <div className="w-6 h-3.5 bg-yellow-500/90 rounded-b-md border border-yellow-700 flex items-center justify-center shadow-xs absolute top-0">
@@ -307,7 +307,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
                     Vol. 02
                   </span>
                 </div>
-              </motion.div>
+              </motion.button>
 
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 p-2 bg-brand-text text-brand-bg text-[10px] rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-40 text-center font-sans">
                 点击进入小筑，查看美妙相册。

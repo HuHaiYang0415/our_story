@@ -1,3 +1,4 @@
+/* impeccable-disable codex-grid-background -- the paper scene intentionally uses a two-axis grain texture to represent rice paper, not a product grid. */
 /* 端午长卷 v2 — 单屏切幕 · 艺术字排版 */
 
 #dragon-boat-scroll-root {
@@ -80,6 +81,7 @@
 }
 
 .db-scroll-scene--paper {
+  /* impeccable-disable-next-line codex-grid-background -- this is a rice-paper grain texture, not a layout grid. */
   background-image:
     radial-gradient(rgba(140, 98, 57, 0.04) 1px, transparent 1px),
     radial-gradient(rgba(140, 98, 57, 0.02) 1px, transparent 1px);

@@ -1,10 +1,11 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { Sparkles } from 'lucide-react';
 import { soundSynth } from './SoundSynth';
 import { childrenDayImages } from './assets';
 import { preloadChildrenDayGame, type ChildrenDayGameId } from './gamePreload';
 import { ViewportShell } from '@/shared/layout/ViewportShell';
+import { StoryBackButton, StoryMuteButton } from '@/shared/ui/StoryControls';
 import './children-day.css';
 
 // Types for routing views
@@ -37,6 +38,7 @@ export default function Festival_2026_ChildrenDay({
   const [isMuted, setIsMuted] = useState(false);
   const [loadingGame, setLoadingGame] = useState<ActivePage | null>(null);
   const [showSecretModal, setShowSecretModal] = useState(true);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     soundSynth.setMute(false);
@@ -223,10 +225,10 @@ export default function Festival_2026_ChildrenDay({
               <div className="absolute -bottom-12 -right-12 w-28 h-28 bg-amber-200/50 rounded-full blur-3xl pointer-events-none" />
 
               {/* Spinning / floating sparkles */}
-              <div className="absolute top-10 right-10 opacity-30 animate-bounce" style={{ animationDuration: '3s' }}>
+              <div className="absolute top-10 right-10 opacity-30">
                 <Sparkles className="w-5 h-5 text-amber-500" />
               </div>
-              <div className="absolute bottom-12 left-8 opacity-25 animate-bounce" style={{ animationDuration: '4s' }}>
+              <div className="absolute bottom-12 left-8 opacity-25">
                 <Sparkles className="w-4 h-4 text-amber-500" />
               </div>
 
@@ -269,6 +271,7 @@ export default function Festival_2026_ChildrenDay({
               {/* Action Buttons */}
               <div className="flex flex-col gap-2">
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => {
@@ -276,7 +279,7 @@ export default function Festival_2026_ChildrenDay({
                     soundSynth.startBgm(); // Warm start for the cozy retro background music if not playing
                     setShowSecretModal(false);
                   }}
-                  className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#D97706] to-[#8C6239] text-[#FFFDFB] font-serif font-black text-sm shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border border-white/20"
+                  className="min-touch-target w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#D97706] to-[#8C6239] text-[#FFFDFB] font-serif font-black text-sm shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border border-white/20"
                 >
                   <span>记下来啦 (๑•̀ㅂ•́)و✧</span>
                 </motion.button>
@@ -304,36 +307,30 @@ export default function Festival_2026_ChildrenDay({
             {/* Top Header Control Toolbar */}
             <div className="mb-2 flex w-full max-w-4xl shrink-0 items-center justify-between gap-3 animate-fade-in z-20 md:mb-3" id="cottage-header-bar">
               {onBackToArchive ? (
-                <button
+                <StoryBackButton
                   onClick={onBackToArchive}
-                  className="flex items-center space-x-1.5 px-4.5 py-2 rounded-full bg-[#8C6239]/8 hover:bg-[#8C6239]/15 text-[#5A3E23] text-xs font-bold cursor-pointer transition-all active:scale-95 border-2 border-dashed border-[#8C6239]/15"
-                >
-                  <ArrowLeft className="w-3.8 h-3.8" />
-                  <span>返回节日大厅</span>
-                </button>
+                  label="返回节日大厅"
+                  tone="wood"
+                />
               ) : (
                 <div />
               )}
 
               <div className="flex items-center gap-3">
                 {/* Music BGM key toggle: Elegant, smaller and blends nicely with background */}
-                <button
-                  onClick={handleToggleMute}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer border active:scale-90 ${
-                    isMuted
-                      ? 'bg-stone-200/50 text-stone-400 border-stone-300'
-                      : 'bg-[#8C6239]/10 text-[#8C6239]/80 border-[#8C6239]/15 hover:bg-[#8C6239]/20'
-                  }`}
-                  title={isMuted ? "开启" : "静音"}
+                <StoryMuteButton
+                  muted={isMuted}
+                  onToggle={handleToggleMute}
+                  label="背景音乐"
+                  tone="wood"
                   id="btn-bgm-toggle"
-                >
-                  {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 animate-pulse" />}
-                </button>
+                />
 
                 {onBackToCabinet && (
                   <button
+                    type="button"
                     onClick={onBackToCabinet}
-                    className="px-4 py-2 rounded-full bg-[#8C6239] text-[#FFFDFB] text-xs font-bold shadow-md hover:bg-[#5A3E23] cursor-pointer transition-all active:scale-95 border-2 border-white whitespace-nowrap"
+                    className="min-touch-target px-4 py-2 rounded-full bg-[#8C6239] text-[#FFFDFB] text-xs font-bold shadow-md hover:bg-[#5A3E23] cursor-pointer transition-all active:scale-95 border-2 border-white whitespace-nowrap"
                   >
                     我的纪念书架
                   </button>
@@ -391,9 +388,11 @@ export default function Festival_2026_ChildrenDay({
                 {/* ==========================================
                     HOTSPOT 2: THE CARD BOX (糖果翻牌 🍬)
                     ========================================== */}
-                <motion.div
+                <motion.button
+                  type="button"
                   onClick={() => launchGame('memory')}
-                  className="absolute top-[58%] left-[65%] w-[28%] h-[26%] cursor-pointer z-25 group/cardbox pointer-events-auto flex items-center justify-center rounded-2xl"
+                  className="absolute top-[58%] left-[65%] w-[28%] h-[26%] cursor-pointer z-25 group/cardbox pointer-events-auto flex items-center justify-center rounded-2xl border-0 bg-transparent p-0"
+                  aria-label="打开糖果翻牌游戏"
                   whileHover={{ scale: 1.05 }}
                 >
                   {/* Subtle outer yellow/amber glow on hover for being selected */}
@@ -406,14 +405,16 @@ export default function Festival_2026_ChildrenDay({
                     className="w-full h-full object-contain select-none pointer-events-none transition-all duration-300 group-hover/cardbox:scale-105 group-hover/cardbox:brightness-105"
                     referrerPolicy="no-referrer"
                   />
-                </motion.div>
+                </motion.button>
 
                 {/* ==========================================
                     HOTSPOT 3: THE MOLE DOLL (保卫地鼠 🔨)
                     ========================================== */}
-                <motion.div
+                <motion.button
+                  type="button"
                   onClick={() => launchGame('whack-mole')}
-                  className="absolute top-[54%] left-[6%] w-[25%] h-[23%] cursor-pointer z-25 group/molehills pointer-events-auto flex items-center justify-center rounded-2xl"
+                  className="absolute top-[54%] left-[6%] w-[25%] h-[23%] cursor-pointer z-25 group/molehills pointer-events-auto flex items-center justify-center rounded-2xl border-0 bg-transparent p-0"
+                  aria-label="打开打地鼠游戏"
                   whileHover={{ scale: 1.05 }}
                 >
                   {/* Subtle outer rose/pink glow on hover for being selected */}
@@ -426,12 +427,13 @@ export default function Festival_2026_ChildrenDay({
                     className="w-full h-full object-contain select-none pointer-events-none transition-all duration-300 group-hover/molehills:scale-105 group-hover/molehills:brightness-105"
                     referrerPolicy="no-referrer"
                   />
-                </motion.div>
+                </motion.button>
 
                 {/* ==========================================
                     EASTER EGG: THE BOUNCY SUMMER GREEN FROG 🐸
                     ========================================== */}
-                <motion.div
+                <motion.button
+                  type="button"
                   style={{
                     position: 'absolute',
                     left: `${frogPos.x}%`,
@@ -443,17 +445,18 @@ export default function Festival_2026_ChildrenDay({
                     scale: isHopping ? [1, 1.25, 0.9, 1] : 1
                   }}
                   transition={{
-                    repeat: isHopping ? Infinity : 0,
+                    repeat: isHopping && !reduceMotion ? Infinity : 0,
                     duration: 0.44,
                     ease: "easeInOut"
                   }}
                   onClick={startHoppingSequence}
-                  className={`cursor-pointer p-0.5 rounded-full flex flex-col items-center justify-center transition-all z-35 select-none pointer-events-auto ${
+                  className={`cursor-pointer p-0.5 rounded-full flex flex-col items-center justify-center transition-all z-35 select-none pointer-events-auto border-0 bg-transparent ${
                     isHopping
                       ? 'scale-105 filter drop-shadow-lg'
                       : 'hover:scale-110 active:scale-95'
                   }`}
                   id="summer-green-frog"
+                  aria-label="触发夏日青蛙互动"
                 >
                   {/* Custom summer green frog vector artwork */}
                   <div
@@ -490,7 +493,7 @@ export default function Festival_2026_ChildrenDay({
                       <path d="M 27 36 Q 32 40 37 36" fill="none" stroke="#14532D" strokeWidth="2.5" strokeLinecap="round" />
                     </svg>
                   </div>
-                </motion.div>
+                </motion.button>
 
               </div>
             </div>

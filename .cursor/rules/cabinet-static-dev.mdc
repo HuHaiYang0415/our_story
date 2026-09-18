@@ -28,5 +28,5 @@ alwaysApply: false
 
 ## 新增静态文件
 
-- 改 `interactive/520/` 后需重新 `build:site` 才会进仓库根 `pages/`。
+- 改 `interactive/520/` 后执行 `npm run build` 检查 `Cabinet/dist/pages/letters/520/`；同步仓库根 `pages/` 仅限根 `SCOPE.md` 授权的发布会话。
 - 若加入进页预载列表，同步更新 `loadLetter520.ts` 的 `LETTER_520_IMAGE_PATHS` 与 `content.js` ASSETS。

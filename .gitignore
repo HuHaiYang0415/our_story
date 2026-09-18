@@ -24,6 +24,9 @@ Thumbs.db
 .vscode/
 
 # Python
+/.impeccable/gallery-assets/current-originals.json
+/.impeccable/gallery-assets/fonttools/
+/.release-candidate/
 __pycache__/
 *.pyc
 
@@ -33,6 +36,3 @@ __pycache__/
 /20260520/
 /202660520/
 /companion-520/
-
-# 本地开发测试入口（不进入正式提交）
-Cabinet/src/dev-only/

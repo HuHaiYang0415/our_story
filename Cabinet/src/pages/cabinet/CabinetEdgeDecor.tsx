@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TimeTheme } from '@/shared/types';
-import { SpringSwallowNest, SummerCicadaEdge } from './cabinetDecorComponents';
+import { SpringSwallowNest, SummerCicadaEdge } from './decor/CabinetSeasonalDecor';
 
 /** 展柜底栏贴边装饰：锚定在 stage-cabinet-gap / stage-edge-deco-slot */
 export function CabinetEdgeDecor({ theme }: { theme: TimeTheme }) {

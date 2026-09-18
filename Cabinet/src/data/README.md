@@ -35,4 +35,4 @@ npm run generate:solar-terms
 
 ## 代码
 
-见 `src/solarTerms.ts`。
+见 `src/shared/theme/solarTerms.ts`。

@@ -1,4 +1,4 @@
-import { Letter } from '@/shared/types';
+import type { LocalLetterSeed } from '@/domain/content';
 import stampLetter520 from '../assets/stamps/stamp-letter-520.jpg';
 import stampLetterPending from '../assets/stamps/stamp-letter-pending.jpg';
 
@@ -7,11 +7,11 @@ const DEFAULT_STAMPS: Record<string, string> = {
   'letter-pending': stampLetterPending,
 };
 
-export function getLetterStampSrc(letter: Letter): string {
+export function getLetterStampSrc(letter: Pick<LocalLetterSeed, 'id' | 'stampImage'>): string {
   return letter.stampImage ?? DEFAULT_STAMPS[letter.id] ?? '';
 }
 
-export const LETTERS_DATA: Letter[] = [
+export const LETTERS_DATA: readonly LocalLetterSeed[] = [
   {
     id: 'letter-520',
     date: '2026.05.20',

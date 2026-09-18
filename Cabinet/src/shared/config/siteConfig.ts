@@ -29,29 +29,12 @@ export function getLetter520EmbedSrc(): string {
   return resolvePublicAssetUrl(LETTER_520_EMBED_PATH);
 }
 
-export type AppView =
-  | 'cabinet'
-  | 'box-envelopes'
-  | 'letter-520'
-  | 'box-photos'
-  | 'relationship'
-  | 'festival-archive'
-  | 'festival-2026-ChildrenDay'
-  | 'festival-2026-DragonBoat'
-
-const VIEW_PAGE_SUFFIX: Record<AppView, string | null> = {
-  cabinet: null,
-  'box-envelopes': '时光信箱',
-  'letter-520': '2026.05.20',
-  'box-photos': '流光相册盒',
-  relationship: '相恋时光',
-  'festival-archive': '节日风物志',
-  'festival-2026-ChildrenDay': '2026 儿童节',
-  'festival-2026-DragonBoat': '2026 端午节',
-};
+import type { AppView } from '@/app/pageRegistry';
+import { PAGE_REGISTRY } from '@/app/pageRegistry';
+export type { AppView } from '@/app/pageRegistry';
 
 export function getPageTitle(view: AppView, suffix?: string | null): string {
-  const pageSuffix = suffix ?? VIEW_PAGE_SUFFIX[view];
+  const pageSuffix = suffix ?? PAGE_REGISTRY[view].titleSuffix;
   if (!pageSuffix) return SITE_TITLE;
   return `${SITE_TITLE} · ${pageSuffix}`;
 }
