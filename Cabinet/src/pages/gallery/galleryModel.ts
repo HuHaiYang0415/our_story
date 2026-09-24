@@ -3,6 +3,20 @@ import type { Album, AlbumPhoto, ContentDatePrecision, MediaAsset } from '@/doma
 export type GalleryPhoto = AlbumPhoto & { album: Album; asset?: MediaAsset; albumPhotoIndex: number };
 export const wrapIndex = (index: number, length: number) => length ? ((index % length) + length) % length : 0;
 
+/** Return the equivalent target index closest to an unbounded continuous phase. */
+export function nearestPhaseTarget(phase: number, targetIndex: number, length: number): number {
+  if (!length) return phase;
+  const normalizedTarget = wrapIndex(targetIndex, length);
+  const turns = Math.round((phase - normalizedTarget) / length);
+  return normalizedTarget + turns * length;
+}
+
+export function orbitApproachDuration(distance: number): number {
+  const steps = Math.abs(distance);
+  if (steps < .02) return 0;
+  return Math.round(Math.min(760, Math.max(220, 420 + steps * 120)));
+}
+
 export function formatGalleryDate(value?: string, precision?: ContentDatePrecision): string {
   if (!value || precision === 'unknown') return '';
   const match = value.match(/^\d{4}(?:-\d{2})?(?:-\d{2})?$/);
@@ -35,16 +49,19 @@ export function orbitNodes(length: number, position: number, capacity: number) {
 
 export function orbitGeometry(offset: number, count: number, width: number, height: number) {
   const small = count <= 3;
-  const angle = offset * (small ? .68 : Math.PI * 2 / (count + 1));
-  const depth = small ? Math.max(0, 1 - Math.abs(offset) * .4) : (Math.cos(angle) + 1) / 2;
+  const angle = offset * (small ? .78 : Math.PI * 2 / Math.max(5, count));
+  const depth = small ? Math.max(0, 1 - Math.abs(offset) * .42) : (Math.cos(angle) + 1) / 2;
+  const mobile = width < 600;
+  const radius = width * (mobile ? .28 : .34);
   return {
-    // Near-side paper remains separately suspended; rear nodes may overlap.
-    x: Math.sin(angle) * width * (small ? .32 : .35 + .24 * Math.pow(depth, 4)),
-    y: (small ? (depth - .65) : (depth - .5)) * height * .38,
-    scale: .45 + Math.pow(depth, 2.5) * .55,
+    // The front cover stays at the measured stage center. Side and rear covers
+    // climb along one shared ellipse instead of receiving per-card offsets.
+    x: Math.sin(angle) * radius,
+    y: -(1 - depth) * height * (mobile ? .19 : .21),
+    scale: .46 + Math.pow(depth, 1.45) * .54,
     z: depth * 100,
-    rotation: Math.sin(angle) * -30,
-    tilt: Math.sin(angle) * 3,
-    opacity: .67 + depth * .33,
+    rotation: Math.sin(angle) * -24,
+    tilt: Math.sin(angle) * 1.8,
+    opacity: .62 + depth * .38,
   };
 }

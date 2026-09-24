@@ -85,9 +85,9 @@ Cabinet/src/main.tsx
 - 信件：`Cabinet/src/pages/letters/data/letters.ts`。
 - 图片和音频：专题目录内的压缩资源由 Vite import，520 子页资源按目录复制。
 - 内容领域类型与只读仓储：`Cabinet/src/domain/content.ts`、`Cabinet/src/domain/contentRepository.ts`；当前本地 adapter 为 `Cabinet/src/data/localContentRepository.ts`，信箱页已通过该边界读取。
-- 相册页 `PolaroidGallery` 通过只读仓储读取内容；状态仅 `orbit/map/album`。首页一册一封面，首次激活居中到前景并上提 16px 选中，再次激活直接进入；不再有聚焦大图、进入按钮或小记。册内当前原图无纸垫背景，底部横向缩略图原生滚动、点击选择；主图滑动与方向键在册内浏览，首尾不跨册。Ctrl/Cmd 滚轮保留浏览器缩放。
-- 邮册挂载相邻 5/9 个不重复节点，CSS 透视与椭圆轨道改变位置、尺度和遮挡。此页使用固定浅色暖纸／叶影令牌，日夜一致，主题拨盘的局部颜色适配仅影响此路由；全站其他页面的昼夜状态不变。
-- `GalleryMap` 只在地图模式懒加载本地 China／浙江地图；上海区界在上海城市意图后加载。全国／城市是仅有的两层，34 个全国边界持续挂载，省市细节共用同一投影，行政区舞台透明；选择邮册不再改变尺度。圆形压缩封面落在有来源的城市代表点，同城共享坐标聚合并可分页选择，地址在地理锚点附近展示。全国密集城市封面使用带连线的展示偏移，实际锚点未改。不读取 OSM 园区、不推断街道／私人门牌位置；进入照片后返回保留视域。边界、BSD 许可和精度限制见 [地图实现说明](../Cabinet/src/pages/gallery/map/README.md)。
+- 相册页 `PolaroidGallery` 通过只读仓储读取内容；状态仅 `orbit/map/album`。首页一册一封面，连续相位驱动五册沿同一椭圆空间运动；首次激活沿最短方向靠近、转正并上提 16px，停稳后的下一次独立激活才进入。拖动会中断旧目标，减少动态仍保留两步语义；不再有聚焦大图、进入按钮或小记。册内先以当前缩略图承接当前原图，稳定 120ms 后才请求该张原图；底部轻量照片条原生横向滚动、使用单一 roving Tab 项，单张相册不显示照片条。
+- 邮册固定使用真实五册，不复制内容填充轨道；CSS 透视与统一几何同时决定位置、尺度、角度和遮挡。手机前景中心以实际可用舞台为基准，选中再上提。此页使用固定浅色暖纸／叶影令牌，日夜一致，主题拨盘的局部颜色适配仅影响此路由；全站其他页面的昼夜状态不变。
+- `GalleryMap` 只在地图模式懒加载本地 China／浙江行政数据与 Natural Earth 海陆、水系。首次点击邮册从全国进入固定省域尺度；之后滚轮或双指缩放仍在同一投影和视图中进行，不产生城市选择层。全国范围的 Natural Earth 1:10m 道路、城市、机场和港口在缩放 4／8／16 时分三级加载，所有图层共用 China 投影且不显示默认文字标签。每个邮册使用独立地理锚点；只有地址与坐标同时相同才合并选择，不绘制跨省长引线。邮册新入口先重置到全国，照片返回地图保留视野和选择现场；右下“全国”、Home 与 Escape 复用同一复位规则。不读取 OSM、不调用外部瓦片或地理编码，也不推断私人门牌位置；边界、自然数据许可和精度限制见 [地图实现说明](../Cabinet/src/pages/gallery/map/README.md)。
 - 用户于 2026-09-18 明确批准公开五组 87 张照片（72/1/2/1/11）及已提供地址。仓储清单位于 `Cabinet/src/pages/gallery/data/galleryContent.ts`，`GALLERY_PUBLIC_ALBUMS` 为确认的五组；所有小图位于 `Cabinet/public/gallery/collections/`（400px / JPEG quality 60 / 空 EXIF）。源文件保持只读。
 - 册内大图使用 `MediaAssetVariants.original`，仅请求当前一张静态原图。唯一跟踪副本是站点根 `gallery/originals/`，原字节不改写；Vite 复制到忽略 Git 的 dist，不在 Cabinet/public 重复存储。经用户批准后运行 `Cabinet/scripts/import-gallery-collections.py --source-root <素材目录> --publish` 重建缩略图、公开清单及原图副本。个人白名单与 DEV 原图通道不提交、不用于线上。
 - 资源分级、预载、失败重试和卸载清理遵循 [`Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md`](../Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md)。

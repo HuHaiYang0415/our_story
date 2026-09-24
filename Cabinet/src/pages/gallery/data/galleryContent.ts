@@ -795,6 +795,10 @@ export const GALLERY_LOCAL_ALBUMS: readonly Album[] = Object.freeze([
       "y": 0,
       "label": "上海",
       "city": "上海",
+      "coordinate": [
+        121.657,
+        31.144
+      ],
       "precision": "city"
     },
     "startDate": "2026-09-13",
@@ -817,6 +821,10 @@ export const GALLERY_LOCAL_ALBUMS: readonly Album[] = Object.freeze([
       "y": 0,
       "label": "浙江",
       "city": "丽水",
+      "coordinate": [
+        120.38761,
+        28.154159
+      ],
       "precision": "city"
     },
     "startDate": "2026-06-26",
@@ -859,6 +867,10 @@ export const GALLERY_LOCAL_ALBUMS: readonly Album[] = Object.freeze([
       "y": 0,
       "label": "浙江",
       "city": "杭州",
+      "coordinate": [
+        120.096667,
+        30.242778
+      ],
       "precision": "city"
     },
     "startDate": "2026-03-14",

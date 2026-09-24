@@ -13,7 +13,7 @@ import type { TimeTheme } from '@/shared/types';
 import { GalleryPhotoVisual } from './GalleryPhoto';
 import { GalleryMapBoundary } from './GalleryMapBoundary';
 import type { GalleryMapState } from './GalleryMap';
-import { orbitGeometry, orbitNodes, photoFacts, photoTitle, resolvePhotos, wrapIndex } from './galleryModel';
+import { nearestPhaseTarget, orbitApproachDuration, orbitGeometry, orbitNodes, photoFacts, photoTitle, resolvePhotos, wrapIndex } from './galleryModel';
 import type { GalleryPhoto } from './galleryModel';
 import { useGalleryInput } from './useGalleryInput';
 import fontLicenseUrl from './assets/OFL.LongCang.txt?url';
@@ -41,10 +41,17 @@ function Postmark() {
 
 function Filmstrip({ photos, index, onSelect }: { photos: readonly GalleryPhoto[]; index: number; onSelect: (index: number) => void }) {
   const strip = useRef<HTMLDivElement>(null);
+  const drag = useRef({ x: 0, scroll: 0, moved: false });
   useLayoutEffect(() => {
     const node = strip.current;
     const active = node?.children[index] as HTMLElement | undefined;
-    if (node && active) node.scrollTo({ left: active.offsetLeft - node.offsetLeft - (node.clientWidth - active.offsetWidth) / 2 });
+    if (!node || !active || node.matches(':active')) return;
+    const safeLeft = node.scrollLeft + 18;
+    const safeRight = node.scrollLeft + node.clientWidth - 18;
+    const itemLeft = active.offsetLeft;
+    const itemRight = itemLeft + active.offsetWidth;
+    if (itemLeft < safeLeft) node.scrollTo({ left: Math.max(0, itemLeft - 18), behavior: 'smooth' });
+    else if (itemRight > safeRight) node.scrollTo({ left: itemRight - node.clientWidth + 18, behavior: 'smooth' });
   }, [index]);
   useEffect(() => {
     const node = strip.current;
@@ -57,18 +64,24 @@ function Filmstrip({ photos, index, onSelect }: { photos: readonly GalleryPhoto[
     node.addEventListener('wheel', wheel, { passive: false });
     return () => node.removeEventListener('wheel', wheel);
   }, []);
-  return <nav className="gallery-filmstrip" data-gallery-control aria-label="本册照片缩略图"><div ref={strip} className="gallery-filmstrip-track">
-    {photos.map((photo, i) => <div key={photo.mediaAssetId} role="button" tabIndex={0} className="gallery-filmstrip-item"
+  if (photos.length <= 1) return null;
+  return <nav className="gallery-filmstrip" data-gallery-control aria-label="本册照片缩略图"><div ref={strip} className="gallery-filmstrip-track" data-short={photos.length <= 3}
+    onPointerDown={event => { drag.current = { x: event.clientX, scroll: event.currentTarget.scrollLeft, moved: false }; }}
+    onPointerMove={event => { if (Math.abs(event.clientX - drag.current.x) > 6) drag.current.moved = true; }}
+    onClickCapture={event => { if (drag.current.moved) { event.preventDefault(); event.stopPropagation(); drag.current.moved = false; } }}>
+    {photos.map((photo, i) => {
+      const ratio = Math.max(.72, Math.min(1.55, (photo.asset?.width || 1) / (photo.asset?.height || 1)));
+      return <button key={photo.mediaAssetId} type="button" tabIndex={i === index ? 0 : -1} className="gallery-filmstrip-item"
+      data-photo-id={photo.mediaAssetId} style={{ '--gallery-thumb-ratio': ratio } as CSSProperties}
       aria-pressed={i === index} aria-label={`查看本册第${i + 1}张照片`}
-      onClick={event => { if (!(event.target as HTMLElement).closest('button')) onSelect(i); }}
+      onClick={() => onSelect(i)}
       onKeyDown={event => {
-        if (event.target !== event.currentTarget) return;
-        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onSelect(i); }
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
           event.preventDefault(); const next = Math.max(0, Math.min(photos.length - 1, i + (event.key === 'ArrowRight' ? 1 : -1)));
           onSelect(next); (strip.current?.children[next] as HTMLElement | undefined)?.focus({ preventScroll: true });
         }
-      }}><GalleryPhotoVisual asset={photo.asset} variant="thumb" loading="lazy" title={`第${i + 1}张：${photoTitle(photo)}`} /><span>{i + 1}</span></div>)}
+      }}><GalleryPhotoVisual asset={photo.asset} variant="thumb" loading={i < 6 ? 'eager' : 'lazy'} title={`第${i + 1}张：${photoTitle(photo)}`} /></button>;
+    })}
   </div></nav>;
 }
 
@@ -76,7 +89,7 @@ function Stamp({ photo, offset, count, bounds, active, selected, onSelect }: {
   photo: GalleryPhoto; offset: number; count: number; bounds: { width: number; height: number }; active: boolean; selected: boolean; onSelect: () => void;
 }) {
   const geometry = orbitGeometry(offset, count, bounds.width, bounds.height);
-  const width = Math.min(bounds.width < 600 ? bounds.width * .52 : bounds.width * .245, bounds.height * .53, 350);
+  const width = Math.min(bounds.width < 600 ? bounds.width * .46 : bounds.width * .215, bounds.height * .46, bounds.width < 600 ? 180 : 310);
   const style = {
     width,
     transform: `translate(-50%, -50%) translate3d(${geometry.x}px, ${geometry.y - (selected ? 16 : 0)}px, 0) scale(${geometry.scale}) rotateY(${geometry.rotation}deg) rotateZ(${geometry.tilt}deg)`,
@@ -126,6 +139,12 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
   const [position, setPosition] = useState(0);
   const positionRef = useRef(0);
   const positionFrame = useRef(0);
+  const orbitMotionFrame = useRef(0);
+  const liftTimer = useRef(0);
+  const activationLocked = useRef(false);
+  const approachTarget = useRef<string | null>(null);
+  const [orbiting, setOrbiting] = useState(false);
+  const [activationReady, setActivationReady] = useState(false);
   const [selection, setSelection] = useState<GalleryPhoto | null>(null);
   const [source, setSource] = useState<Source>('orbit');
   const [albumIndex, setAlbumIndex] = useState(0);
@@ -162,48 +181,95 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
 
   const updatePosition = useCallback((amount: number) => {
     if (!photos.length) return;
-    positionRef.current = wrapIndex(positionRef.current + amount, photos.length);
+    positionRef.current += amount;
     if (!positionFrame.current) positionFrame.current = window.requestAnimationFrame(() => { positionFrame.current = 0; setPosition(positionRef.current); });
   }, [photos.length]);
+  const cancelOrbitMotion = useCallback(() => {
+    window.cancelAnimationFrame(orbitMotionFrame.current); orbitMotionFrame.current = 0;
+    window.clearTimeout(liftTimer.current); liftTimer.current = 0;
+    activationLocked.current = false; approachTarget.current = null; setOrbiting(false); setActivationReady(false);
+  }, []);
+  const animatePhase = useCallback((target: number, duration: number, onComplete?: () => void) => {
+    window.cancelAnimationFrame(positionFrame.current); positionFrame.current = 0;
+    window.cancelAnimationFrame(orbitMotionFrame.current);
+    const start = positionRef.current;
+    if (reduced || duration <= 0 || Math.abs(target - start) < .001) {
+      positionRef.current = target; setPosition(target); setOrbiting(false); activationLocked.current = false; onComplete?.(); return;
+    }
+    const startedAt = performance.now();
+    activationLocked.current = true; setOrbiting(true);
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      positionRef.current = start + (target - start) * eased; setPosition(positionRef.current);
+      if (progress < 1) orbitMotionFrame.current = window.requestAnimationFrame(tick);
+      else {
+        orbitMotionFrame.current = 0; positionRef.current = target; setPosition(target); setOrbiting(false);
+        activationLocked.current = false; onComplete?.();
+      }
+    };
+    orbitMotionFrame.current = window.requestAnimationFrame(tick);
+  }, [reduced]);
   const settleOrbit = useCallback(() => {
     window.cancelAnimationFrame(positionFrame.current); positionFrame.current = 0;
-    positionRef.current = wrapIndex(Math.round(positionRef.current), photos.length); setPosition(positionRef.current);
-    const photo = photos[positionRef.current];
-    if (photo) setSpoken(`${photo.album.title}，第 ${positionRef.current + 1} 册，共 ${photos.length} 册`);
-  }, [photos]);
+    const target = Math.round(positionRef.current);
+    animatePhase(target, 240, () => {
+      const index = wrapIndex(target, photos.length), photo = photos[index];
+      if (photo) setSpoken(`${photo.album.title}，第 ${index + 1} 册，共 ${photos.length} 册`);
+    });
+  }, [animatePhase, photos]);
   const notifyBoundary = (text: string) => {
     setFeedback(text); window.clearTimeout(feedbackTimer.current);
     feedbackTimer.current = window.setTimeout(() => setFeedback(''), 1600);
   };
   const move = (amount: number) => {
-    if (mode === 'orbit') { setSelection(null); updatePosition(reduced ? Math.sign(amount) : amount); return; }
+    if (mode === 'orbit') { setSelection(null); setActivationReady(false); approachTarget.current = null; updatePosition(reduced ? Math.sign(amount) : amount); return; }
     if (mode === 'album') {
       const next = Math.max(0, Math.min(albumPhotos.length - 1, albumIndex + Math.sign(amount)));
       if (next === albumIndex) notifyBoundary(albumIndex === 0 ? '这是本册第一张' : '这是本册最后一张');
       else { setAlbumIndex(next); setFeedback(''); }
     }
   };
-  const gestures = useGalleryInput(stageRef, { onMove: move, onSettle: mode === 'orbit' ? settleOrbit : undefined, continuous: mode === 'orbit' && !reduced, enabled: !filterOpen && mode !== 'map' });
+  const gestures = useGalleryInput(stageRef, { onMove: move, onSettle: mode === 'orbit' ? settleOrbit : undefined,
+    onInteractStart: mode === 'orbit' ? () => { cancelOrbitMotion(); setSelection(null); setActivationReady(false); } : undefined,
+    continuous: mode === 'orbit' && !reduced, enabled: !filterOpen && mode !== 'map' });
   const selectCover = (photo: GalleryPhoto) => {
     setSource('orbit');
-    if (selection?.album.id === photo.album.id) { setAlbumIndex(photo.albumPhotoIndex); setMode('album'); }
-    else {
-      const index = photos.findIndex(item => item.album.id === photo.album.id);
-      if (index < 0) return;
-      window.cancelAnimationFrame(positionFrame.current); positionFrame.current = 0;
-      positionRef.current = index; setPosition(index);
-      setSelection(photo); setSpoken(`${photo.album.title}已居中选中，再次点击进入相册`);
+    if (selection?.album.id === photo.album.id && !activationLocked.current && !orbiting) {
+      setAlbumIndex(photo.albumPhotoIndex); setMode('album'); return;
     }
+    if (approachTarget.current === photo.album.id && activationLocked.current) return;
+    const index = photos.findIndex(item => item.album.id === photo.album.id);
+    if (index < 0) return;
+    window.clearTimeout(liftTimer.current); setSelection(null); setActivationReady(false); approachTarget.current = photo.album.id;
+    const target = nearestPhaseTarget(positionRef.current, index, photos.length);
+    const selectAfterApproach = () => {
+      approachTarget.current = null; setSelection(photo); setActivationReady(false); activationLocked.current = true;
+      setSpoken(`${photo.album.title}已居中选中，再次点击进入相册`);
+      liftTimer.current = window.setTimeout(() => { activationLocked.current = false; setActivationReady(true); }, reduced ? 0 : 190);
+    };
+    animatePhase(target, orbitApproachDuration(target - positionRef.current), selectAfterApproach);
+  };
+  const stepOrbit = (direction: number) => {
+    cancelOrbitMotion(); setSelection(null); setActivationReady(false);
+    const target = Math.round(positionRef.current) + Math.sign(direction);
+    animatePhase(target, reduced ? 0 : 300, () => {
+      const index = wrapIndex(target, photos.length), photo = photos[index];
+      if (photo) setSpoken(`${photo.album.title}，第 ${index + 1} 册，共 ${photos.length} 册`);
+    });
   };
   const back = () => {
     if (filterOpen) { setFilterOpen(false); return; }
     if (mode === 'album') { setMode(source); return; }
-    if (mode === 'map' && mapState.city) { setMapAlbumId(null); setMapState({ zoom: 1, panX: 0, panY: 0 }); return; }
     onBackToCabinet();
   };
-  const backLabel = mode === 'album' ? source === 'map' ? '回到地图' : '回到邮册' : mode === 'map' && mapState.city ? '全国' : '返回展柜';
+  const backLabel = mode === 'album' ? source === 'map' ? '回到地图' : '回到邮册' : '返回展柜';
+  const openMapFresh = () => {
+    cancelOrbitMotion(); setMapAlbumId(null); setMapState({ zoom: 1, panX: 0, panY: 0 });
+    setFilterOpen(false); setMode('map');
+  };
   const applyFilter = (albumId: string, year: string) => {
-    setFilter({ albumId, year }); setFilterOpen(false); setSelection(null); positionRef.current = 0; setPosition(0);
+    setFilter({ albumId, year }); setFilterOpen(false); setSelection(null); setActivationReady(false); positionRef.current = 0; setPosition(0);
   };
   useEffect(() => { if (!filterOpen) stageRef.current?.focus({ preventScroll: true }); setFeedback(''); }, [mode]);
   useEffect(() => {
@@ -213,7 +279,10 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
     filterWasOpen.current = filterOpen;
     return () => { if (node) node.inert = false; };
   }, [filterOpen]);
-  useEffect(() => () => { window.clearTimeout(feedbackTimer.current); window.cancelAnimationFrame(positionFrame.current); }, []);
+  useEffect(() => () => {
+    window.clearTimeout(feedbackTimer.current); window.clearTimeout(liftTimer.current);
+    window.cancelAnimationFrame(positionFrame.current); window.cancelAnimationFrame(orbitMotionFrame.current);
+  }, []);
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); back(); return; }
@@ -225,15 +294,22 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
       if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
     if (filterOpen || mode === 'map' || (event.target as HTMLElement).closest('[data-gallery-control]')) return;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); if (mode === 'orbit') settleOrbit(); }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      if (mode === 'orbit') stepOrbit(event.key === 'ArrowRight' ? 1 : -1);
+      else move(event.key === 'ArrowRight' ? 1 : -1);
+    }
     if ((event.key === 'Enter' || event.key === ' ') && event.target === stageRef.current) { event.preventDefault(); if (mode === 'orbit' && active) selectCover(active); }
     if (['PageDown', 'PageUp', 'Home', 'End'].includes(event.key)) event.preventDefault();
   };
   return <ViewportShell id="polaroid-gallery-page" scrollable={false} className="gallery-page">
-    <div ref={rootRef} className="gallery-root" onKeyDown={onKeyDown} data-gallery-mode={mode} data-gallery-contract="one collection per cover; select-lift then enter; originals only inside; continuous national/city map; same leaf-lit palette day/night">
+    <div ref={rootRef} className="gallery-root" onKeyDown={onKeyDown} data-gallery-mode={mode}
+      data-orbit-moving={orbiting ? 'true' : 'false'} data-orbit-status={orbiting ? 'approaching' : selection ? activationReady ? 'selected' : 'settling' : 'idle'}
+      data-orbit-phase={position.toFixed(4)}
+      data-gallery-contract="one collection per cover; select-lift then enter; originals only inside; continuous national/city map; same leaf-lit palette day/night">
       <div ref={backgroundRef} className="gallery-screen"><header className="gallery-header" data-gallery-control>
         <StoryBackButton onClick={back} label={backLabel} tone="paper" id="btn-back-cabinet" /><h1>流光相册盒</h1>
-        {mode !== 'album' ? <button type="button" className="gallery-mode-button" onClick={() => { setMode(mode === 'map' ? 'orbit' : 'map'); setFilterOpen(false); }}><MapPin size={17} aria-hidden="true" />{mode === 'map' ? '回到邮册' : '地图查看'}</button>
+        {mode !== 'album' ? <button type="button" className="gallery-mode-button" onClick={() => { if (mode === 'map') setMode('orbit'); else openMapFresh(); setFilterOpen(false); }}><MapPin size={17} aria-hidden="true" />{mode === 'map' ? '回到邮册' : '地图查看'}</button>
           : <button type="button" className="gallery-close" aria-label={backLabel} onClick={back}><X size={20} aria-hidden="true" /></button>}
       </header><main ref={stageRef} tabIndex={0} className={`gallery-stage gallery-stage--${mode}`} aria-label={mode === 'orbit' ? '照片邮册' : mode === 'album' ? '相册查看' : '回忆地图'} {...gestures}>
         {mode === 'orbit' && (photos.length ? <div className="gallery-orbit">
@@ -246,7 +322,8 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
           <Filmstrip photos={albumPhotos} index={albumIndex} onSelect={index => { setAlbumIndex(index); setFeedback(''); }} />
         </section>}
         {mode === 'map' && <GalleryMapBoundary key={mapAttempt} onRetry={() => setMapAttempt(n => n + 1)} onBack={() => setMode('orbit')}><Suspense fallback={<div className="gallery-map-loading" role="status">正在展开地图…</div>}>
-          <GalleryMap albums={filteredAlbums} assets={assets} selectedAlbumId={mapAlbumId} onSelectAlbum={setMapAlbumId} state={mapState} onStateChange={setMapState} onFocus={(photoId, albumId) => {
+          <GalleryMap albums={filteredAlbums} assets={assets} selectedAlbumId={mapAlbumId} onSelectAlbum={setMapAlbumId}
+            state={mapState} onStateChange={setMapState} onExit={onBackToCabinet} onFocus={(photoId, albumId) => {
             const album = albums.find(item => item.id === albumId);
             const photo = album && resolvePhotos(album, assets).find(item => item.mediaAssetId === photoId);
             if (photo) { setSource('map'); setSelection(photo); setAlbumIndex(photo.albumPhotoIndex); setMode('album'); }

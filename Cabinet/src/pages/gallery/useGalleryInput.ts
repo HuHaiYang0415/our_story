@@ -3,6 +3,7 @@ import type { PointerEvent, MouseEvent, RefObject } from 'react';
 
 interface InputOptions {
   continuous?: boolean;
+  onInteractStart?: () => void;
   onMove: (amount: number) => void;
   onSettle?: () => void;
   enabled?: boolean;
@@ -29,6 +30,7 @@ export function useGalleryInput(ref: RefObject<HTMLElement | null>, options: Inp
       const raw = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
       if (!raw) return;
       event.preventDefault();
+      latest.current.onInteractStart?.();
       const delta = raw * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? node.clientHeight : 1);
       if (latest.current.continuous) {
         latest.current.onMove(Math.max(-.7, Math.min(.7, delta / 180)));
@@ -67,6 +69,9 @@ export function useGalleryInput(ref: RefObject<HTMLElement | null>, options: Inp
     const dx = event.clientX - g.x;
     if (!g.moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(event.clientY - g.y)) {
       g.moved = true;
+      // A press may be the independent second activation that opens a selected
+      // album. Only interrupt that selection after the gesture is truly a drag.
+      options.onInteractStart?.();
       event.currentTarget.setPointerCapture(event.pointerId);
     }
     if (g.moved && options.continuous) options.onMove((g.lastX - event.clientX) / Math.max(110, event.currentTarget.clientWidth * .18));

@@ -43,7 +43,7 @@ interface ReadonlyContentRepository {
 }
 ```
 
-当前 `EnvelopeStack` 已经通过 `getContentRepository().listLetters()` 读取信件，组件 Props 和 URL 不变。相册和记忆目前没有持久化内容源，本地 adapter 返回空只读集合，不代表它们已接入后端。
+当前 `EnvelopeStack` 和 `PolaroidGallery` 均通过只读内容仓储读取数据，组件 Props 和 URL 不变。相册仓储提供 `SCOPE.md` 已批准的五册静态内容；记忆集合仍为空。这些本地快照不代表已接入后端。
 
 ## 稳定不变式
 

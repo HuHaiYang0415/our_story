@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { albumDate, formatGalleryDate, orbitGeometry, orbitNodes, photoFacts, resolvePhotos, wrapIndex } from './galleryModel';
+import { albumDate, formatGalleryDate, nearestPhaseTarget, orbitApproachDuration, orbitGeometry, orbitNodes, photoFacts, resolvePhotos, wrapIndex } from './galleryModel';
 import type { Album } from '@/domain/content';
 
 test('orbit stays bounded, unique and valid across wrap and fractional positions', () => {
@@ -25,6 +25,14 @@ test('orbit exchanges size, height, side tilt and depth continuously', () => {
   assert.ok(front.y > side.y && side.y > back.y);
   assert.ok(side.x > 0 && side.rotation < 0);
   assert.ok(Math.abs(orbitGeometry(.01, 9, 1440, 800).scale - front.scale) < .01);
+});
+
+test('orbit targets the nearest equivalent phase across the first/last seam', () => {
+  assert.equal(nearestPhaseTarget(4.8, 0, 5), 5);
+  assert.equal(nearestPhaseTarget(.2, 4, 5), -1);
+  assert.equal(nearestPhaseTarget(6.2, 1, 5), 6);
+  assert.ok(orbitApproachDuration(.9) >= 480);
+  assert.ok(orbitApproachDuration(2) <= 760);
 });
 
 test('date precision and ranges remain calendar facts, never timezone conversions', () => {

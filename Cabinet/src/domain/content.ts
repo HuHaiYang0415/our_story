@@ -54,6 +54,8 @@ export interface Album extends ContentRecord {
 export interface AlbumMapPoint {
   /** Explicit city name; anchors come from licensed geography, never address geocoding. */
   city?: string;
+  /** Optional public, display-grade regional anchor; never a private or photo GPS coordinate. */
+  coordinate?: readonly [longitude: number, latitude: number];
   /** Normalized position in the gallery's illustrated map viewport. */
   x: number;
   y: number;
@@ -90,7 +92,7 @@ export interface MediaAsset extends ContentRecord {
 }
 
 export interface MediaAssetVariants {
-  /** Original rendition. Local gallery originals are DEV-only, loopback-served. */
+  /** Original rendition. Gallery originals follow the explicit publication permission in SCOPE.md. */
   original?: string;
   thumb?: string;
   medium?: string;
