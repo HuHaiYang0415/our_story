@@ -1,0 +1,10 @@
+Natural Earth map data used by this gallery is in the public domain.
+
+Sources:
+- Natural Earth 1:110m Physical Vectors: land, lakes, and river/lake centerlines
+  https://www.naturalearthdata.com/downloads/110m-physical-vectors/
+- Natural Earth Gray Earth 1:50m raster, GRAY_50M_SR 3.2.0
+  https://www.naturalearthdata.com/downloads/50m-raster-data/50m-gray-earth/
+
+The browser ships only cropped/selected vector data and a compressed, registered
+relief derivative. Natural Earth is not responsible for this presentation.
