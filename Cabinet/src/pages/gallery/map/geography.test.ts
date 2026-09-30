@@ -1,7 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { groupAlbumPins, locateAlbums, normalizeState, parseGeography, parseNaturalDetailGeography, parseNaturalGeography } from './geography';
+import {
+  coordinateToWebMercator, groupAlbumPins, locateAlbums, normalizeState, OSM_MAX_ZOOM,
+  parseGeography, parseNaturalDetailGeography, parseNaturalGeography, projectOsmCoordinate,
+  projectWebMercatorPoint, unprojectWebMercatorPoint,
+} from './geography';
 import type { Album } from '@/domain/content';
 
 const china = parseGeography(JSON.parse(readFileSync(new URL('../../../../public/gallery/map/china-4.0.2.json', import.meta.url), 'utf8')));
@@ -29,6 +33,17 @@ test('city-aware viewport clamps stop before any place-level zoom', () => {
   assert.equal(normalizeState({ zoom: 14, panX: 0, panY: 0 }).zoom, 14);
   assert.equal(normalizeState({ zoom: 9999, panX: NaN, panY: Infinity }).zoom, 40);
   assert.deepEqual(normalizeState({ zoom: 99, panX: 0, panY: 0 }), { zoom: 40, panX: 0, panY: 0 });
+});
+test('the published OSM map can zoom to street scale while the fallback clamp stays available', () => {
+  assert.equal(normalizeState({ zoom: 9999, panX: 0, panY: 0 }, OSM_MAX_ZOOM).zoom, OSM_MAX_ZOOM);
+  assert.equal(normalizeState({ zoom: 9999, panX: 0, panY: 0 }).zoom, 40);
+  const coordinate: [number, number] = [121.657, 31.144];
+  const mercator = coordinateToWebMercator(coordinate);
+  const point = projectOsmCoordinate(coordinate);
+  const roundTrip = unprojectWebMercatorPoint(projectWebMercatorPoint(mercator));
+  assert.ok(Math.abs(roundTrip.x - mercator.x) < 1e-12);
+  assert.ok(Math.abs(roundTrip.y - mercator.y) < 1e-12);
+  assert.ok(point.x > 0 && point.x < 1000 && point.y > 0 && point.y < 780);
 });
 test('confirmed Zhejiang cities use licensed anchors, not private address guesses', () => {
   const zhejiang = parseGeography(JSON.parse(readFileSync(new URL('../../../../public/gallery/map/zhejiang-4.0.2.json', import.meta.url), 'utf8')), 11, china.project);

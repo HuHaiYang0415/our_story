@@ -3,7 +3,14 @@ import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
 import { maxMapZoom, normalizeState } from './geography';
 import type { MapState } from './geography';
 
-interface Options { state: MapState; fit: number; onStateChange: (state: MapState) => void; onNational: () => void; onEscape: () => void; }
+interface Options {
+  state: MapState;
+  fit: number;
+  maxZoom?: number;
+  onStateChange: (state: MapState) => void;
+  onNational: () => void;
+  onEscape: () => void;
+}
 
 export function useMapInput(ref: RefObject<HTMLDivElement | null>, options: Options) {
   const latest = useRef(options); latest.current = options;
@@ -12,11 +19,11 @@ export function useMapInput(ref: RefObject<HTMLDivElement | null>, options: Opti
   const pinch = useRef<{ distance: number; x: number; y: number } | null>(null);
   const suppressUntil = useRef(0);
   const change = (state: MapState) => {
-    const next = normalizeState(state); latest.current = { ...latest.current, state: next }; latest.current.onStateChange(next);
+    const next = normalizeState(state, latest.current.maxZoom); latest.current = { ...latest.current, state: next }; latest.current.onStateChange(next);
   };
   const zoomAt = (factor: number, clientX?: number, clientY?: number) => {
     const { state, fit } = latest.current;
-    const value = Math.max(1, Math.min(maxMapZoom(state), state.zoom * factor));
+    const value = Math.max(1, Math.min(maxMapZoom(state, latest.current.maxZoom), state.zoom * factor));
     if (value === state.zoom) return;
     const node = ref.current;
     if (!node || clientX === undefined || clientY === undefined) {
@@ -75,7 +82,7 @@ export function useMapInput(ref: RefObject<HTMLDivElement | null>, options: Opti
         const oldY = (previous.y - bounds.top - Math.max(1, bounds.height - 68) / 2) / fit;
         const nextX = (next.x - bounds.left - bounds.width / 2) / fit;
         const nextY = (next.y - bounds.top - Math.max(1, bounds.height - 68) / 2) / fit;
-        const value = Math.max(1, Math.min(maxMapZoom(state), state.zoom * next.distance / previous.distance));
+        const value = Math.max(1, Math.min(maxMapZoom(state, latest.current.maxZoom), state.zoom * next.distance / previous.distance));
         const worldX = (oldX - state.panX) / state.zoom;
         const worldY = (oldY - state.panY) / state.zoom;
         change({ ...state, zoom: value, panX: nextX - worldX * value, panY: nextY - worldY * value });

@@ -1,4 +1,4 @@
-import{l as o,f as h}from"./index-Cn4Oq76T.js";const l=""+new URL("stamp-letter-520-DZwP5a8A.jpg",import.meta.url).href,a=""+new URL("stamp-letter-pending-BXUBlVcc.jpg",import.meta.url).href,n={"letter-520":l,"letter-pending":a};function p(i){return i.stampImage??n[i.id]??""}const y=[{id:"letter-520",date:"2026.05.20",title:"散步、玫瑰与美丽的平平",oneLiner:"在线上完成世界上第二浪漫的事情吧",sender:"小胡",interactive:"520"},{id:"letter-pending",date:"未完待续",title:"未来的留白",oneLiner:"“未来的日子里，还有更多美好的事情想写给你听。”",sender:"小胡",content:`亲爱的平平：
+import{l as o,f as h}from"./index-DrAZx1gF.js";const l=""+new URL("stamp-letter-520-DZwP5a8A.jpg",import.meta.url).href,a=""+new URL("stamp-letter-pending-BXUBlVcc.jpg",import.meta.url).href,n={"letter-520":l,"letter-pending":a};function p(i){return i.stampImage??n[i.id]??""}const y=[{id:"letter-520",date:"2026.05.20",title:"散步、玫瑰与美丽的平平",oneLiner:"在线上完成世界上第二浪漫的事情吧",sender:"小胡",interactive:"520"},{id:"letter-pending",date:"未完待续",title:"未来的留白",oneLiner:"“未来的日子里，还有更多美好的事情想写给你听。”",sender:"小胡",content:`亲爱的平平：
 
 这里是一张空白的记忆信笺。
 

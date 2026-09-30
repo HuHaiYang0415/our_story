@@ -4,9 +4,10 @@ export const MAP_WIDTH = 1000;
 export const MAP_HEIGHT = 780;
 // One continuous world; province focus never rebases coordinates.
 export const MAX_ZOOM = 40;
+export const OSM_MAX_ZOOM = 4096;
 export const CITY_MAX_ZOOM = MAX_ZOOM;
 export interface MapState { zoom: number; panX: number; panY: number }
-export const maxMapZoom = (_state: MapState) => MAX_ZOOM;
+export const maxMapZoom = (_state: MapState, limit = MAX_ZOOM) => limit;
 export interface Point { x: number; y: number }
 export interface Region {
   name: string;
@@ -26,6 +27,49 @@ export interface NaturalDetailGeography {
   roadPaths: { major: string; secondary: string; local: string };
   places: readonly NaturalDetailPlace[];
 }
+
+const OSM_WEST = 70;
+const OSM_EAST = 140;
+const OSM_SOUTH = 15;
+const OSM_NORTH = 55;
+const OSM_PADDING = 50;
+
+export interface WebMercatorPoint { x: number; y: number }
+
+export function coordinateToWebMercator([longitude, latitude]: [number, number]): WebMercatorPoint {
+  const limitedLatitude = Math.max(-85.05112878, Math.min(85.05112878, latitude));
+  const radians = limitedLatitude * Math.PI / 180;
+  return {
+    x: (longitude + 180) / 360,
+    y: (1 - Math.log(Math.tan(radians) + 1 / Math.cos(radians)) / Math.PI) / 2,
+  };
+}
+
+const osmNorthWest = coordinateToWebMercator([OSM_WEST, OSM_NORTH]);
+const osmSouthEast = coordinateToWebMercator([OSM_EAST, OSM_SOUTH]);
+const osmScale = Math.min(
+  (MAP_WIDTH - OSM_PADDING * 2) / (osmSouthEast.x - osmNorthWest.x),
+  (MAP_HEIGHT - OSM_PADDING * 2) / (osmSouthEast.y - osmNorthWest.y),
+);
+const osmLeft = (MAP_WIDTH - (osmSouthEast.x - osmNorthWest.x) * osmScale) / 2;
+const osmTop = (MAP_HEIGHT - (osmSouthEast.y - osmNorthWest.y) * osmScale) / 2;
+
+export function projectWebMercatorPoint(point: WebMercatorPoint): Point {
+  return {
+    x: osmLeft + (point.x - osmNorthWest.x) * osmScale,
+    y: osmTop + (point.y - osmNorthWest.y) * osmScale,
+  };
+}
+
+export function unprojectWebMercatorPoint(point: Point): WebMercatorPoint {
+  return {
+    x: osmNorthWest.x + (point.x - osmLeft) / osmScale,
+    y: osmNorthWest.y + (point.y - osmTop) / osmScale,
+  };
+}
+
+export const projectOsmCoordinate = (coordinate: [number, number]): Point =>
+  projectWebMercatorPoint(coordinateToWebMercator(coordinate));
 
 /** Only albums with both a shared display coordinate and the same confirmed address share a pin. */
 export function groupAlbumPins(group: AlbumGroup, anchor: (item: LocatedAlbum) => Point): AlbumPinGroup[] {
@@ -243,8 +287,8 @@ export function locateAlbums(albums: readonly Album[], geography: Geography, cit
   return { groups: cityGroups, provinces: Array.from(provinces.values()), unlocated };
 }
 
-export function normalizeState(state: MapState): MapState {
-  const zoom = Number.isFinite(state.zoom) ? Math.max(1, Math.min(maxMapZoom(state), state.zoom)) : 1;
+export function normalizeState(state: MapState, limit = MAX_ZOOM): MapState {
+  const zoom = Number.isFinite(state.zoom) ? Math.max(1, Math.min(maxMapZoom(state, limit), state.zoom)) : 1;
   const maxX = MAP_WIDTH * ((zoom - 1) / 2 + .42);
   const maxY = MAP_HEIGHT * ((zoom - 1) / 2 + .42);
   return {

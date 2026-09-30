@@ -1,12 +1,12 @@
 # Gallery map
 
-Current local implementation, revised 2026-09-24. Scope and publication authority
+Current published implementation, revised 2026-09-30 with the warm OSM map. Scope and publication authority
 remain in [SCOPE.md](../../../../../SCOPE.md). This is an album display, not street
 navigation, address geocoding or a current administrative-boundary service.
 
 ## Two views, one continuous world
 
-The China projection is the only world coordinate system. All 34 province features
+Web Mercator is the published world coordinate system. All 34 province features
 remain mounted when focusing an album's province-scale view. The surrounding map
 persists and every map surface stays transparent, so the published warm-paper and
 leaf-shadow background continues without a solid rectangular seam.
@@ -15,8 +15,8 @@ Only `national` and `province` views exist; zoom level is the sole distinction.
 The first activation of a pin at national scale centers its real anchor and moves
 to a fixed province scale. It never automatically zooms farther. Visitors use the
 wheel or two-finger pinch to continue toward city scale, while activating an already
-selected cover opens it. Scale is clamped to 1–40. No OSM dataset or third-party
-tile service is fetched or rendered.
+selected cover opens it. The published OSM map allows manual zoom to street-level
+tile detail while preserving the two-view state model.
 
 `mapPoint.label` identifies the sourced province; explicit `mapPoint.city` may select
 a licensed regional anchor for placing a cover, but it never creates a city view or
@@ -39,26 +39,59 @@ nearby albums. Returning from the viewer restores the parent-owned viewport and
 selected album; reopening the map from the album carousel starts at national. Home
 and the bottom-right “全国” control use the same reset.
 
-## Natural layers
+## Basemap and fallback layers
 
-The administrative projection draws a local Natural Earth base with 1:110m land,
-lakes and major river centerlines. After an intentional zoom, three nationwide
-1:10m detail files progressively add roads, populated places, airports and ports at
-zoom 4, 8 and 16. They cover the full China extent plus a narrow surrounding margin,
-not just places containing albums. All layers share `china.project`. Features use
-the published warm-paper palette and expose no default text labels. This dataset is
-regional reference geometry—not a turn-by-turn street map and not building-footprint
-data. The prepared Gray Earth WebP is retained as licensed source material but is
-not rendered or requested. Failure of either vector enhancement leaves the
-administrative map and album controls usable.
+The published layer uses the OSM Foundation standard XYZ endpoint by default.
+`VITE_GALLERY_OSM_TILE_URL` can replace it with another compliant XYZ template.
+Tiles, administrative geometry and album anchors share Web Mercator. The raster is
+treated with grayscale, warm sepia and multiply blend so the leaf-shadow paper stays
+visible instead of becoming a separate gray rectangle.
+
+A local Natural Earth 1:110m land/lake/river layer remains underneath as graceful
+fallback. Broken tile images are hidden, leaving the fallback and album controls
+usable. The older progressive 1:10m road/place/airport/port payloads remain tracked
+for rollback and maintenance but are not requested while the OSM layer is active.
+
+## Published OSM behavior
+
+The previous Natural Earth implementation is recoverable at commit `284b3ac`.
+Beginning with the 2026-09-30 release, production defaults to
+`https://tile.openstreetmap.org/{z}/{x}/{y}.png`. A deployment may provide a different
+compliant template through `VITE_GALLERY_OSM_TILE_URL`.
+
+`GalleryMap` projects its local administrative geometry and album anchors into the
+same Web Mercator space as the tiles. The state machine remains
+national/province only: the first cover activation still enters province scale and
+does not create a city chooser; further wheel or pinch input can reach zoom 15 tile
+detail. The layer requests only tiles intersecting the current viewport plus a small
+two-tile guard band, caps each axis to eight neighboring tiles and never scans or
+prefetches the country. Natural Earth remains underneath as a graceful fallback.
+OSM tiles are color-treated with the existing warm-paper palette and multiply blend,
+so the leaf-shadow surface remains visible instead of becoming a separate gray map
+rectangle.
+
+Provider-rendered country, city, road, landmark and street names remain part of the
+map. The earlier “no labels by default” rule applies only to album-name tags: album
+names stay hidden until their cover is selected, and bare-map activation hides them
+again. It does not remove geographic text from the basemap.
+
+Any public tile host renders the persistent, non-interactive
+`© OpenStreetMap contributors · ODbL` credit in the lower-left corner. Its subtle
+warm-gray treatment may not be hidden, clipped or disabled. Project-relative,
+`localhost`, `127.0.0.1` and `[::1]` templates are treated as self-hosted internal
+endpoints. Do not point production at a service that forbids the requested traffic
+pattern, and never use `tile.openstreetmap.org` for bulk or offline downloads.
 
 ## Loading and input
 
 The map component loads only after the map action. Local China, Zhejiang and the
-small Natural Earth base load then; nationwide detail waits for zoom 4/8/16. The
-retained Shanghai district source is not requested by this two-view map. Fetches
-have 15-second timeouts, AbortController cleanup and manual retry. Visitors do not
-call tile providers or external map APIs. Covers request lazy compressed thumbnails;
+small Natural Earth fallback load then. The retained Shanghai district and Natural
+Earth detail sources are not requested by the published OSM path. Map JSON fetches
+have 15-second timeouts, AbortController cleanup and manual retry. XYZ images are
+computed only for the active viewport, current zoom and a bounded guard band; there
+is no country scan, prefetch or offline cache. The provider receives ordinary tile
+coordinates, Referer and network request metadata, never album address text, photos,
+EXIF or an online-geocoding request. Covers request lazy compressed thumbnails;
 original images remain an album-viewer concern.
 
 World and covers share 480ms easing; dragging is immediate and reduced motion
@@ -92,8 +125,12 @@ from map drag/wheel capture. The fixed stage has no vertical page scroll.
 - The public Wenxi town representative is `120.387610, 28.154159`, documented by
   [Amap place B0242154HF](https://www.amap.com/place/B0242154HF); no street address
   was submitted to a runtime provider.
+- OpenStreetMap data is licensed under ODbL. OSM Foundation raster/vector tile
+  services separately require visible attribution, ordinary browser caching and no
+  bulk download. See the official [copyright page](https://www.openstreetmap.org/copyright)
+  and [tile usage policy](https://operations.osmfoundation.org/policies/tiles/).
 
 Maintenance: `node Cabinet/src/pages/gallery/map/download-map.mjs` reproduces the
-pinned base files and licenses. `node Cabinet/src/pages/gallery/map/download-natural-detail.mjs`
-reproduces the progressive nationwide detail. Only these maintenance commands need
-network access; the browser receives static local files.
+pinned fallback files and licenses. `node Cabinet/src/pages/gallery/map/download-natural-detail.mjs`
+reproduces the retained progressive detail. Runtime map viewing additionally requests
+only the visible XYZ tiles from the configured provider.

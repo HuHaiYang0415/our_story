@@ -5,10 +5,11 @@ import type { Album, MediaAsset } from '@/domain/content';
 import { resolvePublicAssetUrl } from '@/shared/config/siteConfig';
 import Photo from './map/Photo';
 import {
-  groupAlbumPins, locateAlbums, MAP_HEIGHT, MAP_WIDTH, maxMapZoom, normalizeState,
-  parseGeography, parseNaturalDetailGeography, parseNaturalGeography,
+  groupAlbumPins, locateAlbums, MAP_HEIGHT, MAP_WIDTH, maxMapZoom, normalizeState, OSM_MAX_ZOOM,
+  parseGeography, parseNaturalDetailGeography, parseNaturalGeography, projectOsmCoordinate,
 } from './map/geography';
 import type { Geography, LocatedAlbum, MapState, NaturalDetailGeography, NaturalGeography, Point } from './map/geography';
+import OsmTileLayer, { isLocalTileTemplate } from './map/OsmTileLayer';
 import { useMapInput } from './map/useMapInput';
 import './map/gallery-map.css';
 
@@ -22,6 +23,9 @@ export interface GalleryMapProps {
 }
 export const NATIONAL_MAP_STATE: GalleryMapState = { zoom: 1, panX: 0, panY: 0 };
 const PROVINCE_ZOOM = 4;
+const DEFAULT_OSM_TILE_TEMPLATE = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const OSM_TILE_TEMPLATE = import.meta.env.VITE_GALLERY_OSM_TILE_URL?.trim() || DEFAULT_OSM_TILE_TEMPLATE;
+const OSM_EXTERNAL = Boolean(OSM_TILE_TEMPLATE && !isLocalTileTemplate(OSM_TILE_TEMPLATE));
 let baseMapKey = -1;
 let baseMapPromise: Promise<{ world: Geography; cities: Geography }> | null = null;
 let naturalMapKey = -1;
@@ -35,12 +39,12 @@ const fetchMapJson = (file: string) => {
     .then(response => { if (!response.ok) throw Error('Map unavailable'); return response.json(); })
     .finally(() => window.clearTimeout(timeout));
 };
-const loadBaseMaps = (key: number) => {
+const loadBaseMaps = (key: number, osm: boolean) => {
   if (baseMapKey !== key || !baseMapPromise) {
     baseMapKey = key;
     baseMapPromise = Promise.all([fetchMapJson('china-4.0.2.json'), fetchMapJson('zhejiang-4.0.2.json')])
       .then(([china, zhejiang]) => {
-        const world = parseGeography(china);
+        const world = parseGeography(china, 34, osm ? projectOsmCoordinate : undefined);
         return { world, cities: parseGeography(zhejiang, 11, world.project) };
       }).catch(error => { baseMapPromise = null; throw error; });
   }
@@ -115,18 +119,20 @@ export default function GalleryMap(props: GalleryMapProps) {
   const [detailError, setDetailError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [openPinId, setOpenPinId] = useState<string | null>(null);
-  const state = normalizeState(props.state);
+  const osmEnabled = Boolean(OSM_TILE_TEMPLATE);
+  const mapMaxZoom = osmEnabled ? OSM_MAX_ZOOM : undefined;
+  const state = normalizeState(props.state, mapMaxZoom);
   const viewHeight = Math.max(1, size.height - 68);
   const fit = Math.max(.01, Math.min(size.width / MAP_WIDTH, viewHeight / MAP_HEIGHT) * .94);
 
   useEffect(() => {
     let active = true;
     setLoadError(false);
-    loadBaseMaps(attempt).then(({ world, cities: local }) => {
+    loadBaseMaps(attempt * 2 + Number(osmEnabled), osmEnabled).then(({ world, cities: local }) => {
       if (active) { setGeography(world); setCities(local); }
     }).catch(() => { if (active) setLoadError(true); });
     return () => { active = false; };
-  }, [attempt]);
+  }, [attempt, osmEnabled]);
   useEffect(() => {
     if (!geography) return;
     let active = true;
@@ -136,7 +142,7 @@ export default function GalleryMap(props: GalleryMapProps) {
       .catch(() => { if (active) setNaturalError(true); });
     return () => { active = false; };
   }, [attempt, geography]);
-  const requestedDetailLevel = state.zoom >= 16 ? 3 : state.zoom >= 8 ? 2 : state.zoom >= 4 ? 1 : 0;
+  const requestedDetailLevel = osmEnabled ? 0 : state.zoom >= 16 ? 3 : state.zoom >= 8 ? 2 : state.zoom >= 4 ? 1 : 0;
   useEffect(() => {
     if (!geography || !requestedDetailLevel) return;
     let active = true;
@@ -188,7 +194,7 @@ export default function GalleryMap(props: GalleryMapProps) {
     if (state.zoom !== 1 || state.panX || state.panY) { national(); return; }
     props.onExit();
   };
-  const { zoom, handlers } = useMapInput(root, { state, fit, onStateChange, onNational: national, onEscape: escape });
+  const { zoom, handlers } = useMapInput(root, { state, fit, maxZoom: mapMaxZoom, onStateChange, onNational: national, onEscape: escape });
   const worldStyle = { width: MAP_WIDTH, height: MAP_HEIGHT, top: viewHeight / 2, '--gallery-map-stroke': .85 / (fit * state.zoom),
     transform: `translate(-50%, -50%) translate(${fit * state.panX}px, ${fit * state.panY}px) scale(${fit * state.zoom})` } as CSSProperties;
   const positionStyle = (point: Point): CSSProperties => ({ transform: `translate(${point.x}px, ${point.y}px)` });
@@ -198,6 +204,7 @@ export default function GalleryMap(props: GalleryMapProps) {
 
   return <div ref={root} className="gallery-map-stage" tabIndex={0} role="region" aria-label="相册地图"
     data-map-level={atNational ? 'national' : 'province'} data-map-natural={natural ? 'ready' : naturalError ? 'failed' : 'loading'}
+    data-map-source={osmEnabled ? 'osm' : 'natural-earth'}
     data-map-detail={requestedDetailLevel === 0 ? 'idle' : detailError ? 'failed' : detailReady ? 'ready' : 'loading'}
     data-map-detail-level={requestedDetailLevel}
     data-map-zoom={state.zoom} onClick={event => {
@@ -206,6 +213,7 @@ export default function GalleryMap(props: GalleryMapProps) {
     }} {...handlers}>
     {geography ? <><div className="gallery-map-world" style={worldStyle}>
       <NaturalLayers natural={natural} />
+      {osmEnabled && <OsmTileLayer template={OSM_TILE_TEMPLATE} state={state} fit={fit} viewport={{ width: size.width, height: viewHeight }} />}
       <NaturalDetailLayers details={Array.from(details.values()).filter(detail => detail.level <= requestedDetailLevel)} scale={fit * state.zoom} />
       <Land geography={geography} />
     </div>
@@ -238,10 +246,11 @@ export default function GalleryMap(props: GalleryMapProps) {
       })}
     </> : <div className="gallery-map-message" role={loadError ? 'alert' : 'status'}><p>{loadError ? '地图未能载入' : '正在展开地图'}</p>{loadError && <button type="button" data-gallery-map-control onClick={() => setAttempt(n => n + 1)}>重试地图</button>}</div>}
     {geography && <div className="gallery-map-zoom" data-gallery-map-control aria-label="地图缩放">
-      <button type="button" aria-label="放大地图" onClick={() => zoom(1)} disabled={state.zoom >= maxMapZoom(state)}>＋</button>
+      <button type="button" aria-label="放大地图" onClick={() => zoom(1)} disabled={state.zoom >= maxMapZoom(state, mapMaxZoom)}>＋</button>
       <button type="button" aria-label="缩小地图" onClick={() => zoom(-1)} disabled={state.zoom <= 1}>−</button>
       <button type="button" className="gallery-map-national" aria-label="回到全国地图" onClick={national} disabled={fullyNational}>全国</button>
     </div>}
+    {OSM_EXTERNAL && <span className="gallery-map-attribution">© OpenStreetMap contributors · ODbL</span>}
     {detailError && <button type="button" className="gallery-map-detail-retry" data-gallery-map-control onClick={() => setAttempt(value => value + 1)}>重试详细地图</button>}
   </div>;
 }

@@ -134,6 +134,7 @@ export async function loadNewFest(onProgress?: LoadProgressCallback) {
 ## 8. 当前项目落地约定
 
 - 相册五组 87 张与地址于 2026-09-18 明确获公开许可。所有封面、地图标记和条带用 400px 压缩缩略图；仅册内当前大图请求静态原图。原图唯一跟踪副本 `gallery/originals/`，构建复制到 dist，不预热整册或重复放入 Cabinet/public。
+- 相册正式使用 OSM XYZ 瓦片，生产默认地址为 OSM Foundation 标准服务，可通过 `VITE_GALLERY_OSM_TILE_URL` 替换。只按当前视口和缩放级别计算瓦片并保留小范围保护网格，不预取全国、离线打包或自动巡视地图；浏览器遵循服务端缓存头，加载失败时露出 Natural Earth 回退。公网署名和服务条款不得通过样式、开关或裁切隐藏。
 
 - 初始展柜保留为快速可见壳层，其它主要页面已在 `App.tsx` 做路由级 lazy。
 - 儿童节房间首屏只等待房间背景、卡牌盒和地鼠玩偶；两个游戏在用户打开前不加载主体。

@@ -4,6 +4,10 @@
 .gallery-map-world, .gallery-map-marker { transition: transform 480ms var(--story-ease-out); }
 .gallery-map-dragging :is(.gallery-map-world, .gallery-map-marker) { transition: none; }
 .gallery-map-natural, .gallery-map-natural-detail, .gallery-map-land { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.gallery-map-osm-tiles { position: absolute; inset: 0; overflow: visible; opacity: .7; mix-blend-mode: multiply; filter: grayscale(.42) sepia(.38) saturate(.76) contrast(.92) brightness(1.03); }
+.gallery-map-osm-tiles img { position: absolute; display: block; max-width: none; pointer-events: none; user-select: none; }
+.gallery-map-stage[data-map-source='osm'] .gallery-map-natural { opacity: .34; }
+.gallery-map-stage[data-map-source='osm'] .gallery-map-province { fill: rgba(255, 252, 240, .025); stroke: rgba(111, 88, 65, .54); }
 .gallery-map-natural-land path { fill: rgba(253, 251, 247, .18); stroke: rgba(140, 98, 57, .25); stroke-width: calc(var(--gallery-map-stroke) * .65); }
 .gallery-map-natural-lakes path { fill: rgba(253, 251, 247, .14); stroke: rgba(115, 96, 79, .38); stroke-width: calc(var(--gallery-map-stroke) * .65); }
 .gallery-map-natural-rivers path { fill: none; stroke: rgba(115, 96, 79, .38); stroke-width: calc(var(--gallery-map-stroke) * .85); stroke-linecap: round; }
@@ -42,6 +46,7 @@
 .gallery-map-message { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--gallery-muted); }
 .gallery-map-message button { min-height: 44px; text-decoration: underline; }
 .gallery-map-detail-retry { position: absolute; z-index: 8; left: max(18px, env(safe-area-inset-left)); bottom: max(92px, calc(env(safe-area-inset-bottom) + 82px)); min-height: 36px; padding: 4px 8px; background: rgba(253, 251, 247, .88); color: var(--gallery-muted); font-size: .72rem; box-shadow: 1px 4px 10px rgba(var(--gallery-shadow), .1); }
+.gallery-map-attribution { position: absolute; z-index: 8; left: max(6px, env(safe-area-inset-left)); bottom: max(4px, env(safe-area-inset-bottom)); color: rgba(74, 59, 47, .52); font-size: 8px; line-height: 1.3; text-shadow: 0 1px 1px rgba(253, 251, 247, .72); pointer-events: none; user-select: none; }
 @media (max-width: 600px) { .gallery-map-cover { width: 52px; height: 52px; left: -26px; } .gallery-map-cover::after { left: 20px; } .gallery-map-marker-summary .gallery-map-cover { width: 28px; height: 28px; left: -14px; } .gallery-map-marker-summary .gallery-map-cover::after { left: 9px; } }
 @media (prefers-reduced-motion: reduce) {
   .gallery-map-cover:hover { transform: none; }
