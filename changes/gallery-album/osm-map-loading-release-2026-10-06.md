@@ -1,5 +1,5 @@
 ---
-status: published-awaiting-ci-repair
+status: released-with-validation-gaps
 authority: release-record
 updated: 2026-10-06
 ---
@@ -43,7 +43,9 @@ updated: 2026-10-06
 
 2026-10-06核查[标准瓦片政策](https://operations.osmfoundation.org/policies/tiles/)及[署名指南](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines)：正式标准XYZ/default HTTP缓存，无no-cache瓦片/版本query、无未观看地区预热；半年仅维护复核。首屏后预热限站内代码/3JSON，封面及当前原图优先。自动G0/G1使用合成fixture或发网前拦截，线上站内资源自动检查的DNS阻断首轮失效，后续已用CDP阻断复验（见下节）；自动G0/G1仍只使用合成XYZ，，真实OSM人工目检另列。
 
-## 提交、远端、CI/Pages与线上升级（待实际结果）
+## 提交、远端、CI/Pages与线上升级
+
+以下按实际发生保留历史状态；最终成功提交、门禁及当前限制以末节“最终发布验收”为准。
 
 提交前核对origin为 `git@github.com:HuHaiYang0415/our_story.git`，远端master仍完整f5。端口22受限，使用现有密钥经ssh.github.com:443，只在忽略QA目录保存经官方指纹核对的known-hosts；不修改全局配置，不换origin。仅非强制HEAD:master，远端推进则停止并在隔离树安全处理/重验。
 
@@ -59,8 +61,20 @@ updated: 2026-10-06
 
 根发布记录baseline-2cac98bfa1baf165存储完整f5公共闭包与入口；release-ad3c2aea6f6ca968存储优化版。回滚前执行 `node scripts/copy-site.mjs --rollback baseline-2cac98bfa1baf165`，再检查闭包、diff、门禁，做新的非强制发布提交；不要reset/force push或覆盖原master。旧基线无新清单快照，当前公共资源清单可保留为非运行时审计资料，旧应用读取原有URL；本地G1证明旧页/新版同时依赖可用。支持窗口外的极长期旧页不承诺永久可用；素材撤除的CDN失效/托管缓存头调整未在本轮实施，需独立授权与验收。当前托管配置保持现状，缓存收敛以实际发布观测回填。
 
-### 安装链第二次复核（尚待新CI）
+### 安装链第二次复核（历史，最终结果如下）
 
 锁修复与证据提交cef23031c13cabebfb9dbce2351f3d037c912c37非强制推送，Pages成功（[运行](https://github.com/HuHaiYang0415/our_story/actions/runs/37412724587)），[CI](https://github.com/HuHaiYang0415/our_story/actions/runs/37412725617)仍在npm ci失败。Windows默认npm11通过不等于CI的npm10兼容。独立npm10复现额外缺@emnapi/core/runtime1.11.3，按注册元数据补可选传递记录，未改变既有锁包版本；npm10实际干净ci、完整verify、30单测、check-release均0且入口SHA与发布根一致：[npm10结果](evidence/osm-release-2026-10-06/npm10-clean.json)。不将两次CI失败写通过；下一修复提交CI待实际核对。
 
 [正式根回滚复验](evidence/osm-release-2026-10-06/root-rollback.json)退出0：临时输出完整默认f5入口回滚再通过真实publisher恢复新版，两版闭包验证及严格177资源均通过。87张大图只在忽略临时目录做硬链接，没有新增跟踪/字节副本；无官方请求。此项验证实际根快照，不是另一次线上回滚发布。
+
+## 最终发布验收（2026-10-06）
+
+**发布功能/资源门禁通过，保留验证缺口。** 最终源码兼容修复提交 **1225702cbbf2d078023ead067deb6b7211e62b3f** 已非强制推送既有origin/master；根应用/地图资源来自3117df1，随后两次锁修复未改变入口及资源字节。1225702的[CI](https://github.com/HuHaiYang0415/our_story/actions/runs/37413390794)和[Pages](https://github.com/HuHaiYang0415/our_story/actions/runs/37413390099)均completed/success，npm ci/verify/30单测/check-release/check-published-site逐步通过；[可复查结果](evidence/osm-release-2026-10-06/ci-pages.json)。两次此前失败保留在历史，不改为通过。此后的文档证据提交只回填实际结果，SHA按Git历史核对，不自引用生成自身SHA。
+
+本地默认G0/真实publisher合成G1十九项、严格5册87+87/177URL、真实OSM普通预览交互、正式默认根临时回滚/恢复均通过。正常缓存线上取得新版入口、旧页首次lazy地图的命令观察及14项站内版本抽查通过，官方host阻断current-only复验0 HTTP响应。升级原始明细误覆写和首轮DNS失效限制仍保留，不能宣称完整线上G1响应证据或官方请求0；完整十九项可复查HTTP G1只在合成fixture上。
+
+[最终全部修改路径](evidence/osm-release-2026-10-06/all-release-files.json)；[原目录最终保护](evidence/osm-release-2026-10-06/preservation-final.json)：1676文件字节一致，真实原HEAD8eb34f3未动。初始私有快照Git元数据在沙箱中不可用为空，最终拆分文件比较与授权只读HEAD核对，未把元数据读取差异当作内容变化；没有声称原git status逐字对比成功。原目录未同步，从原Cabinet启动仍展示其旧源码。
+
+**未达/未验证及后续：** 正常网络20%和844×390/DPR3 p95 50.0ms未达标；真实设备/Safari/Firefox、heap/wire/独立暖性能重复、线上真实OSM视觉与原图decode仍未验证。后续补独占环境分解、设备目检和下次真正新入口发布前独立保存原始线上A→B证据；不扩大官方预取。托管缓存头/多CDN节点切换原子性/内容撤除CDN失效未配置，不承诺即时升级或窗口外旧页永久可用；Pages目前按master部署，与quality运行独立，若要改为成功CI后部署需单独设计托管门禁。当前未发现资源完整性/七夕与DEV运行时泄漏/旧闭包/安装链的发布阻塞，以上性能与线上证据范围按用户要求明确保留。
+
+回滚依据仍为baseline-2cac98bfa1baf165完整f5入口/闭包及root-rollback.json验证；需用stored rollback生成新非强制提交发布，禁止覆盖脏master/force push。保留窗口最近两版+七天+活动回滚，根闭包475项855457305B，87张原图只有既有跟踪路径。

@@ -3,7 +3,7 @@ status: target
 authority: osm-baseline-alignment-and-optimization-plan
 created: 2026-10-05
 updated: 2026-10-06
-execution_status: implemented-with-validation-gaps
+execution_status: released-with-validation-gaps
 supersedes: map-loading-optimization-2026-10-01.md
 scope: 完整f5隔离OSM实施及10月6日条件发布；原目录未迁移，当前结果见11.7及发布记录
 ---
@@ -209,6 +209,8 @@ CSS 像素、DPR、tile 本体常规 256px 分开：高 DPR 不自动多请求�
 ### 8.4 不清浏览器缓存的站点更新契约
 
 以下是待实施契约，不是当前已经具备的能力。HTTP 缓存、应用 Promise／decoded 缓存、浏览器模块实例、BFCache 和可能存在的历史 Service Worker 分开检查，不用一个“清缓存”动作掩盖错误。
+
+2026-10-06实施与发布事实见11.7：未改变原图依“不可变文件保持原URL和字节”规则沿用既有唯一跟踪副本；缩略图/三JSON使用内容指纹。入口仍由Pages现有缓存头控制，没有擅改托管为no-cache。真实publisher已接入旧闭包保留与stored rollback；旧入口和当前应用生命周期按8.5处理，支持窗口及线上证据限制明确记录。
 
 | 对象 | 版本与更新规则 | 风险及边界 |
 | --- | --- | --- |
@@ -450,6 +452,11 @@ G1使用同一 `g1-profile`、相同origin／base path、生产构建、保留�
 - 本次最终verify0、30单测0、check-release0、正式build:site0、check-published-site0；[G0四视口](evidence/osm-release-2026-10-06/g0-default.json)及[真实publisher G1十九项](evidence/osm-release-2026-10-06/g1.json)全通过，同一profile不清缓存。cover/177URL/当前原图[浏览器资源检查](evidence/osm-release-2026-10-06/resource-browser.json)5项通过。早期碰撞/基线520/缓存与harness失败及复验原因见发布记录，未冒充首次即成功。
 - 人工默认生产预览真实OSM全国/省域当前视野、版权、放大重置/册选择及当前原图/返回通过，公开截图见发布记录。自动测试仍仅合成XYZ；源码/根产物已提交3117df1并非强制推送master，Pages成功；首轮CI的npm ci失败已在干净目录复现并修锁验证，新CI尚待。实际线上正常缓存A→B/旧页首次地图观察通过，但原始升级JSON误覆写及DNS阻断失效如实列为证据限制；CDP阻断current-only复验和14项线上资源抽查通过。详细SHA/CI链接/证据/剩余线上目检限制见发布记录。
 - 优化前后40地图/20照片样本及11.4全部指标原样保留；正常网络20%、844×390/DPR3 50.0ms和真实设备/heap/wire/重复暖性能限制没有改数字。下一轮独占环境分解瓶颈与真实设备补测；不以扩大官方预取追目标。
+
+
+**11.7最终结论：released-with-validation-gaps。** 正式源码修复提交1225702cbbf2d078023ead067deb6b7211e62b3f、origin/master、非强制推送；[CI与Pages](evidence/osm-release-2026-10-06/ci-pages.json)均成功，先前3117df1/cef2303安装失败按历史保留。干净npm10 ci/verify/30单测/严格资源检查通过，入口SHA与根相等。默认正式根临时回滚f5/恢复新版也通过；[最终修改清单](evidence/osm-release-2026-10-06/all-release-files.json)、[最终原目录1676字节/HEAD保护](evidence/osm-release-2026-10-06/preservation-final.json)。当前线上入口index-Bwao3ghl.js、地图GalleryMap-CsB4yga5.js；14项站内版本字节抽查及正常缓存旧页首次地图观察通过，但原始升级明细误覆写/首轮DNS拦截失效限制未消除，完整可复查19项HTTP G1仅为合成fixture；CDP阻断current-only为另一次复验，不冒称A→B重做。
+
+正常网络20%、短横屏DPR3、真实设备/heap/wire/暖性能重复、线上真实OSM视觉及原图decode缺口继续保留；托管缓存头、跨CDN瞬时原子性和素材撤除失效不宣称配置完成。原目录master8eb34f3仍未同步。具体实际文件/参数/所有样本/命令退出码/证据/偏差/回滚/后续动作见本节和[最终发布记录](osm-map-loading-release-2026-10-06.md#最终发布验收2026-10-06)。
 
 ## 12. 后续实施会话指令（本轮不发送／执行）
 

@@ -1,0 +1,41 @@
+{
+  "validatedSourceCommit": "1225702cbbf2d078023ead067deb6b7211e62b3f",
+  "remoteBranch": "origin/master",
+  "pushForce": false,
+  "priorCommits": [
+    {
+      "sha": "3117df146abf6f91e76039ad06273f43fd8d125b",
+      "ci": "failure at npm ci",
+      "pages": "success"
+    },
+    {
+      "sha": "cef23031c13cabebfb9dbce2351f3d037c912c37",
+      "ci": "failure at npm ci",
+      "pages": "success"
+    }
+  ],
+  "runs": [
+    {
+      "id": 37413390794,
+      "name": "Cabinet quality",
+      "headSha": "1225702cbbf2d078023ead067deb6b7211e62b3f",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/HuHaiYang0415/our_story/actions/runs/37413390794",
+      "created": "2026-10-06T04:22:22Z",
+      "updated": "2026-10-06T04:23:08Z"
+    },
+    {
+      "id": 37413390099,
+      "name": "pages build and deployment",
+      "headSha": "1225702cbbf2d078023ead067deb6b7211e62b3f",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/HuHaiYang0415/our_story/actions/runs/37413390099",
+      "created": "2026-10-06T04:22:21Z",
+      "updated": "2026-10-06T04:24:09Z"
+    }
+  ],
+  "rootEntry": "./assets/index-Bwao3ghl.js",
+  "activeRelease": "release-ad3c2aea6f6ca968"
+}

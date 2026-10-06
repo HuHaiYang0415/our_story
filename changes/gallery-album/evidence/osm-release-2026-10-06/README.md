@@ -9,3 +9,5 @@
 线上A→B只有命令观察摘要，原始明细误覆写，详见online-upgrade-observation.json；后续官方host CDP阻断current-only报告独立存储，不能将其视为重新完成A→B。线上版本14项抽查和实际HTTP缓存headers见online-version.json。所有缺口保留在发布记录。
 
 后续安装链兼容：[npm10 ci](npm10-ci-final.txt)、[npm10 verify](verify-npm10-clean.txt)、[npm10单测](unit-npm10-clean.txt)、[正式根临时回滚](root-rollback.json)。
+
+最终：[CI/Pages](ci-pages.json)、[全部发布文件](all-release-files.json)、[原目录保护](preservation-final.json)。源码及根应用验收对应1225702/3117df1，后续仅文档回填。
