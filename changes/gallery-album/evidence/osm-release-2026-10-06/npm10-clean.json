@@ -1,0 +1,12 @@
+{
+  "npmMajor": 10,
+  "npmCiExit": 0,
+  "verifyExit": 0,
+  "tests": 30,
+  "unitExit": 0,
+  "checkReleaseExit": 0,
+  "entryEqual": true,
+  "cleanEntrySha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+  "publishedEntrySha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+  "originalModulesUntouched": true
+}

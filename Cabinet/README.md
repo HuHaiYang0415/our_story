@@ -35,6 +35,8 @@ npm run build
 
 520：`pages/letters/interactive/520/` 构建到 `pages/letters/520/`，由 `Letter520Embed` iframe 加载；返回信盒通过 `postMessage` 切回 `#envelopes`。
 
-## 2026-10-05 OSM 本地候选
+## 2026-10-06 OSM 实施与发布
 
 OSM 候选从完整f5ce547隔离实施，发布状态见回填。DEV/dist相册资源字节一致；未变原图保持既有URL与唯一副本，缩略图/JSON内容版本化；中心优先四槽、逐片显示、有界缓存，封面后仅预热站内，当前原图优先。见 [回填](../changes/gallery-album/osm-map-loading-plan-2026-10-05.md)。
+
+当前优化代码及根产物已从完整f5隔离树发布（3117df1）；真实publisher保留旧依赖。原目录仍未同步。安装链CI修复/线上证据范围和性能缺口以发布记录为准，不由本说明宣称全设备或所有缓存目标通过。

@@ -58,3 +58,9 @@ updated: 2026-10-06
 ## 回滚依据与限制
 
 根发布记录baseline-2cac98bfa1baf165存储完整f5公共闭包与入口；release-ad3c2aea6f6ca968存储优化版。回滚前执行 `node scripts/copy-site.mjs --rollback baseline-2cac98bfa1baf165`，再检查闭包、diff、门禁，做新的非强制发布提交；不要reset/force push或覆盖原master。旧基线无新清单快照，当前公共资源清单可保留为非运行时审计资料，旧应用读取原有URL；本地G1证明旧页/新版同时依赖可用。支持窗口外的极长期旧页不承诺永久可用；素材撤除的CDN失效/托管缓存头调整未在本轮实施，需独立授权与验收。当前托管配置保持现状，缓存收敛以实际发布观测回填。
+
+### 安装链第二次复核（尚待新CI）
+
+锁修复与证据提交cef23031c13cabebfb9dbce2351f3d037c912c37非强制推送，Pages成功（[运行](https://github.com/HuHaiYang0415/our_story/actions/runs/37412724587)），[CI](https://github.com/HuHaiYang0415/our_story/actions/runs/37412725617)仍在npm ci失败。Windows默认npm11通过不等于CI的npm10兼容。独立npm10复现额外缺@emnapi/core/runtime1.11.3，按注册元数据补可选传递记录，未改变既有锁包版本；npm10实际干净ci、完整verify、30单测、check-release均0且入口SHA与发布根一致：[npm10结果](evidence/osm-release-2026-10-06/npm10-clean.json)。不将两次CI失败写通过；下一修复提交CI待实际核对。
+
+[正式根回滚复验](evidence/osm-release-2026-10-06/root-rollback.json)退出0：临时输出完整默认f5入口回滚再通过真实publisher恢复新版，两版闭包验证及严格177资源均通过。87张大图只在忽略临时目录做硬链接，没有新增跟踪/字节副本；无官方请求。此项验证实际根快照，不是另一次线上回滚发布。

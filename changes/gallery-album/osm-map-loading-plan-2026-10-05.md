@@ -470,3 +470,5 @@ G1使用同一 `g1-profile`、相同origin／base path、生产构建、保留�
 2026-10-05缓存复盘追加：只读HEAD补测及脚本／源码审计已记录第2节；第8.4–8.5节、G1和执行指令为新版待实施契约。参考 [MDN HTTP缓存](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching)、[MDN Request.cache](https://developer.mozilla.org/en-US/docs/Web/API/Request/cache)、[Vite构建与动态导入失败](https://vite.dev/guide/build)。Vite在线文档版本不替代本仓锁定版本，执行时要验证事件支持；没有开展真实A→B部署、用户浏览器缓存或OSM实测。
 
 缓存复盘交付验收：再次执行当前工作树 `Cabinet/npm run verify`，退出码0（类型、构建、预算、草稿、59份Markdown链接及smoke）；上述261个非Markdown源码／脚本／配置指纹仍相同，HEAD未变。此次仅更新本计划、SCOPE和资源加载规范；只生成忽略的Cabinet/dist，没有执行build:site或修改业务实现。现有NE／七夕历史检查通过不等于OSM G0／G1通过或获得发布许可。
+
+> 安装链后续复核：cef2303首次锁修复的CI仍在npm ci失败；独立npm10已复现并补core/runtime可选锁记录，干净npm10 ci/verify/30单测/check-release全0，入口SHA相同。新CI结果及正式根快照回滚复验见发布记录，不能把Windows安装通过代替Linux CI。

@@ -1,0 +1,42 @@
+{
+  "officialRequests": 0,
+  "originalImagesTrackedAdded": 0,
+  "temporaryOriginalHardlinks": 87,
+  "checks": [
+    {
+      "name": "stored complete formal f5 entry rollback and retained B closure",
+      "passed": true,
+      "id": "baseline-2cac98bfa1baf165",
+      "entrySha256": "2cac98bfa1baf1652c1599b3515832490cc3ea4ba521ceb854722d87ddb8c33c"
+    },
+    {
+      "name": "real publisher restores current default OSM entry with both closures",
+      "passed": true,
+      "id": "release-ad3c2aea6f6ca968",
+      "entrySha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556"
+    }
+  ],
+  "rollbackResources": {
+    "passed": true,
+    "albums": 5,
+    "originals": 87,
+    "thumbs": 87,
+    "mapJson": 3,
+    "runtimeUrls": 177,
+    "originalBytes": 789232466,
+    "versionedOriginalCopies": 0,
+    "files": 482
+  },
+  "currentResources": {
+    "passed": true,
+    "albums": 5,
+    "originals": 87,
+    "thumbs": 87,
+    "mapJson": 3,
+    "runtimeUrls": 177,
+    "originalBytes": 789232466,
+    "versionedOriginalCopies": 0,
+    "files": 482
+  },
+  "passed": true
+}

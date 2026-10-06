@@ -7,3 +7,5 @@
 公开命令日志使用.txt（仓库忽略*.log）：[verify](verify-push-final.txt)、[30单测](unit-all-final.txt)、[正式build:site](build-site-push-final.txt)、[真实publisher G1](g1-ready-final.txt)、[资源浏览器检查](resources-final.txt)、[干净npm ci](npm-ci-clean-final.txt)、[干净依赖verify](verify-clean-dependencies.txt)、[干净依赖单测](unit-clean-dependencies.txt)。
 
 线上A→B只有命令观察摘要，原始明细误覆写，详见online-upgrade-observation.json；后续官方host CDP阻断current-only报告独立存储，不能将其视为重新完成A→B。线上版本14项抽查和实际HTTP缓存headers见online-version.json。所有缺口保留在发布记录。
+
+后续安装链兼容：[npm10 ci](npm10-ci-final.txt)、[npm10 verify](verify-npm10-clean.txt)、[npm10单测](unit-npm10-clean.txt)、[正式根临时回滚](root-rollback.json)。

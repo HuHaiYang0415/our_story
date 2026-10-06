@@ -87,8 +87,8 @@ Cabinet/src/main.tsx
 - 内容领域类型与只读仓储：`Cabinet/src/domain/content.ts`、`Cabinet/src/domain/contentRepository.ts`；当前本地 adapter 为 `Cabinet/src/data/localContentRepository.ts`，信箱页已通过该边界读取。
 - 相册页 `PolaroidGallery` 通过只读仓储读取内容；状态仅 `orbit/map/album`。首页一册一封面，连续相位驱动五册沿同一椭圆空间运动；首次激活沿最短方向靠近、转正并上提 16px，停稳后的下一次独立激活才进入。拖动会中断旧目标，减少动态仍保留两步语义；不再有聚焦大图、进入按钮或小记。册内先以当前缩略图承接当前原图，稳定 120ms 后才请求该张原图；底部轻量照片条原生横向滚动、使用单一 roving Tab 项，单张相册不显示照片条。
 - 邮册固定使用真实五册，不复制内容填充轨道；CSS 透视与统一几何同时决定位置、尺度、角度和遮挡。手机前景中心以实际可用舞台为基准，选中再上提。此页使用固定浅色暖纸／叶影令牌，日夜一致，主题拨盘的局部颜色适配仅影响此路由；全站其他页面的昼夜状态不变。
-- `GalleryMap` 只在地图模式创建正式 OSM XYZ 图层；本地候选在封面解码、字体就绪、动画停止后延迟至少1200ms，可有限预热站内代码及三份基础JSON，250KB原始预算、单数据并发，不预请求官方瓦片。生产默认地址为 OSM Foundation 标准瓦片，可由 `VITE_GALLERY_OSM_TILE_URL` 显式替换；Web Mercator 统一瓦片、行政边界与邮册锚点。首次点击邮册从全国进入固定省域尺度，之后滚轮或双指在同一连续视图放大到街道级，不产生城市选择层。每个邮册使用独立地理锚点；只有地址与坐标同时相同才合并选择，不绘制跨省长引线。邮册新入口先重置到全国，照片返回地图保留视野和选择现场；右下“全国”、Home 与 Escape 复用同一复位规则。
-- OSM 底图保留国家、城市、道路、地标与街道文字；默认隐藏的“标签”仅指邮册名称签。本地候选按 Mercator 半开视口计算精确集合，零额外行、中心优先四槽、逐片decode/rAF显示；错误时露出NE110m回退，沿用详细地图重试按钮。所有模板和失败态持续显示带版权／许可链接的 `© OpenStreetMap contributors · ODbL`，不调用在线地理编码，也不提交地址文本、照片或 EXIF。具体加载、隐私与许可边界见 [地图实现说明](../Cabinet/src/pages/gallery/map/README.md)。
+- `GalleryMap` 只在地图模式创建正式 OSM XYZ 图层；当前实现在封面解码、字体就绪、动画停止后延迟至少1200ms，可有限预热站内代码及三份基础JSON，250KB原始预算、单数据并发，不预请求官方瓦片。生产默认地址为 OSM Foundation 标准瓦片，可由 `VITE_GALLERY_OSM_TILE_URL` 显式替换；Web Mercator 统一瓦片、行政边界与邮册锚点。首次点击邮册从全国进入固定省域尺度，之后滚轮或双指在同一连续视图放大到街道级，不产生城市选择层。每个邮册使用独立地理锚点；只有地址与坐标同时相同才合并选择，不绘制跨省长引线。邮册新入口先重置到全国，照片返回地图保留视野和选择现场；右下“全国”、Home 与 Escape 复用同一复位规则。
+- OSM 底图保留国家、城市、道路、地标与街道文字；默认隐藏的“标签”仅指邮册名称签。当前实现按 Mercator 半开视口计算精确集合，零额外行、中心优先四槽、逐片decode/rAF显示；错误时露出NE110m回退，沿用详细地图重试按钮。所有模板和失败态持续显示带版权／许可链接的 `© OpenStreetMap contributors · ODbL`，不调用在线地理编码，也不提交地址文本、照片或 EXIF。具体加载、隐私与许可边界见 [地图实现说明](../Cabinet/src/pages/gallery/map/README.md)。
 - 用户于 2026-09-18 明确批准公开五组 87 张照片（72/1/2/1/11）及已提供地址。仓储清单位于 `Cabinet/src/pages/gallery/data/galleryContent.ts`，`GALLERY_PUBLIC_ALBUMS` 为确认的五组；所有小图位于 `Cabinet/public/gallery/collections/`（400px / JPEG quality 60 / 空 EXIF）。源文件保持只读。
 - 册内大图使用 `MediaAssetVariants.original`，仅请求当前一张静态原图。唯一跟踪副本是站点根 `gallery/originals/`，原字节不改写；Vite 复制到忽略 Git 的 dist，不在 Cabinet/public 重复存储。经用户批准后运行 `Cabinet/scripts/import-gallery-collections.py --source-root <素材目录> --publish` 重建缩略图、公开清单及原图副本。个人白名单与 DEV 原图通道不提交、不用于线上。
 - 资源分级、预载、失败重试和卸载清理遵循 [`Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md`](../Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md)。
@@ -115,7 +115,7 @@ npm run build:site         → SCOPE 授权且无七夕／测试门禁通过后�
 - 资源加载专项契约：`Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md`
 - 历史 UI 审计：`Cabinet/docs/UI-AUDIT.md`
 
-### 2026-10-05 本地候选缓存与生命周期
+### 2026-10-06 OSM 缓存与生命周期
 
 TileCache 按 provider模板/256/v1隔离z/x/y键；LRU48片或16MiB（RGBA估算加编码blob），视野资源优先，活动集合可超软限。内存最多60秒并受可读取的HTTP有效期约束，缺失有效期或no-cache/no-store不复用decoded。标准OSM一次HEAD确认CORS后采用默认HTTP缓存fetch/AbortController→blob URL→decode，需求更新／BFCache恢复按正常304/200重新取得；不给瓦片加版本query或no-cache。单片12秒超时，一次750ms重试，403/429立即停止新启动，404不重试，其他六次连续失败停止。至多一个旧decoded z在480ms内承接，不下载父片。取消、过期与淘汰撤销blob URL，token拒绝旧fetch/decode；未知跨域模板仍img尽力取消且缓存契约未验证。hidden/offline/pagehide/当前原图busy暂停；地图关闭解绑，离开相册清内存，BFCache恢复先重核需求再恢复队列。
 
@@ -126,3 +126,5 @@ TileCache 按 provider模板/256/v1隔离z/x/y键；LRU48片或16MiB（RGBA估�
 真实 build:site 使用 check-release 和 copy-site/prepare-retained-release：验证五册87原图与缩略图、177个运行时URL及字节SHA256；bootstrap完整已发布闭包，保留最近两版/七天窗口/当前回滚版；先写资源并校验闭包再切入口。清理仅删除过期清单内不再被引用的assets/gallery-versioned文件，不递归删除旧assets/pages或稳定原图；存储入口和回滚资源清单可由copy-site --rollback激活。GitHub Pages实际切换与缓存收敛仍须线上验证。地图chunk失败仍采用既有有界用户恢复。见 [验收与限制](../changes/gallery-album/osm-map-loading-plan-2026-10-05.md)。
 
 2026-10-06真实发布集成：未变原图稳定URL与唯一跟踪副本，首次公共闭包按Git HEAD原字节捕获（含顶层manifest/icon），源LF与输出原字节固定。实际publisher先验证依赖后切入口，最近两版/七天/活动回滚保留、限定清理；可复现QA和实测结果见优化计划11.7及发布记录。原目录未同步，真实托管结果与未达性能目标按记录区分。
+
+当前优化代码及根产物已从完整f5隔离树发布（3117df1）；真实publisher保留旧依赖。原目录仍未同步。安装链CI修复/线上证据范围和性能缺口以发布记录为准，不由本说明宣称全设备或所有缓存目标通过。

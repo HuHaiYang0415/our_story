@@ -1,0 +1,116 @@
+
+> react-example@0.0.0 verify
+> npm run lint && npm run build && npm run check:budget && npm run check:draft && npm run check:links && npm run check:smoke
+
+
+> react-example@0.0.0 lint
+> tsc --noEmit
+
+
+> react-example@0.0.0 build
+> vite build
+
+vite v6.4.2 building for production...
+transforming...
+✓ 2234 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                       0.88 kB │ gzip:   0.47 kB
+dist/assets/OFL.LongCang-CiqEKFhx.txt                 4.39 kB │ gzip:   1.98 kB
+dist/assets/gallery-hand-DAAi6Tav.woff                7.52 kB
+dist/assets/drums-BnD5tEc6.mp3                       10.37 kB
+dist/assets/paper-tag-Bb8Vfb8b.webp                  20.25 kB
+dist/assets/warm-paper-CrppJPX1.webp                 22.17 kB
+dist/assets/leaf-shadow-LxSj9nqX.webp                28.85 kB
+dist/assets/coral-ticket-DJrxPH9c.webp               29.29 kB
+dist/assets/stamp-letter-pending-BXUBlVcc.jpg        47.67 kB
+dist/assets/yeyuanxiaobai-CbjZat7M.png               56.90 kB
+dist/assets/jiyonglv-CfaW_gZl.png                    61.44 kB
+dist/assets/taiyuannanazi-DmOXPYkp.png               66.72 kB
+dist/assets/stamp-letter-520-DZwP5a8A.jpg            67.21 kB
+dist/assets/labixiaoxin-CrXZIwj9.png                 69.67 kB
+dist/assets/room_background-CXk6OXcJ.jpg             88.27 kB
+dist/assets/stamp-frame-Bg2q8-d2.webp                90.07 kB
+dist/assets/mole_game_background-Bgl-Uz-I.jpg       104.60 kB
+dist/assets/yeyuanxiangrikui-TLpT5mZS.png           104.96 kB
+dist/assets/gaocangwentai-DjbyT_bj.png              124.85 kB
+dist/assets/guangzhi-CG6l_z1r.png                   127.87 kB
+dist/assets/meiya-BLV-98ey.png                      129.30 kB
+dist/assets/mole_doll_lunging-XQwCljE-.png          161.25 kB
+dist/assets/mole_popping_out-DHNzQzOC.png           184.90 kB
+dist/assets/card_box-C26nPicJ.png                   203.96 kB
+dist/assets/mole_doll-UmhKTrRW.png                  210.91 kB
+dist/assets/flower-bouquet-_PYK4Igj.svg             228.29 kB │ gzip:  66.67 kB
+dist/assets/mole_getting_hit-DS61o1w5.png           294.34 kB
+dist/assets/dig_dug_theme_song_fast-DZ2gb2k9.mp3    617.47 kB
+dist/assets/dig_dug_theme_song-BjY8iqW3.mp3       1,079.42 kB
+dist/assets/theLittlePrince02-BkZCnaHk.svg        3,335.05 kB │ gzip: 555.39 kB
+dist/assets/theLittlePrince03-B41l1Dji.svg        3,636.57 kB │ gzip: 578.56 kB
+dist/assets/round_moon-BAY_y9_4.mp3               4,097.13 kB
+dist/assets/theLittlePrince01-COoJJMkK.svg        5,324.84 kB │ gzip: 833.31 kB
+dist/assets/canonInD-DY3tcOO6.mp3                 6,992.64 kB
+dist/assets/ambient-BBYjlx1c.mp3                  7,069.93 kB
+dist/assets/index-CVZ6xhVZ.css                        0.40 kB │ gzip:   0.20 kB
+dist/assets/GalleryMap-B1saLt6T.css                   6.63 kB │ gzip:   1.84 kB
+dist/assets/PolaroidGallery-Cz9o3yh9.css             15.72 kB │ gzip:   3.87 kB
+dist/assets/DragonBoatScroll-CWey5J_t.css            35.79 kB │ gzip:   7.95 kB
+dist/assets/index-CiBEbLdN.css                      161.38 kB │ gzip:  23.04 kB
+dist/assets/card_box-CLDjdW8P.js                      0.09 kB │ gzip:   0.11 kB
+dist/assets/mole_doll-3bfHkWGR.js                     0.09 kB │ gzip:   0.11 kB
+dist/assets/round_moon-DjW3M38v.js                    0.09 kB │ gzip:   0.11 kB
+dist/assets/room_background-BAxZkXVX.js               0.09 kB │ gzip:   0.11 kB
+dist/assets/dig_dug_theme_song-De9M7bXP.js            0.10 kB │ gzip:   0.12 kB
+dist/assets/dig_dug_theme_song_fast-DiL_7T9V.js       0.10 kB │ gzip:   0.12 kB
+dist/assets/chevron-right-Bhyjlpxu.js                 0.30 kB │ gzip:   0.25 kB
+dist/assets/Letter520Embed-1PtxRoL4.js                0.36 kB │ gzip:   0.30 kB
+dist/assets/rotate-ccw-Qx3kLJvT.js                    0.37 kB │ gzip:   0.29 kB
+dist/assets/RelationshipPageLoader-CZNv2m6J.js        0.87 kB │ gzip:   0.56 kB
+dist/assets/DragonBoatPageLoader-DoTJZYsQ.js          0.97 kB │ gzip:   0.58 kB
+dist/assets/Letter520PageLoader-71Aiktq4.js           1.30 kB │ gzip:   0.78 kB
+dist/assets/ChildrenDayPageLoader-CanmlxeS.js         1.34 kB │ gzip:   0.75 kB
+dist/assets/mediaPreload-BbwPiADC.js                  1.89 kB │ gzip:   0.94 kB
+dist/assets/FestivalArchive-MBxezI_s.js               6.47 kB │ gzip:   2.44 kB
+dist/assets/index-BkfmMqqO.js                         7.99 kB │ gzip:   3.40 kB
+dist/assets/mapResources-CwlHV0nf.js                  8.14 kB │ gzip:   3.62 kB
+dist/assets/GameMemory-BVtD8EF3.js                    8.95 kB │ gzip:   3.39 kB
+dist/assets/index-DAhfz1AP.js                        20.61 kB │ gzip:   6.41 kB
+dist/assets/GalleryMap-CsB4yga5.js                   20.63 kB │ gzip:   7.79 kB
+dist/assets/EnvelopeStack-CXNTtAI3.js                22.38 kB │ gzip:   6.53 kB
+dist/assets/GameWhackAMole-zqeo2FIv.js               24.38 kB │ gzip:   6.95 kB
+dist/assets/PolaroidGallery-x3P-60LA.js              26.55 kB │ gzip:   9.72 kB
+dist/assets/localContentRepository-B8GkvUQN.js       36.47 kB │ gzip:   7.94 kB
+dist/assets/DragonBoatScroll-B1i0E-e_.js            418.20 kB │ gzip: 140.65 kB
+dist/assets/index-Bwao3ghl.js                     1,693.67 kB │ gzip: 275.43 kB
+✓ built in 12.14s
+
+> react-example@0.0.0 check:budget
+> node scripts/check-performance-budget.mjs
+
+主入口 JS: 1654.0 KiB / 1757.8 KiB — assets/index-Bwao3ghl.js
+端午专题 JS: 408.4 KiB / 468.8 KiB — assets/DragonBoatScroll-B1i0E-e_.js
+主 CSS: 157.6 KiB / 214.8 KiB — assets/index-CiBEbLdN.css
+单个 SVG: 5200.0 KiB / 5371.1 KiB — assets/theLittlePrince01-COoJJMkK.svg
+单个音频: 6904.2 KiB / 7324.2 KiB — assets/ambient-BBYjlx1c.mp3
+首屏/首交互图片: 199.2 KiB / 500.0 KiB — assets/card_box-C26nPicJ.png
+首屏/首交互图片: 0.1 KiB / 500.0 KiB — assets/card_box-CLDjdW8P.js
+首屏/首交互图片: 0.1 KiB / 500.0 KiB — assets/mole_doll-3bfHkWGR.js
+首屏/首交互图片: 206.0 KiB / 500.0 KiB — assets/mole_doll-UmhKTrRW.png
+首屏/首交互图片: 157.5 KiB / 500.0 KiB — assets/mole_doll_lunging-XQwCljE-.png
+首屏/首交互图片: 0.1 KiB / 500.0 KiB — assets/room_background-BAxZkXVX.js
+首屏/首交互图片: 86.2 KiB / 500.0 KiB — assets/room_background-CXk6OXcJ.jpg
+性能预算检查通过。
+
+> react-example@0.0.0 check:draft
+> node scripts/check-draft-leaks.mjs
+
+草稿泄漏检查通过：v1 草稿资源与 v2 专题标记均未进入生产产物。
+
+> react-example@0.0.0 check:links
+> node scripts/check-links.mjs
+
+文档链接检查通过（17 个 Markdown 文件）。
+
+> react-example@0.0.0 check:smoke
+> node scripts/check-smoke.mjs
+
+关键路由 smoke test 通过：展柜壳层与 520 静态子页均存在。

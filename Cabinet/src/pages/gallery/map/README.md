@@ -149,3 +149,5 @@ All automatic sweeps use synthetic local XYZ. G1 keeps one persistent Chrome pro
 Foreground JSON owns its abort signal and drops canceled pending Promises synchronously, including StrictMode replay. Entering the map cancels optional warm requests before acquiring foreground data; closing cancels pending JSON, while validated parsed data may remain bounded in module cache.
 
 2026-10-06真实发布集成：未变原图稳定URL与唯一跟踪副本，首次公共闭包按Git HEAD原字节捕获（含顶层manifest/icon），源LF与输出原字节固定。实际publisher先验证依赖后切入口，最近两版/七天/活动回滚保留、限定清理；可复现QA和实测结果见优化计划11.7及发布记录。原目录未同步，真实托管结果与未达性能目标按记录区分。
+
+当前优化代码及根产物已从完整f5隔离树发布（3117df1）；真实publisher保留旧依赖。原目录仍未同步。安装链CI修复/线上证据范围和性能缺口以发布记录为准，不由本说明宣称全设备或所有缓存目标通过。

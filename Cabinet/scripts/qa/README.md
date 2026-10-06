@@ -13,6 +13,7 @@ Run from Cabinet with Node 22+ and the locked dependencies (npm ci). Install Chr
 - npm run build:site only under SCOPE authorization and after all release gates pass.
 - node scripts/check-release.mjs .. checks the real root output.
 - node scripts/check-published-site.mjs checks current/retained closures, provider, exclusions and total size.
+- node scripts/qa/root-rollback.mjs tests the actual default root snapshots in a fresh ignored output, using temporary hardlinks for the 87 unchanged large originals; it rolls back f5 then restores current through the real publisher, with no official network.
 - node scripts/qa/resources.mjs checks covers, all 177 runtime URLs and current original with the persistent profile.
 - node scripts/copy-site.mjs --rollback <retained-id> switches the verified stored entry locally; publish that root with a new non-force commit to perform a hosted rollback. Do not reset master or force push.
 
