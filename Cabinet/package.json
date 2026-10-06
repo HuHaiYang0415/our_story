@@ -17,7 +17,11 @@
     "lint": "tsc --noEmit",
     "generate:solar-terms": "python scripts/generate-solar-terms.py",
     "generate:holidays": "python scripts/generate-holidays.py",
-    "optimize:images": "python scripts/optimize-images.py"
+    "optimize:images": "python scripts/optimize-images.py",
+    "test:gallery": "node --import tsx --test src/pages/gallery/map/xyz.test.ts src/pages/gallery/map/tileCache.test.ts src/pages/gallery/mapRecovery.test.ts src/pages/gallery/galleryModel.test.ts src/pages/gallery/map/geography.test.ts scripts/retention.test.mjs scripts/canonical-published-bytes.test.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "check:gallery:g0": "node scripts/qa/g0.mjs",
+    "check:gallery:g1": "node scripts/qa/g1.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
@@ -34,6 +38,7 @@
     "@types/react-dom": "^19.2.5",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
+    "playwright": "1.62.1",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",

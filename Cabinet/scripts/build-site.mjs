@@ -1,2 +1,10 @@
-await import('./check-release.mjs');
-await import('./copy-site.mjs');
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import {checkRelease} from './check-release.mjs';
+import {publishSite} from './copy-site.mjs';
+const dist=fileURLToPath(new URL('../dist/',import.meta.url));
+const repo=fileURLToPath(new URL('../../',import.meta.url));
+const build=spawnSync(process.execPath,[fileURLToPath(new URL('../node_modules/vite/bin/vite.js',import.meta.url)),'build'],{cwd:fileURLToPath(new URL('../',import.meta.url)),stdio:'inherit'});
+if(build.status!==0)process.exit(build.status??1);
+checkRelease(dist);
+console.log(JSON.stringify(publishSite(dist,repo),null,2));

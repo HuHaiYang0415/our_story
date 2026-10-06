@@ -1,0 +1,10 @@
+# Public outputs are deployed as Git blob bytes; never rewrite their newlines.
+* text=auto eol=lf
+/index.html -text
+/assets/** -text -whitespace
+/pages/** -text
+/gallery/** -text
+/gallery-resource-manifest.json -text
+/manifest.webmanifest -text
+/release-active.json -text
+/release-manifests/** -text -whitespace

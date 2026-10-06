@@ -19,4 +19,6 @@ jobs:
           cache-dependency-path: Cabinet/package-lock.json
       - run: npm ci
       - run: npm run verify
+      - run: npm run test:gallery
       - run: node scripts/check-release.mjs
+      - run: node scripts/check-published-site.mjs

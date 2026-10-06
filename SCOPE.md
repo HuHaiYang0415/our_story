@@ -2,7 +2,8 @@
 status: active
 authority: current-scope
 owner: 项目维护者
-last_reviewed: 2026-09-30
+last_reviewed: 2026-10-06
+release_authorization: osm-loading-2026-10-06
 release_profile: approved-without-qixi-and-local-tests
 ---
 
@@ -38,7 +39,7 @@ release_profile: approved-without-qixi-and-local-tests
 - 生产默认使用 `https://tile.openstreetmap.org/{z}/{x}/{y}.png`，可通过 `VITE_GALLERY_OSM_TILE_URL` 切换到符合条款的 XYZ 服务。瓦片、行政边界和邮册锚点统一使用 Web Mercator；瓦片失败时继续显示仓库内 Natural Earth 底层。
 - 页面只请求用户当前视口与小范围保护网格，不预取、遍历、离线打包或批量下载全国瓦片；不使用在线地理编码，不向服务提交地址文本、照片、EXIF 或精确 GPS。瓦片服务仍会收到普通网页请求所必需的瓦片坐标、Referer 与网络信息。
 - OSM 底图自身的国家、城市、道路、地标和街道文字完整保留；“不展示标签”只约束邮册名称默认隐藏，用户点击邮册后才显示紧凑名称签，点击空白处收起。
-- 正式页左下持续显示不可交互的 `© OpenStreetMap contributors · ODbL`，不得通过样式、开关或裁切隐藏。浏览器遵循服务端缓存头，不提供离线下载；后续若更换瓦片服务，必须重新核对其署名、流量与缓存条款。
+- 正式页左下持续显示 `© OpenStreetMap contributors · ODbL`，不得通过样式、开关或裁切隐藏；10月6日优化保留该文字并使OSM与ODbL分别链接到许可页。浏览器遵循服务端缓存头，不提供离线下载；后续若更换瓦片服务，必须重新核对其署名、流量与缓存条款。
 
 ## 验收
 
@@ -52,3 +53,15 @@ release_profile: approved-without-qixi-and-local-tests
 - [相册 PRD 与对话补充](changes/gallery-album/PRD-2026-09-18.md)
 - [资源加载](Cabinet/docs/RESOURCE-LOADING-GUIDELINES.md)、[内容契约](docs/CONTENT-CONTRACT.md)
 - [平台目标态提案](changes/platform-foundation/proposal.md)、[执行任务](changes/platform-foundation/tasks.md)
+
+## 2026-10-05 隔离 OSM 实施（未发布）
+
+用户授权从完整 f5ce547 实施相册地图本地源码、数据、测试与文档，包含缓存契约8.4–8.5与G1。原 master/NE 实验、七夕与DEV工作未迁移、未覆盖。禁止 build:site、根发布产物手改、提交、推送和发布；托管配置与真实线上升级仍待授权。见 [实施回填](changes/gallery-album/osm-map-loading-plan-2026-10-05.md)。
+
+## 2026-10-06 OSM 发布准备与条件发布授权
+
+用户明确授权在完整 f5ce547 的隔离工作树修复资源门禁和真实发布链、更新文档、生成根发布产物。仅在 verify、单测、严格 check-release、真实发布路径的临时 G0/G1、真实当前 OSM 视野与照片交互检查及最终排除检查全部通过后，提交本次明确文件并非强制推送既有 origin/master。任何门禁失败停止推送。原脏 master 与其他工作保持不动，不同步原目录。七夕专题、本地测试、私人配置、备份、profile 与私密证据不提交、不发布。
+
+本节替代10月5日对本次隔离实现的发布禁止；既有正常网络20%及短横屏DPR3性能缺口按用户要求保留，不作为已经达标的结论。功能、资源完整性、缓存升级、发布排除门禁仍必须通过。提交、远端与线上结果以 [发布记录](changes/gallery-album/osm-map-loading-release-2026-10-06.md) 为准。
+
+未变原图继续使用既有 gallery/originals URL 与唯一跟踪副本；地图 JSON/应用代码/缩略图使用内容版本。真实发布保留最近两版及七天内所有版本和当前回滚版本的依赖闭包，清理仅限已过期清单中未被保留版本引用的 assets 与 gallery/versioned 文件；稳定原图、pages 和未知文件不递归删除。入口最后切换；GitHub Pages 原子性、缓存收敛和真实旧页升级须以发布后的实际证据记录，不用本地通过冒称线上通过。性能20%/短横屏DPR3及未测设备缺口继续如实保留，不为数字改交互或预取官方未观看区域。

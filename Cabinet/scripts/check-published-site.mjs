@@ -1,0 +1,13 @@
+import fs from 'node:fs';import path from 'node:path';
+import {checkRelease} from './check-release.mjs';
+import {readManifests,validateRelease,digest} from './prepare-retained-release.mjs';
+const repo=path.resolve(import.meta.dirname,'../..');
+const resources=checkRelease(repo),active=JSON.parse(fs.readFileSync(path.join(repo,'release-active.json'),'utf8')),manifests=readManifests(repo),current=manifests.find(m=>m.id===active.id);
+if(!current||!manifests.every(m=>validateRelease(repo,m))||digest(path.join(repo,'index.html'))!==current.files.find(f=>f.path==='index.html').sha256)throw Error('Published entry/dependency closure failed');
+const currentText=current.files.filter(f=>/\.(?:js|json)$/.test(f.path)).map(f=>fs.readFileSync(path.join(repo,f.path),'utf8')).join('\n');
+if(/\/xyz\/\{z\}|data-fixture-release|FixtureGallerySchema2|fixtureRelease/.test(currentText)||!currentText.includes('https://tile.openstreetmap.org/{z}/{x}/{y}.png'))throw Error('Production provider/fixture exclusion failed');
+const all=new Map(manifests.flatMap(m=>m.files).map(f=>[f.path,f]));
+if([...all.keys()].some(n=>/(?:qixi|dev-only|festivalPreview|\.env|private\.config)/i.test(n)))throw Error('Excluded retained content');
+const totalBytes=[...all.values()].reduce((n,f)=>n+f.bytes,0);
+if(totalBytes>1024*1024*1024)throw Error('Published runtime closure exceeds 1GiB');
+console.log(JSON.stringify({...resources,active:active.id,retained:manifests.map(m=>m.id),closureFiles:all.size,closureBytes:totalBytes,originalTrackedCopies:1},null,2));

@@ -2,16 +2,17 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent } from 'react';
 import type { Album, MediaAsset } from '@/domain/content';
-import { resolvePublicAssetUrl } from '@/shared/config/siteConfig';
 import Photo from './map/Photo';
 import {
   groupAlbumPins, locateAlbums, MAP_HEIGHT, MAP_WIDTH, maxMapZoom, normalizeState, OSM_MAX_ZOOM,
-  parseGeography, parseNaturalDetailGeography, parseNaturalGeography, projectOsmCoordinate,
 } from './map/geography';
-import type { Geography, LocatedAlbum, MapState, NaturalDetailGeography, NaturalGeography, Point } from './map/geography';
-import OsmTileLayer, { isLocalTileTemplate } from './map/OsmTileLayer';
+import type { Geography, LocatedAlbum, MapState, NaturalGeography, Point } from './map/geography';
+import OsmTileLayer from './map/OsmTileLayer';
+import { cancelMapWarmup, loadBaseMaps, loadNaturalMap } from './map/mapResources';
 import { useMapInput } from './map/useMapInput';
 import './map/gallery-map.css';
+import { clearTileSessions } from './map/tileCache';
+import { TILE_PROVIDER } from './map/tileProvider';
 
 export type GalleryMapState = MapState;
 export interface GalleryMapProps {
@@ -23,52 +24,7 @@ export interface GalleryMapProps {
 }
 export const NATIONAL_MAP_STATE: GalleryMapState = { zoom: 1, panX: 0, panY: 0 };
 const PROVINCE_ZOOM = 4;
-const DEFAULT_OSM_TILE_TEMPLATE = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-const OSM_TILE_TEMPLATE = import.meta.env.VITE_GALLERY_OSM_TILE_URL?.trim() || DEFAULT_OSM_TILE_TEMPLATE;
-const OSM_EXTERNAL = Boolean(OSM_TILE_TEMPLATE && !isLocalTileTemplate(OSM_TILE_TEMPLATE));
-let baseMapKey = -1;
-let baseMapPromise: Promise<{ world: Geography; cities: Geography }> | null = null;
-let naturalMapKey = -1;
-let naturalMapPromise: Promise<NaturalGeography> | null = null;
-const detailMapPromises = new Map<string, Promise<NaturalDetailGeography>>();
-
-const fetchMapJson = (file: string) => {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 15000);
-  return fetch(resolvePublicAssetUrl(`gallery/map/${file}`), { signal: controller.signal })
-    .then(response => { if (!response.ok) throw Error('Map unavailable'); return response.json(); })
-    .finally(() => window.clearTimeout(timeout));
-};
-const loadBaseMaps = (key: number, osm: boolean) => {
-  if (baseMapKey !== key || !baseMapPromise) {
-    baseMapKey = key;
-    baseMapPromise = Promise.all([fetchMapJson('china-4.0.2.json'), fetchMapJson('zhejiang-4.0.2.json')])
-      .then(([china, zhejiang]) => {
-        const world = parseGeography(china, 34, osm ? projectOsmCoordinate : undefined);
-        return { world, cities: parseGeography(zhejiang, 11, world.project) };
-      }).catch(error => { baseMapPromise = null; throw error; });
-  }
-  return baseMapPromise;
-};
-const loadNaturalMap = (key: number, project: Geography['project']) => {
-  if (naturalMapKey !== key || !naturalMapPromise) {
-    naturalMapKey = key;
-    naturalMapPromise = fetchMapJson('natural-earth-110m.json').then(value => parseNaturalGeography(value, project))
-      .catch(error => { naturalMapPromise = null; throw error; });
-  }
-  return naturalMapPromise;
-};
-const loadDetailMap = (key: number, level: number, project: Geography['project']) => {
-  const cacheKey = `${key}:${level}`;
-  const cached = detailMapPromises.get(cacheKey);
-  if (cached) return cached;
-  const promise = fetchMapJson(`natural-earth-china-detail-${level}.json`)
-    .then(value => parseNaturalDetailGeography(value, project))
-    .catch(error => { detailMapPromises.delete(cacheKey); throw error; });
-  detailMapPromises.set(cacheKey, promise);
-  return promise;
-};
-
+const OSM_TILE_TEMPLATE = TILE_PROVIDER.template;
 const Land = memo(function Land({ geography }: { geography: Geography }) {
   return <svg className="gallery-map-land" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
     role="img" aria-label="中国地图，省级边界；周边地区持续保留">
@@ -87,20 +43,6 @@ const NaturalLayers = memo(function NaturalLayers({ natural }: { natural: Natura
   </svg>;
 });
 
-const NaturalDetailLayers = memo(function NaturalDetailLayers({ details, scale }: { details: readonly NaturalDetailGeography[]; scale: number }) {
-  const radius = Math.max(.35, 3 / Math.max(.01, scale));
-  return <svg className="gallery-map-natural-detail" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-hidden="true">
-    {details.map(detail => <g key={detail.level} data-detail-level={detail.level}>
-      {detail.roadPaths.major && <path className="gallery-map-road gallery-map-road-major" d={detail.roadPaths.major} />}
-      {detail.roadPaths.secondary && <path className="gallery-map-road gallery-map-road-secondary" d={detail.roadPaths.secondary} />}
-      {detail.roadPaths.local && <path className="gallery-map-road gallery-map-road-local" d={detail.roadPaths.local} />}
-      <g className="gallery-map-detail-places">{detail.places.map((place, index) => <circle key={`${place.kind}:${place.name}:${index}`}
-        className={`gallery-map-detail-place gallery-map-detail-place-${place.kind}`} cx={place.point.x} cy={place.point.y}
-        r={place.kind === 'city' ? radius : radius * .78}><title>{place.name}</title></circle>)}</g>
-    </g>)}
-  </svg>;
-});
-
 const coverId = (album: Album) => album.coverMediaAssetId ?? album.mediaAssetIds[0];
 const activate = (event: KeyboardEvent<HTMLElement>, action: () => void) => {
   if (event.target !== event.currentTarget || !['Enter', ' '].includes(event.key)) return;
@@ -113,13 +55,12 @@ export default function GalleryMap(props: GalleryMapProps) {
   const [geography, setGeography] = useState<Geography | null>(null);
   const [cities, setCities] = useState<Geography | null>(null);
   const [natural, setNatural] = useState<NaturalGeography | null>(null);
-  const [details, setDetails] = useState<ReadonlyMap<number, NaturalDetailGeography>>(() => new Map());
   const [loadError, setLoadError] = useState(false);
   const [naturalError, setNaturalError] = useState(false);
-  const [detailError, setDetailError] = useState(false);
+  const [tileError, setTileError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [openPinId, setOpenPinId] = useState<string | null>(null);
-  const osmEnabled = Boolean(OSM_TILE_TEMPLATE);
+  const osmEnabled = true;
   const mapMaxZoom = osmEnabled ? OSM_MAX_ZOOM : undefined;
   const state = normalizeState(props.state, mapMaxZoom);
   const viewHeight = Math.max(1, size.height - 68);
@@ -127,38 +68,23 @@ export default function GalleryMap(props: GalleryMapProps) {
 
   useEffect(() => {
     let active = true;
+    const controller = new AbortController(); cancelMapWarmup();
     setLoadError(false);
-    loadBaseMaps(attempt * 2 + Number(osmEnabled), osmEnabled).then(({ world, cities: local }) => {
+    loadBaseMaps(attempt > 0, controller.signal).then(({ world, cities: local }) => {
       if (active) { setGeography(world); setCities(local); }
     }).catch(() => { if (active) setLoadError(true); });
-    return () => { active = false; };
+    return () => { active = false; controller.abort(); };
   }, [attempt, osmEnabled]);
   useEffect(() => {
     if (!geography) return;
     let active = true;
+    const controller = new AbortController();
     setNaturalError(false);
-    loadNaturalMap(attempt, geography.project)
+    loadNaturalMap(geography.project, attempt > 0, controller.signal)
       .then(value => { if (active) setNatural(value); })
       .catch(() => { if (active) setNaturalError(true); });
-    return () => { active = false; };
+    return () => { active = false; controller.abort(); };
   }, [attempt, geography]);
-  const requestedDetailLevel = osmEnabled ? 0 : state.zoom >= 16 ? 3 : state.zoom >= 8 ? 2 : state.zoom >= 4 ? 1 : 0;
-  useEffect(() => {
-    if (!geography || !requestedDetailLevel) return;
-    let active = true;
-    setDetailError(false);
-    Promise.all(Array.from({ length: requestedDetailLevel }, (_, index) => loadDetailMap(attempt, index + 1, geography.project)))
-      .then(values => {
-        if (!active) return;
-        setDetails(previous => {
-          const next = new Map(previous);
-          for (const value of values) next.set(value.level, value);
-          return next;
-        });
-      })
-      .catch(() => { if (active) setDetailError(true); });
-    return () => { active = false; };
-  }, [attempt, geography, requestedDetailLevel]);
   useEffect(() => {
     const node = root.current; if (!node) return;
     const measure = () => setSize({ width: node.clientWidth || 1, height: node.clientHeight || 1 });
@@ -200,21 +126,19 @@ export default function GalleryMap(props: GalleryMapProps) {
   const positionStyle = (point: Point): CSSProperties => ({ transform: `translate(${point.x}px, ${point.y}px)` });
   const inView = (point: Point) => point.x > -34 && point.x < size.width + 34 && point.y > 12 && point.y < viewHeight + 28;
   const fullyNational = atNational && state.panX === 0 && state.panY === 0 && !selectedAlbumId && !openPinId;
-  const detailReady = requestedDetailLevel > 0 && Array.from({ length: requestedDetailLevel }, (_, index) => details.has(index + 1)).every(Boolean);
+
 
   return <div ref={root} className="gallery-map-stage" tabIndex={0} role="region" aria-label="相册地图"
     data-map-level={atNational ? 'national' : 'province'} data-map-natural={natural ? 'ready' : naturalError ? 'failed' : 'loading'}
     data-map-source={osmEnabled ? 'osm' : 'natural-earth'}
-    data-map-detail={requestedDetailLevel === 0 ? 'idle' : detailError ? 'failed' : detailReady ? 'ready' : 'loading'}
-    data-map-detail-level={requestedDetailLevel}
+    data-map-detail="idle" data-map-detail-level={0}
     data-map-zoom={state.zoom} onClick={event => {
       if ((event.target as Element).closest('[data-gallery-map-control], .gallery-map-marker')) return;
       setOpenPinId(null); onSelectAlbum(null);
     }} {...handlers}>
     {geography ? <><div className="gallery-map-world" style={worldStyle}>
       <NaturalLayers natural={natural} />
-      {osmEnabled && <OsmTileLayer template={OSM_TILE_TEMPLATE} state={state} fit={fit} viewport={{ width: size.width, height: viewHeight }} />}
-      <NaturalDetailLayers details={Array.from(details.values()).filter(detail => detail.level <= requestedDetailLevel)} scale={fit * state.zoom} />
+      {osmEnabled && <OsmTileLayer key={attempt} template={OSM_TILE_TEMPLATE} state={state} fit={fit} viewport={{ width: size.width, height: viewHeight }} onFailure={setTileError} />}
       <Land geography={geography} />
     </div>
       {pinGroups.map(group => {
@@ -250,7 +174,7 @@ export default function GalleryMap(props: GalleryMapProps) {
       <button type="button" aria-label="缩小地图" onClick={() => zoom(-1)} disabled={state.zoom <= 1}>−</button>
       <button type="button" className="gallery-map-national" aria-label="回到全国地图" onClick={national} disabled={fullyNational}>全国</button>
     </div>}
-    {OSM_EXTERNAL && <span className="gallery-map-attribution">© OpenStreetMap contributors · ODbL</span>}
-    {detailError && <button type="button" className="gallery-map-detail-retry" data-gallery-map-control onClick={() => setAttempt(value => value + 1)}>重试详细地图</button>}
+    <span className="gallery-map-attribution" data-gallery-map-control>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener noreferrer">ODbL</a></span>
+    {tileError && <button type="button" className="gallery-map-detail-retry" data-gallery-map-control onClick={() => { clearTileSessions(); setTileError(false); setAttempt(value => value + 1); }}>重试详细地图</button>}
   </div>;
 }

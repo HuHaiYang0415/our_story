@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "albums": 5,
+  "originals": 87,
+  "thumbs": 87,
+  "mapJson": 3,
+  "runtimeUrls": 177,
+  "originalBytes": 789232466,
+  "versionedOriginalCopies": 0,
+  "files": 474,
+  "active": "release-ad3c2aea6f6ca968",
+  "retained": [
+    "baseline-2cac98bfa1baf165",
+    "release-ad3c2aea6f6ca968"
+  ],
+  "closureFiles": 475,
+  "closureBytes": 855457305,
+  "originalTrackedCopies": 1
+}

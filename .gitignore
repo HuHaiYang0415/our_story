@@ -29,6 +29,8 @@ Thumbs.db
 /.release-candidate/
 __pycache__/
 *.pyc
+/.impeccable/
+/.release-qa/
 
 # 旧版多入口构建残留（已由 build:site 删除，勿再提交）
 /src/

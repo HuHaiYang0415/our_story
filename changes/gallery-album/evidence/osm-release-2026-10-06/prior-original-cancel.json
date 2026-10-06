@@ -1,0 +1,672 @@
+{
+  "checks": [
+    {
+      "name": "leave within120ms sends no current original",
+      "passed": true
+    },
+    {
+      "name": "original owner clears on exit",
+      "passed": true,
+      "stopAt": 1791215371911
+    },
+    {
+      "name": "tile queue resumes after original exit",
+      "passed": true
+    }
+  ],
+  "network": [
+    {
+      "type": "start",
+      "id": "37052.380",
+      "at": 186939.069788,
+      "wall": 1791215371.428426
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 1493,
+      "encoded": 1500,
+      "at": 186939.303207
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 2292,
+      "encoded": 0,
+      "at": 186939.352784
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 1500,
+      "encoded": 2292,
+      "at": 186939.397584
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 1500,
+      "encoded": 1500,
+      "at": 186939.444055
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 1500,
+      "encoded": 3000,
+      "at": 186939.490218
+    },
+    {
+      "type": "data",
+      "id": "37052.380",
+      "bytes": 1500,
+      "encoded": 1500,
+      "at": 186939.535551
+    },
+    {
+      "requestId": "37052.380",
+      "timestamp": 186939.559206,
+      "type": "failed",
+      "errorText": "net::ERR_ABORTED",
+      "canceled": true
+    }
+  ],
+  "requests": [
+    {
+      "url": "/our_story/",
+      "at": 1791215367834,
+      "release": "A",
+      "tile": false,
+      "status": 200,
+      "bytes": 876
+    },
+    {
+      "url": "/our_story/assets/index-BKIQ4K2x.js",
+      "at": 1791215367848,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 1693674
+    },
+    {
+      "url": "/our_story/assets/index-CiBEbLdN.css",
+      "at": 1791215367854,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 161384
+    },
+    {
+      "url": "/our_story/assets/PolaroidGallery-DbvgUa35.js",
+      "at": 1791215369475,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 26266
+    },
+    {
+      "url": "/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "at": 1791215369478,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15721
+    },
+    {
+      "url": "/our_story/assets/localContentRepository-BHu-YeA0.js",
+      "at": 1791215369480,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 41518
+    },
+    {
+      "url": "/our_story/assets/rotate-ccw-WZfKe71i.js",
+      "at": 1791215369482,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 368
+    },
+    {
+      "url": "/our_story/icon.png",
+      "at": 1791215369519,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 192281
+    },
+    {
+      "url": "/our_story/assets/leaf-shadow-LxSj9nqX.webp",
+      "at": 1791215369782,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 28848
+    },
+    {
+      "url": "/our_story/assets/paper-tag-Bb8Vfb8b.webp",
+      "at": 1791215369783,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 20254
+    },
+    {
+      "url": "/our_story/assets/stamp-frame-Bg2q8-d2.webp",
+      "at": 1791215369784,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 90074
+    },
+    {
+      "url": "/our_story/assets/warm-paper-CrppJPX1.webp",
+      "at": 1791215369785,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 22174
+    },
+    {
+      "url": "/our_story/assets/coral-ticket-DJrxPH9c.webp",
+      "at": 1791215369786,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 29292
+    },
+    {
+      "url": "/our_story/assets/gallery-hand-DAAi6Tav.woff",
+      "at": 1791215369814,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/assets/PolaroidGallery-Cz9o3yh9.css",
+      "tile": false,
+      "status": 200,
+      "bytes": 7520
+    },
+    {
+      "url": "/our_story/gallery/versioned/e75851e8945009d884a11a35e6a99e803d20fc84e7c36d23e1a40efc56a3f297/2026-03-14.jpg",
+      "at": 1791215369818,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 9760
+    },
+    {
+      "url": "/our_story/gallery/versioned/04432fd7b6d79d92c503f316ee2d2762798dad428bc3987df12878c38cb6d785/1000013424.jpg",
+      "at": 1791215369821,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 10476
+    },
+    {
+      "url": "/our_story/gallery/versioned/f1b0d7ef045fc22320da182500987d4896f8c6a22b80905af7373025a6453250/1000013716.jpg",
+      "at": 1791215369822,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 14096
+    },
+    {
+      "url": "/our_story/gallery/versioned/fe2afadb1b4dca5f7c44e0fdd3aecb61e4c2b267668ea6097c8717188278819f/2026-06-26.jpg",
+      "at": 1791215369823,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15878
+    },
+    {
+      "url": "/our_story/gallery/versioned/4a5aca67ac0da7b480b489b278220b7d7319f6760ae8a0300a0e30a98f2b3a78/%E4%B8%83%E5%A4%95.jpg",
+      "at": 1791215369823,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 20549
+    },
+    {
+      "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+      "at": 1791215370656,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 16374
+    },
+    {
+      "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+      "at": 1791215370657,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 16645
+    },
+    {
+      "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+      "at": 1791215370657,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15376
+    },
+    {
+      "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+      "at": 1791215370658,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 14889
+    },
+    {
+      "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+      "at": 1791215370659,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 16961
+    },
+    {
+      "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+      "at": 1791215370662,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15497
+    },
+    {
+      "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+      "at": 1791215370664,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 22536
+    },
+    {
+      "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+      "at": 1791215370666,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 20628
+    },
+    {
+      "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+      "at": 1791215370667,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 22903
+    },
+    {
+      "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+      "at": 1791215370667,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 13741
+    },
+    {
+      "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+      "at": 1791215370669,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 12596
+    },
+    {
+      "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+      "at": 1791215371394,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 17125
+    },
+    {
+      "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+      "at": 1791215371411,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 18323
+    },
+    {
+      "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+      "at": 1791215371428,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 13350
+    },
+    {
+      "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+      "at": 1791215371430,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 589824,
+      "canceled": true
+    },
+    {
+      "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+      "at": 1791215371446,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 17907
+    },
+    {
+      "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+      "at": 1791215371449,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 17574
+    },
+    {
+      "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+      "at": 1791215371920,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 19197
+    },
+    {
+      "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+      "at": 1791215371928,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 19567
+    },
+    {
+      "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+      "at": 1791215371975,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 18743
+    },
+    {
+      "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+      "at": 1791215371990,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 20161
+    },
+    {
+      "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+      "at": 1791215372049,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 9475
+    },
+    {
+      "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+      "at": 1791215372050,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 12991
+    },
+    {
+      "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+      "at": 1791215372502,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 6928
+    },
+    {
+      "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+      "at": 1791215372503,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 18184
+    },
+    {
+      "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+      "at": 1791215372564,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15492
+    },
+    {
+      "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+      "at": 1791215372581,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 18369
+    },
+    {
+      "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+      "at": 1791215372595,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15678
+    },
+    {
+      "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+      "at": 1791215372613,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 19305
+    },
+    {
+      "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+      "at": 1791215372632,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 13589
+    },
+    {
+      "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+      "at": 1791215372633,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 19456
+    },
+    {
+      "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+      "at": 1791215372634,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 15051
+    },
+    {
+      "url": "/our_story/assets/GalleryMap-Cb0YdKxz.js",
+      "at": 1791215372650,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 20551
+    },
+    {
+      "url": "/our_story/assets/GalleryMap-B1saLt6T.css",
+      "at": 1791215372651,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 6632
+    },
+    {
+      "url": "/our_story/assets/mapResources-CzdvWTed.js",
+      "at": 1791215372651,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 7655
+    },
+    {
+      "url": "/our_story/gallery/versioned/36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205/china-4.0.2.json",
+      "at": 1791215372967,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 61008
+    },
+    {
+      "url": "/our_story/gallery/versioned/af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd/zhejiang-4.0.2.json",
+      "at": 1791215372972,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 50853
+    },
+    {
+      "url": "/xyz/3/6/3.png",
+      "at": 1791215373005,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/6/2.png",
+      "at": 1791215373007,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/5/3.png",
+      "at": 1791215373007,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/5/2.png",
+      "at": 1791215373007,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/our_story/gallery/versioned/3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2/natural-earth-110m.json",
+      "at": 1791215373008,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": false,
+      "status": 200,
+      "bytes": 68372
+    },
+    {
+      "url": "/xyz/3/7/3.png",
+      "at": 1791215373116,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/7/2.png",
+      "at": 1791215373116,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/4/3.png",
+      "at": 1791215373116,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    },
+    {
+      "url": "/xyz/3/4/2.png",
+      "at": 1791215373117,
+      "release": "A",
+      "referer": "http://127.0.0.1:3028/our_story/",
+      "tile": true,
+      "status": 200,
+      "bytes": 123462,
+      "canceled": false
+    }
+  ],
+  "physicalCanceled": true,
+  "cancelDelayMs": 6.844025402562693,
+  "partialDecodedBodyBytes": 9785
+}

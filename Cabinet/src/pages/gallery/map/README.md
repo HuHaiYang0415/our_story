@@ -1,6 +1,6 @@
 # Gallery map
 
-Current published implementation, revised 2026-09-30 with the warm OSM map. Scope and publication authority
+Optimization candidate based on the complete f5ce547 warm OSM release. Published behavior below is historical; current loading parameters are listed in the local candidate section. Scope and publication authority
 remain in [SCOPE.md](../../../../../SCOPE.md). This is an album display, not street
 navigation, address geocoding or a current administrative-boundary service.
 
@@ -32,7 +32,7 @@ Every cover is anchored directly to its sourced regional coordinate with no visu
 offset and no connector line. Albums share one map pin only when both the display
 coordinate and confirmed address match; only clicking that pin reveals a compact
 album chooser. No province, city or album
-text label is visible by default. Clicking a single pin reveals only its compact
+application-rendered text label is visible by default; provider geographic names remain in the raster. Clicking a single pin reveals only its compact
 album-name tag, and clicking bare map space clears the tag. There is no province or
 city chooser. Province-scale zoom keeps surrounding province outlines and visible
 nearby albums. Returning from the viewer restores the parent-owned viewport and
@@ -63,7 +63,7 @@ compliant template through `VITE_GALLERY_OSM_TILE_URL`.
 same Web Mercator space as the tiles. The state machine remains
 national/province only: the first cover activation still enters province scale and
 does not create a city chooser; further wheel or pinch input can reach zoom 15 tile
-detail. The layer requests only tiles intersecting the current viewport plus a small
+detail. In the f5 release, the layer requested tiles intersecting the viewport plus a small
 two-tile guard band, caps each axis to eight neighboring tiles and never scans or
 prefetches the country. Natural Earth remains underneath as a graceful fallback.
 OSM tiles are color-treated with the existing warm-paper palette and multiply blend,
@@ -75,7 +75,7 @@ map. The earlier “no labels by default” rule applies only to album-name tags
 names stay hidden until their cover is selected, and bare-map activation hides them
 again. It does not remove geographic text from the basemap.
 
-Any public tile host renders the persistent, non-interactive
+Every template, including local fixtures and failure fallback, renders the persistent
 `© OpenStreetMap contributors · ODbL` credit in the lower-left corner. Its subtle
 warm-gray treatment may not be hidden, clipped or disabled. Project-relative,
 `localhost`, `127.0.0.1` and `[::1]` templates are treated as self-hosted internal
@@ -84,11 +84,10 @@ pattern, and never use `tile.openstreetmap.org` for bulk or offline downloads.
 
 ## Loading and input
 
-The map component loads only after the map action. Local China, Zhejiang and the
-small Natural Earth fallback load then. The retained Shanghai district and Natural
+The tile layer is created only after the map action. After cover decode, fonts and settled motion, a1200ms idle delay may warm only same-site code and three versioned JSON files (250KB raw budget, serial data), never XYZ images. The retained Shanghai district and Natural
 Earth detail sources are not requested by the published OSM path. Map JSON fetches
 have 15-second timeouts, AbortController cleanup and manual retry. XYZ images are
-computed only for the active viewport, current zoom and a bounded guard band; there
+computed only for the active viewport and current zoom, with zero extra row; there
 is no country scan, prefetch or offline cache. The provider receives ordinary tile
 coordinates, Referer and network request metadata, never album address text, photos,
 EXIF or an online-geocoding request. Covers request lazy compressed thumbnails;
@@ -134,3 +133,19 @@ Maintenance: `node Cabinet/src/pages/gallery/map/download-map.mjs` reproduces th
 pinned fallback files and licenses. `node Cabinet/src/pages/gallery/map/download-natural-detail.mjs`
 reproduces the retained progressive detail. Runtime map viewing additionally requests
 only the visible XYZ tiles from the configured provider.
+
+## Optimization implementation and release preparation2026-10-06
+
+Complete baseline:f5ce547. xyz.ts computes half-open Mercator bounds at the unchanged z formula (scale4096 means z15, independent of DPR). Edge-intersecting tiles already provide the necessary tiny surroundings: zero additional row/predicted-region request. TileCache uses center distance, four request/decode slots, progressive decode/rAF,12s timeout and one750ms retry. Known403/429 stops new requests immediately,404 is not retried; other errors stop after six consecutive failures, with the existing detailed-map retry.
+
+Standard OSM CORS was confirmed by one HEAD (no image download). Standard/same-origin tiles use fetch with default HTTP caching and omitted credentials, AbortController, blob URLs and Image.decode. G1 showed native img reuse can skip expiry validation within the same document; fetch preserves normal304/200 semantics. Unknown external templates keep best-effort native img cancellation; their CORS/cache behavior is unverified, and no no-cors fallback or prefetch permission is assumed. Tokens reject late fetch/decode; canceled/evicted/expired blobs are revoked.
+
+Decoded LRU48 images/16MiB combined RGBA+encoded bytes protects active demand (soft cap for active tiles). Reuse is at most60s, additionally capped by readable HTTP freshness headers; missing freshness or no-cache/no-store disables decoded reuse. HTTP caching remains browser-controlled, never overridden for OSM. One old decoded z is retained480ms; no parent download. Provider changes clear the preceding service cache. Hidden/offline/pagehide/original-busy pause; close cleans owners/timers/listeners, album exit drops decoded sessions. Attribution retains text/style/position and now links to OSM copyright and ODbL; readability on real phones remains a manual check.
+
+Album thumbs and china/zhejiang/NE110m JSON use SHA256 paths generated by gallery-resource-plugin. Unchanged originals retain their approved gallery/originals URLs and single tracked copy, checked against approval hashes. Upstream4.0.2 is not the application cache version. No service worker or six-month fetch job. Maintenance owner:project maintainer; next review2027-04-05 covers policy/provider/cache headers, public coordinate sources, content permission and lifecycle.
+
+All automatic sweeps use synthetic local XYZ. G1 keeps one persistent Chrome profile/cache. The real build:site now uses the tested retained-release publisher. Hosting atomicity/cache convergence require separate actual post-release evidence. See [implementation and gaps](../../../../../changes/gallery-album/osm-map-loading-plan-2026-10-05.md).
+
+Foreground JSON owns its abort signal and drops canceled pending Promises synchronously, including StrictMode replay. Entering the map cancels optional warm requests before acquiring foreground data; closing cancels pending JSON, while validated parsed data may remain bounded in module cache.
+
+2026-10-06真实发布集成：未变原图稳定URL与唯一跟踪副本，首次公共闭包按Git HEAD原字节捕获（含顶层manifest/icon），源LF与输出原字节固定。实际publisher先验证依赖后切入口，最近两版/七天/活动回滚保留、限定清理；可复现QA和实测结果见优化计划11.7及发布记录。原目录未同步，真实托管结果与未达性能目标按记录区分。

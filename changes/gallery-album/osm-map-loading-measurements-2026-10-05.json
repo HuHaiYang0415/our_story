@@ -1,0 +1,2922 @@
+{
+  "status": "implemented-with-validation-gaps",
+  "date": "2026-10-05",
+  "executionDates": "2026-10-05–06",
+  "baseline": "f5ce5471ccbf04be7f6ad75448a567b0a732e9c3",
+  "originalHead": "8eb34f34b47963450e00aadcf5c305748912cf94",
+  "sourceFingerprint": "a880dc7364a9bd1adf6cebc04ef55aa32e35dfa3170e1fa04e119e87fac49784",
+  "fixture": "256px RGB PNG123462B,90ms delay, local only",
+  "browser": "154.0.8037.93",
+  "network": {
+    "downBytesPerSecond": 200000,
+    "upBytesPerSecond": 93750,
+    "latencyMs": 150,
+    "cpuRate": 4
+  },
+  "medians": [
+    {
+      "width": 1440,
+      "weak": false,
+      "before": {
+        "first": 1492.8,
+        "center": 1591.0,
+        "p90": 1701.2,
+        "p100": 1701.2,
+        "requests": 36,
+        "bytes": 3703860,
+        "cover": 546.6
+      },
+      "after": {
+        "first": 1413.8,
+        "center": 1413.8,
+        "p90": 1530.5,
+        "p100": 1530.5,
+        "requests": 8,
+        "bytes": 987696,
+        "cover": 576.2
+      }
+    },
+    {
+      "width": 1440,
+      "weak": true,
+      "before": {
+        "first": 9043.2,
+        "center": 9191.7,
+        "p90": 18642.5,
+        "p100": 18642.5,
+        "requests": 30,
+        "bytes": 3703860,
+        "cover": 12504.1
+      },
+      "after": {
+        "first": 4689.9,
+        "center": 4689.9,
+        "p90": 7356.5,
+        "p100": 7359.3,
+        "requests": 8,
+        "bytes": 987696,
+        "cover": 12926.8
+      }
+    },
+    {
+      "width": 390,
+      "weak": false,
+      "before": {
+        "first": 1505.5,
+        "center": 1705.5,
+        "p90": 1705.5,
+        "p100": 1788.8,
+        "requests": 39,
+        "bytes": 4444632,
+        "cover": 492.9
+      },
+      "after": {
+        "first": 1454.1,
+        "center": 1454.1,
+        "p90": 1676.6,
+        "p100": 1676.6,
+        "requests": 12,
+        "bytes": 1481544,
+        "cover": 565
+      }
+    },
+    {
+      "width": 390,
+      "weak": true,
+      "before": {
+        "first": 9060.4,
+        "center": 16427.1,
+        "p90": 18393.7,
+        "p100": 20093.8,
+        "requests": 31,
+        "bytes": 3827322,
+        "cover": 12295.4
+      },
+      "after": {
+        "first": 4870.2,
+        "center": 4870.2,
+        "p90": 10147.6,
+        "p100": 10147.6,
+        "requests": 12,
+        "bytes": 1481544,
+        "cover": 12727.7
+      }
+    }
+  ],
+  "samples": {
+    "before": [
+      {
+        "first": 1177.7999999821186,
+        "center": 1261.1999999821187,
+        "p90": 1377.6999999821187,
+        "p100": 1377.6999999821187,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 36,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": false,
+        "index": 0,
+        "cover": 548.5999999940395,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 33.299999999999955
+      },
+      {
+        "first": 1492.8,
+        "center": 1592.8000000000002,
+        "p90": 1692.8000000000002,
+        "p100": 1692.8000000000002,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 36,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": false,
+        "index": 1,
+        "cover": 519.9000000059605,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999955
+      },
+      {
+        "first": 1538.6,
+        "center": 1621.9,
+        "p90": 1738.6,
+        "p100": 1738.6,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 36,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": false,
+        "index": 2,
+        "cover": 546.5999999940395,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.800000000000182
+      },
+      {
+        "first": 1491.1000000119209,
+        "center": 1591.0000000119207,
+        "p90": 1707.600000011921,
+        "p100": 1707.600000011921,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 36,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": false,
+        "index": 3,
+        "cover": 507,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17
+      },
+      {
+        "first": 1501.200000011921,
+        "center": 1584.600000011921,
+        "p90": 1701.200000011921,
+        "p100": 1701.200000011921,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 36,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": false,
+        "index": 4,
+        "cover": 564.7999999821186,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999955
+      },
+      {
+        "first": 8859.100000005961,
+        "center": 9175.70000000596,
+        "p90": 18642.50000000596,
+        "p100": 18642.50000000596,
+        "long": [
+          {
+            "at": 13705.09999999404,
+            "duration": 99
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 30,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": true,
+        "index": 0,
+        "cover": 12402.59999999404,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 9293.000000005959,
+        "center": 9376.300000005962,
+        "p90": 18826.50000000596,
+        "p100": 18826.50000000596,
+        "long": [
+          {
+            "at": 13659.59999999404,
+            "duration": 127
+          },
+          {
+            "at": 13789.59999999404,
+            "duration": 53
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 30,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": true,
+        "index": 1,
+        "cover": 12223.59999999404,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 8859.8,
+        "center": 9159.8,
+        "p90": 18643.3,
+        "p100": 18643.3,
+        "long": [
+          {
+            "at": 13807.59999999404,
+            "duration": 101
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 30,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": true,
+        "index": 2,
+        "cover": 12504.09999999404,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.80000000000109
+      },
+      {
+        "first": 9175.100000005961,
+        "center": 9191.70000000596,
+        "p90": 18608.60000000596,
+        "p100": 18608.60000000596,
+        "long": [
+          {
+            "at": 13821.40000000596,
+            "duration": 101
+          },
+          {
+            "at": 30527.59999999404,
+            "duration": 51
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 30,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": true,
+        "index": 3,
+        "cover": 12523.5,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.899999999999636
+      },
+      {
+        "first": 9043.2,
+        "center": 12926.599999999999,
+        "p90": 18593.9,
+        "p100": 18593.9,
+        "long": [
+          {
+            "at": 13810.59999999404,
+            "duration": 98
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 30,
+        "bytes": 3703860,
+        "width": 1440,
+        "weak": true,
+        "index": 4,
+        "cover": 12549.799999982119,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17.200000000000728
+      },
+      {
+        "first": 1520.6,
+        "center": 1720.6,
+        "p90": 1720.6,
+        "p100": 1803.8000000000002,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 38,
+        "bytes": 4444632,
+        "width": 390,
+        "weak": false,
+        "index": 0,
+        "cover": 495,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17.199999999999932
+      },
+      {
+        "first": 1471.9999999821187,
+        "center": 1655.3999999821185,
+        "p90": 1705.3999999821185,
+        "p100": 1755.3999999821185,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 39,
+        "bytes": 4074246,
+        "width": 390,
+        "weak": false,
+        "index": 1,
+        "cover": 479.5,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17
+      },
+      {
+        "first": 1505.499999988079,
+        "center": 1705.4999999880793,
+        "p90": 1705.4999999880793,
+        "p100": 1788.799999988079,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 37,
+        "bytes": 4444632,
+        "width": 390,
+        "weak": false,
+        "index": 2,
+        "cover": 490,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17.199999999999932
+      },
+      {
+        "first": 1534.0000000059604,
+        "center": 1733.9000000059605,
+        "p90": 1733.9000000059605,
+        "p100": 1850.6000000059603,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 40,
+        "bytes": 4444632,
+        "width": 390,
+        "weak": false,
+        "index": 3,
+        "cover": 520.5,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.90000000000009
+      },
+      {
+        "first": 1490.8999999940395,
+        "center": 1674.2999999940394,
+        "p90": 1690.8999999940397,
+        "p100": 1774.2999999940394,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 40,
+        "bytes": 4444632,
+        "width": 390,
+        "weak": false,
+        "index": 4,
+        "cover": 492.90000000596046,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999955
+      },
+      {
+        "first": 9358.900000000001,
+        "center": 16925.8,
+        "p90": 17942.4,
+        "p100": 20675.800000000003,
+        "long": [
+          {
+            "at": 13658.59999999404,
+            "duration": 100
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 32,
+        "bytes": 3950784,
+        "width": 390,
+        "weak": true,
+        "index": 0,
+        "cover": 12134.700000017881,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 17.100000000002183
+      },
+      {
+        "first": 9143.59999999404,
+        "center": 16427.09999999404,
+        "p90": 18393.699999994038,
+        "p100": 20093.79999999404,
+        "long": [
+          {
+            "at": 13626,
+            "duration": 99
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 31,
+        "bytes": 3827322,
+        "width": 390,
+        "weak": true,
+        "index": 1,
+        "cover": 12235.90000000596,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 9060.400000000001,
+        "center": 16443.8,
+        "p90": 18227.2,
+        "p100": 20077.3,
+        "long": [
+          {
+            "at": 13777.59999999404,
+            "duration": 98
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 31,
+        "bytes": 3827322,
+        "width": 390,
+        "weak": true,
+        "index": 2,
+        "cover": 12490.5,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 9058.699999994038,
+        "center": 16425.49999999404,
+        "p90": 18425.49999999404,
+        "p100": 20125.59999999404,
+        "long": [
+          {
+            "at": 13696.300000011921,
+            "duration": 102
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 31,
+        "bytes": 3827322,
+        "width": 390,
+        "weak": true,
+        "index": 3,
+        "cover": 12379.100000023842,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 8808.70000000596,
+        "center": 16042.20000000596,
+        "p90": 18475.60000000596,
+        "p100": 19692.20000000596,
+        "long": [
+          {
+            "at": 13662.799999982119,
+            "duration": 97
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 31,
+        "bytes": 3827322,
+        "width": 390,
+        "weak": true,
+        "index": 4,
+        "cover": 12295.399999976158,
+        "timedOut": false,
+        "peak": 6,
+        "loadFrameP95": 16.799999999999272
+      }
+    ],
+    "after": [
+      {
+        "first": 1260.9,
+        "center": 1260.9,
+        "p90": 1260.9,
+        "p100": 1260.9,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": false,
+        "index": 0,
+        "cover": 576.1999999880791,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 66.69999999999993
+      },
+      {
+        "first": 1506.2000000178814,
+        "center": 1506.2000000178814,
+        "p90": 1606.3000000178813,
+        "p100": 1606.3000000178813,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": false,
+        "index": 1,
+        "cover": 597.0999999940395,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.399999999999977
+      },
+      {
+        "first": 1502.3000000178813,
+        "center": 1502.3000000178813,
+        "p90": 1602.3000000178813,
+        "p100": 1602.3000000178813,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": false,
+        "index": 2,
+        "cover": 568.4000000059605,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.000000000000114
+      },
+      {
+        "first": 1413.8,
+        "center": 1413.8,
+        "p90": 1530.5,
+        "p100": 1530.5,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": false,
+        "index": 3,
+        "cover": 568.5999999940395,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17
+      },
+      {
+        "first": 952.799999988079,
+        "center": 952.799999988079,
+        "p90": 1069.699999988079,
+        "p100": 1069.699999988079,
+        "long": [],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": false,
+        "index": 4,
+        "cover": 611.4000000059605,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.90000000000009
+      },
+      {
+        "first": 4689.9000000000015,
+        "center": 4689.9000000000015,
+        "p90": 7356.5,
+        "p100": 7356.5,
+        "long": [
+          {
+            "at": 13012.699999988079,
+            "duration": 52
+          },
+          {
+            "at": 14393.59999999404,
+            "duration": 155
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": true,
+        "index": 0,
+        "cover": 12957,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.200000000000728
+      },
+      {
+        "first": 4675.900000017882,
+        "center": 4675.900000017882,
+        "p90": 7342.600000017883,
+        "p100": 7359.30000001788,
+        "long": [
+          {
+            "at": 14470.40000000596,
+            "duration": 149
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": true,
+        "index": 1,
+        "cover": 13050.5,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.80000000000109
+      },
+      {
+        "first": 4657.000000011922,
+        "center": 4657.000000011922,
+        "p90": 7290.4000000119195,
+        "p100": 7340.4000000119195,
+        "long": [
+          {
+            "at": 14352.5,
+            "duration": 148
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": true,
+        "index": 2,
+        "cover": 12926.799999982119,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.099999999998545
+      },
+      {
+        "first": 4739.5999999880805,
+        "center": 4739.5999999880805,
+        "p90": 7406.299999988078,
+        "p100": 7422.999999988078,
+        "long": [
+          {
+            "at": 14365.40000000596,
+            "duration": 152
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": true,
+        "index": 3,
+        "cover": 12846.5,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.200000000000728
+      },
+      {
+        "first": 4819.799999982119,
+        "center": 4819.799999982119,
+        "p90": 7503.19999998212,
+        "p100": 7519.799999982119,
+        "long": [
+          {
+            "at": 12864.09999999404,
+            "duration": 55
+          },
+          {
+            "at": 14352.700000017881,
+            "duration": 143
+          },
+          {
+            "at": 16440.90000000596,
+            "duration": 60
+          }
+        ],
+        "coverage": 0.9999901019172382,
+        "requests": 8,
+        "bytes": 987696,
+        "width": 1440,
+        "weak": true,
+        "index": 4,
+        "cover": 12782.800000011921,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.80000000000291
+      },
+      {
+        "first": 1474.0000000119207,
+        "center": 1474.0000000119207,
+        "p90": 1707.4000000119208,
+        "p100": 1707.4000000119208,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": false,
+        "index": 0,
+        "cover": 584.1999999880791,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.100000000000136
+      },
+      {
+        "first": 1454.0999999880792,
+        "center": 1454.0999999880792,
+        "p90": 1670.799999988079,
+        "p100": 1670.799999988079,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": false,
+        "index": 1,
+        "cover": 565,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.899999999999864
+      },
+      {
+        "first": 1463.2999999821186,
+        "center": 1463.2999999821186,
+        "p90": 1679.8999999821185,
+        "p100": 1679.8999999821185,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": false,
+        "index": 2,
+        "cover": 527.0999999940395,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.799999999999955
+      },
+      {
+        "first": 1443.3,
+        "center": 1443.3,
+        "p90": 1676.6,
+        "p100": 1676.6,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": false,
+        "index": 3,
+        "cover": 600.2999999821186,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.800000000000182
+      },
+      {
+        "first": 1436.2,
+        "center": 1436.2,
+        "p90": 1652.9,
+        "p100": 1652.9,
+        "long": [],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": false,
+        "index": 4,
+        "cover": 554.5999999940395,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.800000000000068
+      },
+      {
+        "first": 4870.199999988079,
+        "center": 4870.199999988079,
+        "p90": 10053.699999988079,
+        "p100": 10136.999999988078,
+        "long": [
+          {
+            "at": 13280.800000011921,
+            "duration": 105
+          },
+          {
+            "at": 14728.800000011921,
+            "duration": 198
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": true,
+        "index": 0,
+        "cover": 13158.59999999404,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.80000000000109
+      },
+      {
+        "first": 4864.200000000001,
+        "center": 4864.200000000001,
+        "p90": 10147.599999999999,
+        "p100": 10147.599999999999,
+        "long": [
+          {
+            "at": 14339.699999988079,
+            "duration": 150
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": true,
+        "index": 1,
+        "cover": 12727.699999988079,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.799999999999272
+      },
+      {
+        "first": 4939.699999988079,
+        "center": 4939.699999988079,
+        "p90": 10156.39999998808,
+        "p100": 10189.699999988079,
+        "long": [
+          {
+            "at": 14279.100000023842,
+            "duration": 150
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": true,
+        "index": 2,
+        "cover": 12581.800000011921,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 16.80000000000291
+      },
+      {
+        "first": 4939.700000000001,
+        "center": 4939.700000000001,
+        "p90": 10173.2,
+        "p100": 10189.8,
+        "long": [
+          {
+            "at": 14308.700000017881,
+            "duration": 140
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": true,
+        "index": 3,
+        "cover": 12592.5,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.200000000000728
+      },
+      {
+        "first": 4654.399999982117,
+        "center": 4654.399999982117,
+        "p90": 9871.099999982118,
+        "p100": 9937.69999998212,
+        "long": [
+          {
+            "at": 13012.09999999404,
+            "duration": 53
+          },
+          {
+            "at": 14363.90000000596,
+            "duration": 145
+          }
+        ],
+        "coverage": 0.9999916291935267,
+        "requests": 12,
+        "bytes": 1481544,
+        "width": 390,
+        "weak": true,
+        "index": 4,
+        "cover": 12943.90000000596,
+        "timedOut": false,
+        "peak": 4,
+        "loadFrameP95": 17.200000000000728
+      }
+    ]
+  },
+  "photoSamples": [
+    {
+      "label": "before",
+      "weak": false,
+      "index": 0,
+      "cover": 1430.300000011921,
+      "originalMs": 741,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211606505,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": false,
+      "index": 1,
+      "cover": 1338.5999999940395,
+      "originalMs": 734,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211609539,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": false,
+      "index": 2,
+      "cover": 1282.2999999821186,
+      "originalMs": 400,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211612517,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": false,
+      "index": 3,
+      "cover": 1279.199999988079,
+      "originalMs": 779,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211615151,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": false,
+      "index": 4,
+      "cover": 1276.5,
+      "originalMs": 781,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211618168,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": true,
+      "index": 0,
+      "cover": 12430.5,
+      "originalMs": 63680,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211633156,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": true,
+      "index": 1,
+      "cover": 12281,
+      "originalMs": 63766,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211710139,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": true,
+      "index": 2,
+      "cover": 12022.90000000596,
+      "originalMs": 63760,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211786943,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": true,
+      "index": 3,
+      "cover": 12463.699999988079,
+      "originalMs": 63763,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211864175,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "before",
+      "weak": true,
+      "index": 4,
+      "cover": 12299.699999988079,
+      "originalMs": 63801,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/originals/disney/1000013716.jpg",
+          "at": 1791211941271,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": null,
+      "thumbnailRequestsRecorded": false
+    },
+    {
+      "label": "after",
+      "weak": false,
+      "index": 0,
+      "cover": 1272.9000000059605,
+      "originalMs": 657,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212006726,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212006591,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212006602,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212006613,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212006624,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212006632,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212006642,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212006653,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212006661,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212006669,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212006680,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212006690,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212006699,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212006708,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212006716,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212006753,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212006763,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212006775,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212006783,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212006796,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212006807,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212006810,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212006821,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212006832,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212006844,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212006853,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212006862,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212006873,
+          "bytes": 15678
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212007175,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212007192,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212007200,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212007209,
+          "bytes": 15051
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": false,
+      "index": 1,
+      "cover": 1419.199999988079,
+      "originalMs": 554,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212009756,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212009636,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212009637,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212009638,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212009639,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212009640,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212009642,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212009643,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212009644,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212009645,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212009645,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212009646,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212009720,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212009738,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212009754,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212009772,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212009773,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212009789,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212009790,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212009807,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212009808,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212009821,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212009823,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212009838,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212009841,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212009855,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212009871,
+          "bytes": 18369
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": false,
+      "index": 2,
+      "cover": 1238.5999999940395,
+      "originalMs": 568,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212012529,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212012408,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212012408,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212012409,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212012409,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212012410,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212012411,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212012412,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212012412,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212012413,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212012414,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212012415,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212012487,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212012505,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212012521,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212012541,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212012542,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212012558,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212012560,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212012572,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212012573,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212012589,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212012590,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212012609,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212012610,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212012621,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212012638,
+          "bytes": 18369
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": false,
+      "index": 3,
+      "cover": 1253.199999988079,
+      "originalMs": 550,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212015318,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212015197,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212015198,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212015199,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212015199,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212015200,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212015201,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212015202,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212015205,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212015206,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212015207,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212015208,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212015271,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212015288,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212015304,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212015332,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212015332,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212015343,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212015344,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212015355,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212015356,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212015373,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212015374,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212015390,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212015391,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212015405,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212015422,
+          "bytes": 18369
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": false,
+      "index": 4,
+      "cover": 1237.199999988079,
+      "originalMs": 543,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212018082,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212017960,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212017961,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212017962,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212017962,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212017963,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212017964,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212017965,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212017967,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212017967,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212017968,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212017968,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212018037,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212018054,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212018071,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212018094,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212018095,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212018105,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212018106,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212018126,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212018127,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212018150,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212018151,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212018156,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212018157,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212018171,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212018482,
+          "bytes": 18369
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": true,
+      "index": 0,
+      "cover": 12735.40000000596,
+      "originalMs": 63862,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212032960,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212032337,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212032338,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212032339,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212032339,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212032340,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212032362,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212032974,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212032991,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212032992,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212033008,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212033008,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212033538,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212033555,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212033632,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212033663,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212033741,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212034175,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212034176,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212034300,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212034301,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212034316,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212034503,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212034783,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212034860,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212034923,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212034939,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212034954,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212035342,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212035434,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212035481,
+          "bytes": 15051
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212035512,
+          "bytes": 15678
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": true,
+      "index": 1,
+      "cover": 12297,
+      "originalMs": 63844,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212110092,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212109500,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212109501,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212109502,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212109502,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212109529,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212109622,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212110104,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212110119,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212110135,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212110165,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212110166,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212110645,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212110723,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212110740,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212110802,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212110818,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212111160,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212111270,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212111285,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212111440,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212111456,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212111688,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212111735,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212111860,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212112001,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212112078,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212112280,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212112390,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212112484,
+          "bytes": 15678
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212112499,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212112670,
+          "bytes": 15051
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": true,
+      "index": 2,
+      "cover": 12745.800000011921,
+      "originalMs": 63702,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212187926,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212187302,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212187303,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212187304,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212187305,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212187307,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212187329,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212187943,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212187959,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212187960,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212187974,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212187975,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212188427,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212188629,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212188645,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212188676,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212188738,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212189094,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212189109,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212189158,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212189174,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212189236,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212189673,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212189734,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212189780,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212189811,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212189875,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212189970,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212190328,
+          "bytes": 15051
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212190375,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212190453,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212190499,
+          "bytes": 15678
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": true,
+      "index": 3,
+      "cover": 12666.5,
+      "originalMs": 63724,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212265382,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212264755,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212264756,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212264756,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212264757,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212264758,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212264780,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212265395,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212265413,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212265414,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212265428,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212265429,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212265989,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212266112,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212266160,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212266176,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212266206,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212266348,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212266693,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212266694,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212266834,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212266850,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212266960,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212267039,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212267289,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212267305,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212267462,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212267493,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212267585,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212267740,
+          "bytes": 15678
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212267833,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212268082,
+          "bytes": 15051
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    },
+    {
+      "label": "after",
+      "weak": true,
+      "index": 4,
+      "cover": 12459.09999999404,
+      "originalMs": 63640,
+      "originalRequests": [
+        {
+          "url": "/our_story/gallery/versioned/5e72b1a258adb7e93e0ec988dc2ef546dea55cf28c21bbd9d7bacab3c5a98856/1000013716.jpg",
+          "at": 1791212342157,
+          "bytes": 11957060
+        }
+      ],
+      "tileRequests": 0,
+      "thumbnailRequests": [
+        {
+          "url": "/our_story/gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+          "at": 1791212341969,
+          "bytes": 16374
+        },
+        {
+          "url": "/our_story/gallery/versioned/165a672cb7caf08c60f81ee6df6f7830c2bd4438137046103003c9bd5f2ecf32/1000013443.jpg",
+          "at": 1791212341969,
+          "bytes": 16645
+        },
+        {
+          "url": "/our_story/gallery/versioned/67b7dfd8c4223bee359eeef66eb5aa2769808802e74335e6b8d18c5efb1d5ec3/1000013444.jpg",
+          "at": 1791212341970,
+          "bytes": 15376
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa555f69be63066eeaef2ef9e973d64f9a90d395a9ec9c9e217d41747a467d78/1000013445.jpg",
+          "at": 1791212342079,
+          "bytes": 14889
+        },
+        {
+          "url": "/our_story/gallery/versioned/2ce6dcd9b0e42eba4453cdb5ff7f0188a78fc38581f18ee6ca2ea0537a8ed3a1/1000013448.jpg",
+          "at": 1791212342080,
+          "bytes": 16961
+        },
+        {
+          "url": "/our_story/gallery/versioned/e761bb5da32620588adcc18fef8975561c68dc97fb0718faa4f1aa179a577eee/1000013687.jpg",
+          "at": 1791212342513,
+          "bytes": 20628
+        },
+        {
+          "url": "/our_story/gallery/versioned/af8dd015880ed6d5b9b32a04448b8af0c4bf18585164095a14e50c18c4d1aad0/1000013688.jpg",
+          "at": 1791212342528,
+          "bytes": 22903
+        },
+        {
+          "url": "/our_story/gallery/versioned/3d5d757fe238288400351ca803676bf2adc17ce9eae6ddd565986c4f09f3fb56/1000013698.jpg",
+          "at": 1791212342544,
+          "bytes": 18323
+        },
+        {
+          "url": "/our_story/gallery/versioned/1e1b258886e85e2609f7e7737f28b17c7b7b0d23b63400b1aaade15193dc3fef/1000013686.jpg",
+          "at": 1791212342622,
+          "bytes": 22536
+        },
+        {
+          "url": "/our_story/gallery/versioned/263df5b5f038fd26585980883b49e5d1bc1731fe8b4f77011f2524fbc01fe3e7/1000013696.jpg",
+          "at": 1791212342637,
+          "bytes": 12596
+        },
+        {
+          "url": "/our_story/gallery/versioned/52cd3ffdf556f831d317834090e4adc1f8be16210cb5033830031f7b0f49a01c/1000013449.jpg",
+          "at": 1791212343182,
+          "bytes": 15497
+        },
+        {
+          "url": "/our_story/gallery/versioned/a845b33fe907e66dc92748ca40dda4cdbe7f1da0c1fb59f9779ddad209b3d660/1000013690.jpg",
+          "at": 1791212343198,
+          "bytes": 13741
+        },
+        {
+          "url": "/our_story/gallery/versioned/d2a6c331592733f2339bd97badea111bb636ad7ca4028891481fa56209e6e927/1000013697.jpg",
+          "at": 1791212343229,
+          "bytes": 17125
+        },
+        {
+          "url": "/our_story/gallery/versioned/36b5bf9fcd62d02e0e05e28bcce1739a2850c692ff528edfc8d83ae54e65db84/1000013707.jpg",
+          "at": 1791212343260,
+          "bytes": 19197
+        },
+        {
+          "url": "/our_story/gallery/versioned/f51b5eb957dd3a79bc22145993d2acd3f08fe24b3ab1d6463649ffc53e0ff2d7/1000013704.jpg",
+          "at": 1791212343337,
+          "bytes": 9475
+        },
+        {
+          "url": "/our_story/gallery/versioned/fc366a16f989332db0b36b63d691cb6f22e18266ee3f6fe2d6900814f9341c50/1000013701.jpg",
+          "at": 1791212343710,
+          "bytes": 17574
+        },
+        {
+          "url": "/our_story/gallery/versioned/0536f52cefe16b37d7c9ec84e675ae5be16ed5e92421031fe0588ad4beded731/1000013699.jpg",
+          "at": 1791212343725,
+          "bytes": 13350
+        },
+        {
+          "url": "/our_story/gallery/versioned/5e1f32fba42536e7a6471401b36735a3765d27822a20f287668c90471d66bdc3/1000013700.jpg",
+          "at": 1791212343787,
+          "bytes": 17907
+        },
+        {
+          "url": "/our_story/gallery/versioned/d1314726ed2e75fa46ad164f5f0ac057eb124da90be1c8666f1d800ef5e72ea2/1000013702.jpg",
+          "at": 1791212343818,
+          "bytes": 18184
+        },
+        {
+          "url": "/our_story/gallery/versioned/b9e67da670aea788f8cf641f9f951dec43b289b16374383dd8f6cfe6d536a275/1000013703.jpg",
+          "at": 1791212343850,
+          "bytes": 18743
+        },
+        {
+          "url": "/our_story/gallery/versioned/13f89b155c04d8de54d60d3af9faca05c8dbc0787708738892b2b8fe12eebec4/1000013706.jpg",
+          "at": 1791212344240,
+          "bytes": 15492
+        },
+        {
+          "url": "/our_story/gallery/versioned/44e3d6c2c4654f1a84c8131c2f8256672a01c7301abbf07c3ec37e83537debd3/1000013705.jpg",
+          "at": 1791212344286,
+          "bytes": 6928
+        },
+        {
+          "url": "/our_story/gallery/versioned/62dfd9db50b21baf1387500e77a37704e1f43f95117f19d603fd39852ff58f24/1000013709.jpg",
+          "at": 1791212344412,
+          "bytes": 20161
+        },
+        {
+          "url": "/our_story/gallery/versioned/d9c627fb12f34217dea50aadbe5ac24fefa355d854cb832523705743534eddf4/1000013708.jpg",
+          "at": 1791212344459,
+          "bytes": 19567
+        },
+        {
+          "url": "/our_story/gallery/versioned/aa708d49a9fd8816e4afa81cbb002ba8be81a952755af48dbfc83f3844b374ba/1000013712.jpg",
+          "at": 1791212344489,
+          "bytes": 15678
+        },
+        {
+          "url": "/our_story/gallery/versioned/7918198e3363ece3ae6a336955cd6ed23a7259094c8fb9f4fba9f151bc9303e9/1000013713.jpg",
+          "at": 1791212344567,
+          "bytes": 13589
+        },
+        {
+          "url": "/our_story/gallery/versioned/5c5e0b57450c41a833bc859891bbc58afe9166ec5b5895be14a63941c9235b2c/1000013711.jpg",
+          "at": 1791212344723,
+          "bytes": 18369
+        },
+        {
+          "url": "/our_story/gallery/versioned/9f38ec69b37fcd0dfe6c066e902db517a5ff0173ff40352bbfb09886147ebc6d/1000013710.jpg",
+          "at": 1791212345065,
+          "bytes": 12991
+        },
+        {
+          "url": "/our_story/gallery/versioned/181f1ceec73b3369f0530e72d463a58c4a2450886ffcc8b641b335fc54903ef5/1000013714.jpg",
+          "at": 1791212345081,
+          "bytes": 19305
+        },
+        {
+          "url": "/our_story/gallery/versioned/4570a4d828c55dab582bc097d3ff71c827441d017c723b43e739a703af159f6c/1000013715.jpg",
+          "at": 1791212345112,
+          "bytes": 19456
+        },
+        {
+          "url": "/our_story/gallery/versioned/f6695377d09b8417eaeddf197a5fad65dee1688431b72c58c65c9bc47279d80a/1000013718.jpg",
+          "at": 1791212345144,
+          "bytes": 15051
+        }
+      ],
+      "thumbnailRequestsRecorded": true
+    }
+  ],
+  "inputFrameWindows": [
+    {
+      "scene": "rapid reverse 1440 DPR1",
+      "p95": 17.100000000000364,
+      "targetMet": true,
+      "frames": 103
+    },
+    {
+      "scene": "rapid reverse 1440 DPR2",
+      "p95": 33.100000000000364,
+      "targetMet": true,
+      "frames": 95
+    },
+    {
+      "scene": "rapid reverse 1440 DPR3",
+      "p95": 16.899999999999636,
+      "targetMet": true,
+      "frames": 101
+    },
+    {
+      "scene": "rapid reverse 390 DPR1",
+      "p95": 17,
+      "targetMet": true,
+      "frames": 104
+    },
+    {
+      "scene": "rapid reverse 390 DPR2",
+      "p95": 16.900000000000546,
+      "targetMet": true,
+      "frames": 101
+    },
+    {
+      "scene": "rapid reverse 390 DPR3",
+      "p95": 16.800000000000182,
+      "targetMet": true,
+      "frames": 102
+    },
+    {
+      "scene": "rapid reverse 360 DPR1",
+      "p95": 16.800000000000182,
+      "targetMet": true,
+      "frames": 99
+    },
+    {
+      "scene": "rapid reverse 360 DPR2",
+      "p95": 16.800000000000182,
+      "targetMet": true,
+      "frames": 97
+    },
+    {
+      "scene": "rapid reverse 360 DPR3",
+      "p95": 17,
+      "targetMet": true,
+      "frames": 93
+    },
+    {
+      "scene": "rapid reverse 844 DPR1",
+      "p95": 16.800000000000182,
+      "targetMet": true,
+      "frames": 102
+    },
+    {
+      "scene": "rapid reverse 844 DPR2",
+      "p95": 16.800000000000182,
+      "targetMet": true,
+      "frames": 99
+    },
+    {
+      "scene": "rapid reverse 844 DPR3",
+      "p95": 50,
+      "targetMet": false,
+      "frames": 90
+    }
+  ],
+  "warmRawBytes": 215661,
+  "g1Checks": [
+    {
+      "name": "600s fresh entry remains A",
+      "passed": true
+    },
+    {
+      "name": "old A lazy map after B retains full dependency closure",
+      "passed": true
+    },
+    {
+      "name": "entry reaches verifiable B refresh condition",
+      "passed": true
+    },
+    {
+      "name": "B actual map data are content-versioned",
+      "passed": true
+    },
+    {
+      "name": "expired synthetic XYZ conditional 304",
+      "passed": true
+    },
+    {
+      "name": "changed XYZ representation gets 200 with new ETag",
+      "passed": true
+    },
+    {
+      "name": "ten close/reentry leaves no background XYZ",
+      "passed": true
+    },
+    {
+      "name": "actual BFCache pageshow.persisted",
+      "passed": true
+    },
+    {
+      "name": "offline cached map remains interactive with fallback",
+      "passed": true
+    },
+    {
+      "name": "weak network maintains controls",
+      "passed": true
+    },
+    {
+      "name": "C changed content/schema uses new URL and matching parser 200",
+      "passed": true
+    },
+    {
+      "name": "rapid B/C retains A and B dependency/schema closure",
+      "passed": true
+    },
+    {
+      "name": "rollback entry A retains B dependency closure",
+      "passed": true
+    },
+    {
+      "name": "blocked old chunk exposes bounded existing recovery",
+      "passed": true
+    },
+    {
+      "name": "no official XYZ / no Service Worker",
+      "passed": true
+    },
+    {
+      "name": "uncached old D chunk server 404 is bounded",
+      "passed": true
+    },
+    {
+      "name": "one manual import retry stays in boundary",
+      "passed": true
+    },
+    {
+      "name": "second manual retry restores into B without reload loop",
+      "passed": true
+    },
+    {
+      "name": "decoded reuse expiry resumes normal HTTP conditional cache",
+      "passed": true
+    }
+  ],
+  "g1Passed": true,
+  "originalCancel": {
+    "checks": [
+      {
+        "name": "leave within120ms sends no current original",
+        "passed": true
+      },
+      {
+        "name": "original owner clears on exit",
+        "passed": true,
+        "stopAt": 1791215371911
+      },
+      {
+        "name": "tile queue resumes after original exit",
+        "passed": true
+      }
+    ],
+    "physicalCanceled": true,
+    "cancelDelayMs": 6.844025402562693,
+    "partialDecodedBodyBytes": 9785
+  },
+  "officialTileBodiesDownloaded": 0,
+  "limits": {
+    "concurrency": 4,
+    "extraTileRows": 0,
+    "decodedEntries": 48,
+    "rgbaAndBlobBytes": 16777216,
+    "memoryMaxMs": 60000,
+    "timeoutMs": 12000,
+    "retryMs": 750,
+    "oldDecodedLayerMs": 480,
+    "ownJsonTimeoutMs": 15000,
+    "warmDelayMs": 1200,
+    "warmDataBytes": 180233,
+    "retentionDays": 7,
+    "retentionMinimumVersions": 2
+  },
+  "limitations": [
+    "normal-network20% target not met",
+    "844x390 DPR3 input window p95 target not met",
+    "live deployment/hosting not authorized or tested",
+    "live OSM browser GET/visual/latency not tested",
+    "real phone/Safari/Firefox not tested",
+    "3s/8s HTTP warm and decoded scene not five repeated samples each",
+    "precise tile-cancel wire bytes and heap not measured",
+    "pure optional warmup long-task gate not separately measured"
+  ]
+}

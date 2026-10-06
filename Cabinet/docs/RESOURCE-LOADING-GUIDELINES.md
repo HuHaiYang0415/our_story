@@ -143,3 +143,11 @@ export async function loadNewFest(onProgress?: LoadProgressCallback) {
 - 端午长卷的环境音只在用户打开声音后创建，次要装饰不阻塞长卷脚本。
 - 儿童节游戏音频只在用户选择对应玩法后加载，不在房间 loader 中预热。
 - 每年新增节日时，先登记路由与资源分级，再按本文档检查首屏门槛和交互预载，不把上一年度的日期或素材直接混入新年度。
+
+## 2026-10-05 OSM 本地候选
+
+入口跟随托管缓存，Pages max-age600不保证即时更新。JS/CSS构建hash，封面缩略图及三份地图JSON使用内容SHA256路径；未变原图保留既有URL、唯一跟踪副本及批准的字节hash，同schema/几何绑定同构建，fetch默认HTTP缓存，不用force-cache/no-store绕过验证。OSM URL不附build/query，解码内存与HTTP独立；原图busy覆盖decode并抢占背景。官方封面tile必须0；可选预热只有本站代码／三份基础数据，250KB原始预算、数据单并发，saveData/2g/offline/hidden停止。
+
+真实build:site的release manifest至少保留最新两版、7天内全部允许依赖及当前回滚版；撤除许可优先，禁止为兼容重新发布七夕／DEV。旧chunk先boundary，一次用户import重试，第二次用户动作正常刷新并恢复schema1/10分钟最小现场；不自动reload、poll或清缓存。真实发布链先校验新旧完整闭包再切入口；仅按过期清单清理不被保留版引用的hash资源，不递归清目录。G1用同profile正常HTTP缓存、真实BFCache/304/200；托管真实升级已条件授权，完成状态以本轮发布记录为准。半年仅维护者2027-04-05复核，不是tileTTL。
+
+2026-10-06真实发布集成：未变原图稳定URL与唯一跟踪副本，首次公共闭包按Git HEAD原字节捕获（含顶层manifest/icon），源LF与输出原字节固定。实际publisher先验证依赖后切入口，最近两版/七天/活动回滚保留、限定清理；可复现QA和实测结果见优化计划11.7及发布记录。原目录未同步，真实托管结果与未达性能目标按记录区分。

@@ -1,0 +1,14 @@
+{
+  "originalHead": "8eb34f34b47963450e00aadcf5c305748912cf94",
+  "byteComparedFiles": 1676,
+  "byteComparisonPassed": true,
+  "originalSourceMigrated": false,
+  "originalMasterModified": false,
+  "priorRecovery": {
+    "files": 3237,
+    "bytes": 1459038999,
+    "physicalRestoreSamples": 5,
+    "binaryPatchApplyExit": 0
+  },
+  "privateSnapshotsPublished": false
+}

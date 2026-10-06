@@ -34,3 +34,7 @@ npm run build
 邮票：`pages/letters/assets/stamps/`（Vite 打包进 `assets/`，不再单独 `image/` 目录）。
 
 520：`pages/letters/interactive/520/` 构建到 `pages/letters/520/`，由 `Letter520Embed` iframe 加载；返回信盒通过 `postMessage` 切回 `#envelopes`。
+
+## 2026-10-05 OSM 本地候选
+
+OSM 候选从完整f5ce547隔离实施，发布状态见回填。DEV/dist相册资源字节一致；未变原图保持既有URL与唯一副本，缩略图/JSON内容版本化；中心优先四槽、逐片显示、有界缓存，封面后仅预热站内，当前原图优先。见 [回填](../changes/gallery-album/osm-map-loading-plan-2026-10-05.md)。

@@ -1,0 +1,172 @@
+{
+  "checks": [
+    {
+      "name": "decode waits cover decode before own warm",
+      "passed": true
+    },
+    {
+      "name": "decode sends zero XYZ",
+      "passed": true
+    },
+    {
+      "name": "decode own warm contract",
+      "passed": true,
+      "requests": [
+        {
+          "url": "/our_story/assets/GalleryMap-fm9nmZml.js",
+          "at": 1791220199537,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 20658
+        },
+        {
+          "url": "/our_story/assets/GalleryMap-B1saLt6T.css",
+          "at": 1791220199539,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 6632
+        },
+        {
+          "url": "/our_story/assets/mapResources-b7HU-VZ5.js",
+          "at": 1791220199540,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 8138
+        },
+        {
+          "url": "/our_story/gallery/versioned/36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205/china-4.0.2.json",
+          "at": 1791220199545,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 61008
+        },
+        {
+          "url": "/our_story/gallery/versioned/af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd/zhejiang-4.0.2.json",
+          "at": 1791220199565,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 50853
+        },
+        {
+          "url": "/our_story/gallery/versioned/3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2/natural-earth-110m.json",
+          "at": 1791220199624,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 68372
+        }
+      ]
+    },
+    {
+      "name": "offline waits cover decode before own warm",
+      "passed": true
+    },
+    {
+      "name": "offline sends zero XYZ",
+      "passed": true
+    },
+    {
+      "name": "offline own warm contract",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "missing-api sends zero XYZ",
+      "passed": true
+    },
+    {
+      "name": "missing-api own warm contract",
+      "passed": true,
+      "requests": [
+        {
+          "url": "/our_story/assets/GalleryMap-fm9nmZml.js",
+          "at": 1791220209805,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 20658
+        },
+        {
+          "url": "/our_story/assets/GalleryMap-B1saLt6T.css",
+          "at": 1791220209809,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 6632
+        },
+        {
+          "url": "/our_story/assets/mapResources-b7HU-VZ5.js",
+          "at": 1791220209811,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 8138
+        },
+        {
+          "url": "/our_story/gallery/versioned/36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205/china-4.0.2.json",
+          "at": 1791220209830,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 61008
+        },
+        {
+          "url": "/our_story/gallery/versioned/af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd/zhejiang-4.0.2.json",
+          "at": 1791220209841,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 50853
+        },
+        {
+          "url": "/our_story/gallery/versioned/3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2/natural-earth-110m.json",
+          "at": 1791220209957,
+          "release": "A",
+          "referer": "http://127.0.0.1:3029/our_story/",
+          "tile": false,
+          "status": 200,
+          "bytes": 68372
+        }
+      ]
+    },
+    {
+      "name": "save-data sends zero XYZ",
+      "passed": true
+    },
+    {
+      "name": "save-data own warm contract",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "original waits cover decode before own warm",
+      "passed": true
+    },
+    {
+      "name": "original sends zero XYZ",
+      "passed": true
+    },
+    {
+      "name": "original own warm contract",
+      "passed": true,
+      "requests": []
+    }
+  ],
+  "passed": true
+}

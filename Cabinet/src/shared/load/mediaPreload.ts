@@ -114,14 +114,14 @@ export function preloadImageRequired(url: string, timeoutMs = 90_000): Promise<v
 }
 
 export function preloadFetch(url: string): Promise<void> {
-  return fetch(url, { cache: 'force-cache' })
+  return fetch(url)
     .then(() => undefined)
     .catch(() => undefined);
 }
 
 /** HTML/壳层必须拉取成功 */
 export function preloadFetchRequired(url: string): Promise<void> {
-  return fetch(url, { cache: 'force-cache' }).then((res) => {
+  return fetch(url).then((res) => {
     if (!res.ok) throw new Error(`Fetch failed: ${url} (${res.status})`);
   });
 }

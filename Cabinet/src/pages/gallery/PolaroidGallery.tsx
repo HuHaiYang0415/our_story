@@ -18,6 +18,9 @@ import type { GalleryPhoto } from './galleryModel';
 import { useGalleryInput } from './useGalleryInput';
 import fontLicenseUrl from './assets/OFL.LongCang.txt?url';
 import './gallery.css';
+import { useMapWarmup } from './useMapWarmup';
+import { disposeGallery } from './gallerySession';
+import { clearGalleryRecovery, readGalleryRecovery, saveGalleryRecovery } from './mapRecovery';
 
 type Mode = 'orbit' | 'map' | 'album';
 type Source = 'orbit' | 'map';
@@ -132,12 +135,14 @@ function FilterPanel({ albums, albumId, year, onApply, onClose, height }: {
 }
 
 export function PolaroidGallery({ onBackToCabinet }: Props) {
+  const [recovery] = useState(readGalleryRecovery);
+  useEffect(clearGalleryRecovery, []);
   const repository = getContentRepository();
   const albums = useMemo(() => repository.listAlbums().filter(album => album.visibility === undefined || album.visibility === 'public').slice().sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)), [repository]);
   const assets = useMemo(() => new Map(repository.listMediaAssets().map(asset => [asset.id, asset])), [repository]);
-  const [mode, setMode] = useState<Mode>('orbit');
-  const [position, setPosition] = useState(0);
-  const positionRef = useRef(0);
+  const [mode, setMode] = useState<Mode>(recovery ? 'map' : 'orbit');
+  const [position, setPosition] = useState(recovery?.position ?? 0);
+  const positionRef = useRef(recovery?.position ?? 0);
   const positionFrame = useRef(0);
   const orbitMotionFrame = useRef(0);
   const liftTimer = useRef(0);
@@ -148,10 +153,10 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
   const [selection, setSelection] = useState<GalleryPhoto | null>(null);
   const [source, setSource] = useState<Source>('orbit');
   const [albumIndex, setAlbumIndex] = useState(0);
-  const [filter, setFilter] = useState({ albumId: 'all', year: 'all' });
+  const [filter, setFilter] = useState(recovery?.filter ?? { albumId: 'all', year: 'all' });
   const [filterOpen, setFilterOpen] = useState(false);
   const [mapAlbumId, setMapAlbumId] = useState<string | null>(null);
-  const [mapState, setMapState] = useState<GalleryMapState>({ zoom: 1, panX: 0, panY: 0 });
+  const [mapState, setMapState] = useState<GalleryMapState>(recovery?.mapState ?? { zoom: 1, panX: 0, panY: 0 });
   const [mapAttempt, setMapAttempt] = useState(0);
   const GalleryMap = useMemo(() => lazy(() => import('./GalleryMap')), [mapAttempt]);
   const [feedback, setFeedback] = useState('');
@@ -164,6 +169,8 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
   const filterWasOpen = useRef(false);
   const bounds = useBounds(stageRef);
   const reduced = useReducedMotion();
+  useMapWarmup(mode === 'orbit' && !orbiting && !filterOpen);
+  useEffect(() => () => disposeGallery(), []);
   const capacity = bounds.width < 600 || bounds.height < 380 ? 5 : 9;
   const filteredAlbums = useMemo(() => albums.filter(album => (filter.albumId === 'all' || album.id === filter.albumId) &&
     (filter.year === 'all' || (album.startDate?.slice(0, 4) || 'unknown') === filter.year)), [albums, filter]);
@@ -321,7 +328,10 @@ export function PolaroidGallery({ onBackToCabinet }: Props) {
           <span className="gallery-album-position" aria-live="polite">{albumIndex + 1} / {albumPhotos.length}</span>
           <Filmstrip photos={albumPhotos} index={albumIndex} onSelect={index => { setAlbumIndex(index); setFeedback(''); }} />
         </section>}
-        {mode === 'map' && <GalleryMapBoundary key={mapAttempt} onRetry={() => setMapAttempt(n => n + 1)} onBack={() => setMode('orbit')}><Suspense fallback={<div className="gallery-map-loading" role="status">正在展开地图…</div>}>
+        {mode === 'map' && <GalleryMapBoundary key={mapAttempt} onRetry={() => {
+          if (mapAttempt === 0) setMapAttempt(1);
+          else { saveGalleryRecovery({ filter, position, mapState }); window.location.reload(); }
+        }} onBack={() => setMode('orbit')}><Suspense fallback={<div className="gallery-map-loading" role="status">正在展开地图…</div>}>
           <GalleryMap albums={filteredAlbums} assets={assets} selectedAlbumId={mapAlbumId} onSelectAlbum={setMapAlbumId}
             state={mapState} onStateChange={setMapState} onExit={onBackToCabinet} onFocus={(photoId, albumId) => {
             const album = albums.find(item => item.id === albumId);

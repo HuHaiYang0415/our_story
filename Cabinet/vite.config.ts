@@ -5,6 +5,7 @@ import type { Connect } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { galleryResourcePlugin } from './scripts/gallery-resource-plugin';
 
 const cabinetRoot = path.resolve(import.meta.dirname);
 const letter520Src = path.resolve(
@@ -29,7 +30,10 @@ function copyLetter520ToDist(outDir: string) {
   if (fs.existsSync(dest)) {
     fs.rmSync(dest, { recursive: true, force: true });
   }
-  cpSync(letter520Src, dest, { recursive: true });
+  cpSync(letter520Src, dest, { recursive: true, filter: source => {
+    const name = path.basename(source);
+    return (!name.startsWith('.') || name === '.nojekyll') && !/\.(?:md|py)$/i.test(name);
+  } });
 }
 
 /** dev 下提供 520 静态目录（不依赖 sirv，避免 import 失败静默 404） */
@@ -60,17 +64,18 @@ function createLetter520DevMiddleware(rootDir: string, prefix = '/pages/letters/
 }
 
 export default defineConfig(() => {
+  let outputDirectory = path.resolve(cabinetRoot, 'dist');
   return {
     base: './',
     plugins: [
       react(),
       tailwindcss(),
+      galleryResourcePlugin(cabinetRoot),
       {
         name: 'copy-letter-520-static',
+        configResolved(config) { outputDirectory = path.resolve(config.root, config.build.outDir); },
         closeBundle() {
-          copyLetter520ToDist(path.resolve(cabinetRoot, 'dist'));
-          const originals = path.resolve(cabinetRoot, '../gallery/originals');
-          if (existsSync(originals)) cpSync(originals, path.resolve(cabinetRoot, 'dist/gallery/originals'), { recursive: true });
+          copyLetter520ToDist(outputDirectory);
         },
         configureServer(server) {
           server.middlewares.use(createLetter520DevMiddleware(letter520Src));

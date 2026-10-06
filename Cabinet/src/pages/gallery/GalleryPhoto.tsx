@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import type { MediaAsset } from '@/domain/content';
+import { reserveOriginal } from './loadPriority';
 
 interface Props { asset?: MediaAsset; variant: 'thumb' | 'medium' | 'large' | 'original'; title: string; loading?: 'lazy' | 'eager'; }
 
@@ -12,12 +13,19 @@ export function GalleryPhotoVisual({ asset, variant, title, loading = 'eager' }:
   const [loaded, setLoaded] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [readyToRequest, setReadyToRequest] = useState(variant !== 'original');
+  const release = useRef<(() => void) | undefined>(undefined);
+  const requestedImage = useRef<HTMLImageElement | null>(null);
   useEffect(() => {
-    if (variant !== 'original') return;
+    if (variant !== 'original' || !url) return;
+    release.current = reserveOriginal();
     setReadyToRequest(false);
     const timer = window.setTimeout(() => setReadyToRequest(true), 120);
-    return () => window.clearTimeout(timer);
-  }, [asset?.id, attempt, variant]);
+    return () => { window.clearTimeout(timer); release.current?.(); release.current = undefined; };
+  }, [asset?.id, attempt, variant, url]);
+  useEffect(() => () => {
+    if (variant === 'original') requestedImage.current?.removeAttribute('src');
+    requestedImage.current = null;
+  }, [variant]);
   if (!url) return <span className="gallery-photo-placeholder">{variant === 'original' ? '原图暂不可用' : '照片引用暂缺'}</span>;
   return <span className="gallery-photo-visual" aria-busy={!loaded && !failed}>
     {previewUrl && <img className="gallery-photo-preview" src={previewUrl} alt="" aria-hidden="true" draggable={false} decoding="async" loading="eager" width={asset?.width} height={asset?.height} />}
@@ -34,8 +42,15 @@ export function GalleryPhotoVisual({ asset, variant, title, loading = 'eager' }:
     </span> : <>
       {variant === 'original' && !loaded && <span className="gallery-photo-loading" role="status">原图载入中</span>}
       {readyToRequest && <img className={variant === 'original' ? `gallery-photo-original${loaded ? ' is-loaded' : ''}` : undefined}
+        ref={node => { if (node) requestedImage.current = node; }}
         key={attempt} src={url} alt={asset?.alt || title} draggable={false} decoding="async" loading={loading}
-        width={asset?.width} height={asset?.height} onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
+        fetchPriority={variant === 'original' ? 'high' : 'auto'} width={asset?.width} height={asset?.height}
+        onLoad={event => { const image = event.currentTarget; const reservation = release.current;
+          // Preserve the published onLoad reveal; the background reservation ends after decode.
+          setLoaded(true);
+          const finish = () => { if (variant === 'original' && reservation !== release.current) return; reservation?.(); };
+          if (variant === 'original' && typeof image.decode === 'function') void image.decode().then(finish, finish); else finish(); }}
+        onError={() => { setFailed(true); release.current?.(); }} />}
     </>}
   </span>;
 }

@@ -11,6 +11,10 @@ const roots = [
   'docs',
   'Cabinet/docs',
   'changes/platform-foundation',
+  'changes/gallery-album/osm-map-loading-plan-2026-10-05.md',
+  'changes/gallery-album/osm-map-loading-release-2026-10-06.md',
+  'Cabinet/scripts/qa/README.md',
+  'Cabinet/src/pages/gallery/map/README.md',
 ];
 
 function collect(entry) {
