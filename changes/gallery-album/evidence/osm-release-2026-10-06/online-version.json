@@ -1,0 +1,148 @@
+{
+  "base": "https://huhaiyang0415.github.io/our_story/",
+  "active": "release-ad3c2aea6f6ca968",
+  "queryCacheBusting": false,
+  "officialRequests": 0,
+  "checks": [
+    {
+      "path": "assets/GalleryMap-CsB4yga5.js",
+      "status": 200,
+      "bytes": 20627,
+      "sha256": "3275ac8fcb5057b49d1683e9cc3a11486bb3f7b0107f4b866b927311b2d715ad",
+      "expected": "3275ac8fcb5057b49d1683e9cc3a11486bb3f7b0107f4b866b927311b2d715ad",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472da-5093\"",
+      "passed": true
+    },
+    {
+      "path": "assets/index-Bwao3ghl.js",
+      "status": 200,
+      "bytes": 1693674,
+      "sha256": "7e721bb8310044e5b0623c8b18403ba4a2f68094dd37c7577f169ce5b48b9c75",
+      "expected": "7e721bb8310044e5b0623c8b18403ba4a2f68094dd37c7577f169ce5b48b9c75",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472c2-19d7ea\"",
+      "passed": true
+    },
+    {
+      "path": "assets/mapResources-CwlHV0nf.js",
+      "status": 200,
+      "bytes": 8138,
+      "sha256": "ca3d308677975efcb9aa283ce7b1fea023f5076b29dafec337fad9969ff02147",
+      "expected": "ca3d308677975efcb9aa283ce7b1fea023f5076b29dafec337fad9969ff02147",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472da-1fca\"",
+      "passed": true
+    },
+    {
+      "path": "assets/PolaroidGallery-x3P-60LA.js",
+      "status": 200,
+      "bytes": 26546,
+      "sha256": "99a801dc5a12518fde2e9077225e2f3cb39d7f4287c80669625c439ff87d04aa",
+      "expected": "99a801dc5a12518fde2e9077225e2f3cb39d7f4287c80669625c439ff87d04aa",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472da-67b2\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205/china-4.0.2.json",
+      "status": 200,
+      "bytes": 61008,
+      "sha256": "36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205",
+      "expected": "36fca203715f2aa636e21bd226f8f183d7304ef13793c45909f0841ea06e1205",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472c2-ee50\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2/natural-earth-110m.json",
+      "status": 200,
+      "bytes": 68372,
+      "sha256": "3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2",
+      "expected": "3c9eb6129486e659b6020a80706e39aa49a3f21037da941e24b9a5eb5d3e5dc2",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472c2-10b14\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd/zhejiang-4.0.2.json",
+      "status": 200,
+      "bytes": 50853,
+      "sha256": "af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd",
+      "expected": "af5af3b80ef1ea026f09b57a64b148ddaddfee671d93152d77cd9b81c1e5a2cd",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472c3-c6a5\"",
+      "passed": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 876,
+      "sha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+      "expected": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+      "cacheControl": "max-age=600",
+      "etag": "W/\"6ac472c2-36c\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6/1000013442.jpg",
+      "status": 200,
+      "bytes": 16374,
+      "sha256": "761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6",
+      "expected": "761d71cb1e71b4048ae06c86440da1ca5800b2e0d7ab64317c5b545325d7d8b6",
+      "cacheControl": "max-age=600",
+      "etag": "\"6ac472c3-3ff6\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/fe2afadb1b4dca5f7c44e0fdd3aecb61e4c2b267668ea6097c8717188278819f/2026-06-26.jpg",
+      "status": 200,
+      "bytes": 15878,
+      "sha256": "fe2afadb1b4dca5f7c44e0fdd3aecb61e4c2b267668ea6097c8717188278819f",
+      "expected": "fe2afadb1b4dca5f7c44e0fdd3aecb61e4c2b267668ea6097c8717188278819f",
+      "cacheControl": "max-age=600",
+      "etag": "\"6ac472c3-3e06\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/4bdf83eea82e45415e2d9d70c7ce92dddd876a5ae40f34cf18600733536f075a/2026-05-20.jpg",
+      "status": 200,
+      "bytes": 16855,
+      "sha256": "4bdf83eea82e45415e2d9d70c7ce92dddd876a5ae40f34cf18600733536f075a",
+      "expected": "4bdf83eea82e45415e2d9d70c7ce92dddd876a5ae40f34cf18600733536f075a",
+      "cacheControl": "max-age=600",
+      "etag": "\"6ac472f3-41d7\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/e75851e8945009d884a11a35e6a99e803d20fc84e7c36d23e1a40efc56a3f297/2026-03-14.jpg",
+      "status": 200,
+      "bytes": 9760,
+      "sha256": "e75851e8945009d884a11a35e6a99e803d20fc84e7c36d23e1a40efc56a3f297",
+      "expected": "e75851e8945009d884a11a35e6a99e803d20fc84e7c36d23e1a40efc56a3f297",
+      "cacheControl": "max-age=600",
+      "etag": "\"6ac472c3-2620\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/versioned/c40b1451890054c79584bee5eca5c4ad49aff8cb4b080e997f7ab30022913074/1000013410.jpg",
+      "status": 200,
+      "bytes": 20410,
+      "sha256": "c40b1451890054c79584bee5eca5c4ad49aff8cb4b080e997f7ab30022913074",
+      "expected": "c40b1451890054c79584bee5eca5c4ad49aff8cb4b080e997f7ab30022913074",
+      "cacheControl": "max-age=600",
+      "etag": "\"6ac472f3-4fba\"",
+      "passed": true
+    },
+    {
+      "path": "gallery/originals/disney/1000013716.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "bytes": "11957060",
+      "mime": "image/jpeg",
+      "passed": true
+    }
+  ],
+  "scope": "own entry, application/map JS, 3 JSON, 5 representative thumbs, one stable-original HEAD; not all 475 hosted bodies",
+  "passed": true
+}

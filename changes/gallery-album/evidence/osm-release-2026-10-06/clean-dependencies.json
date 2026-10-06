@@ -1,0 +1,12 @@
+{
+  "npmCiExit": 0,
+  "verifyExit": 0,
+  "unitExit": 0,
+  "tests": 30,
+  "checkReleaseExit": 0,
+  "cleanEntrySha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+  "publishedEntrySha256": "ad3c2aea6f6ca96887034627d9409142890f4ce16bcc6c8c62a5f58e017a9556",
+  "entryEqual": true,
+  "originalNodeModulesTouched": false,
+  "lockRepair": "Missing optional transitive @emnapi/wasi-threads@1.2.3, registry version/tarball/integrity/dependencies recorded; existing versions unchanged"
+}

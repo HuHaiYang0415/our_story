@@ -1,0 +1,42 @@
+
+> react-example@0.0.0 test:gallery
+> node --import tsx --test src/pages/gallery/map/xyz.test.ts src/pages/gallery/map/tileCache.test.ts src/pages/gallery/mapRecovery.test.ts src/pages/gallery/galleryModel.test.ts src/pages/gallery/map/geography.test.ts scripts/retention.test.mjs scripts/canonical-published-bytes.test.mjs
+
+✔ bootstrap restores only a verified CRLF checkout to deployed Git blob bytes (977.5935ms)
+✔ Git bootstrap includes top-level manifest and protects generated entry and real edits (946.6466ms)
+✔ rollback refuses wrong entry or missing dependency before switching the active entry (100.2818ms)
+✔ dependency collision and withdrawn content leave the active entry intact (76.5533ms)
+✔ retain all releases within seven days and at least the newest two (1.0679ms)
+✔ expired dependency cleanup is manifest-scoped and keeps rollback closure (166.1296ms)
+✔ stored rollback checks entry and originals without duplicate versions (151.9415ms)
+✔ path traversal and unknown files are protected from cleanup (39.2649ms)
+✔ orbit stays bounded, unique and valid across wrap and fractional positions (3.1268ms)
+✔ orbit exchanges size, height, side tilt and depth continuously (0.8689ms)
+✔ orbit targets the nearest equivalent phase across the first/last seam (0.3809ms)
+✔ date precision and ranges remain calendar facts, never timezone conversions (0.6061ms)
+✔ repository photos retain stable IDs, album membership and original order (2.4062ms)
+✔ missing dates and locations produce no invented facts or separators (0.2583ms)
+✔ recovery is minimal, versioned, expiring and StrictMode reads are harmless (3.0616ms)
+✔ Shanghai detail shares the national projection without removing surrounding provinces (3.2021ms)
+✔ all albums sharing Shanghai stay in the city collection; unconfirmed locations stay out (1.365ms)
+✔ city-aware viewport clamps stop before any place-level zoom (0.4894ms)
+✔ the published OSM map can zoom to street scale while the fallback clamp stays available (0.5192ms)
+✔ confirmed Zhejiang cities use licensed anchors, not private address guesses (18.2956ms)
+✔ national summaries count provinces once while preserving every city album (20.3796ms)
+✔ Natural Earth layers share the existing China projection (4.5356ms)
+✔ progressive Natural Earth detail uses the same projection and rejects malformed places (57.9631ms)
+✔ shared exact coordinates aggregate every album without moving its geographic anchor (1.2919ms)
+✔ public regional coordinates override a city representative without becoming a private address guess (24.8351ms)
+✔ four slots, coalescing, center order, progressive decode, release and stale completion (3.1335ms)
+✔ provider and session images do not cross keys; original/hidden pause releases slots (0.9043ms)
+✔ CORS path uses default HTTP cache, owns blob URL, expires and aborts requests (45.9976ms)
+✔ half-open visible tiles cover every sampled screen point, including islands and cross-tile boundaries (21.7763ms)
+✔ unmeasured viewport makes no request; max scale preserves formal z15 (1.4616ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2353.1949

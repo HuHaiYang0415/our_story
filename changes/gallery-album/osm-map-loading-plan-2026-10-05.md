@@ -448,7 +448,7 @@ G1使用同一 `g1-profile`、相同origin／base path、生产构建、保留�
 - 真实发布保留最近两版/七天所有版/当前回滚版，完整Git公共基线含manifest/icon；限定清理仅过期清单中未引用且字节相同的assets/versioned。正式根旧依赖闭包和回滚入口均存储，475闭包文件/855457305B；[根门禁](evidence/osm-release-2026-10-06/published-site-check-final.json)。支持窗口外旧页、素材撤除CDN失效与托管头修改仍不宣称完成。
 - 参数沿用11.2：4槽、48片/16MiB、60s内存上限但HTTP有效期优先、480ms已有旧层、12s/一次750ms重试、0额外保护行、1200ms站内idle预热250KB上限。无新增官方预热区域，无NE主图恢复；首屏封面与当前原图优先。
 - 本次最终verify0、30单测0、check-release0、正式build:site0、check-published-site0；[G0四视口](evidence/osm-release-2026-10-06/g0-default.json)及[真实publisher G1十九项](evidence/osm-release-2026-10-06/g1.json)全通过，同一profile不清缓存。cover/177URL/当前原图[浏览器资源检查](evidence/osm-release-2026-10-06/resource-browser.json)5项通过。早期碰撞/基线520/缓存与harness失败及复验原因见发布记录，未冒充首次即成功。
-- 人工默认生产预览真实OSM全国/省域当前视野、版权、放大重置/册选择及当前原图/返回通过，公开截图见发布记录。自动测试仍仅合成XYZ；线上正式版本和旧页升级必须等实际部署回填。
+- 人工默认生产预览真实OSM全国/省域当前视野、版权、放大重置/册选择及当前原图/返回通过，公开截图见发布记录。自动测试仍仅合成XYZ；源码/根产物已提交3117df1并非强制推送master，Pages成功；首轮CI的npm ci失败已在干净目录复现并修锁验证，新CI尚待。实际线上正常缓存A→B/旧页首次地图观察通过，但原始升级JSON误覆写及DNS阻断失效如实列为证据限制；CDP阻断current-only复验和14项线上资源抽查通过。详细SHA/CI链接/证据/剩余线上目检限制见发布记录。
 - 优化前后40地图/20照片样本及11.4全部指标原样保留；正常网络20%、844×390/DPR3 50.0ms和真实设备/heap/wire/重复暖性能限制没有改数字。下一轮独占环境分解瓶颈与真实设备补测；不以扩大官方预取追目标。
 
 ## 12. 后续实施会话指令（本轮不发送／执行）

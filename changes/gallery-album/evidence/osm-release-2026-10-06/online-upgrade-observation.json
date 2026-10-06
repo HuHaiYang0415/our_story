@@ -1,0 +1,20 @@
+{
+  "evidenceKind": "observed command completion and report fields; original detailed JSON was overwritten by a later current-only run",
+  "sourceCommit": "3117df146abf6f91e76039ad06273f43fd8d125b",
+  "oldPreparedAt": "2026-10-06T03:09:39.593Z",
+  "oldMain": "./assets/index-DrAZx1gF.js",
+  "newMain": "./assets/index-Bwao3ghl.js",
+  "scriptExit": 0,
+  "reportedPassed": true,
+  "reportedChecks": 4,
+  "normalEntryConvergenceAfterTriggerMs": 1372,
+  "cacheCleared": false,
+  "disableCache": false,
+  "routeInterception": false,
+  "ownOldFirstLazyMapPassed": true,
+  "officialHostDnsBlockEffective": false,
+  "officialResponsesObserved": true,
+  "officialResponseCount": "not retained; do not claim zero",
+  "scope": "two national current views, no zoom/pan traversal or performance sweep",
+  "limitation": "raw A→B headers/response list is not reviewable; repeat during a subsequent genuinely new-entry release"
+}

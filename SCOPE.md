@@ -65,3 +65,5 @@ release_profile: approved-without-qixi-and-local-tests
 本节替代10月5日对本次隔离实现的发布禁止；既有正常网络20%及短横屏DPR3性能缺口按用户要求保留，不作为已经达标的结论。功能、资源完整性、缓存升级、发布排除门禁仍必须通过。提交、远端与线上结果以 [发布记录](changes/gallery-album/osm-map-loading-release-2026-10-06.md) 为准。
 
 未变原图继续使用既有 gallery/originals URL 与唯一跟踪副本；地图 JSON/应用代码/缩略图使用内容版本。真实发布保留最近两版及七天内所有版本和当前回滚版本的依赖闭包，清理仅限已过期清单中未被保留版本引用的 assets 与 gallery/versioned 文件；稳定原图、pages 和未知文件不递归删除。入口最后切换；GitHub Pages 原子性、缓存收敛和真实旧页升级须以发布后的实际证据记录，不用本地通过冒称线上通过。性能20%/短横屏DPR3及未测设备缺口继续如实保留，不为数字改交互或预取官方未观看区域。
+
+本次源码与根产物已非强制推送提交3117df1，Pages部署成功；当前入口为index-Bwao3ghl.js。首次CI锁文件门禁失败正在按干净依赖复验修复，线上证据范围和未验证项见发布记录；不把Pages成功当作CI成功。原目录master仍8eb34f3且未同步。

@@ -1,5 +1,5 @@
 ---
-status: release-ready-awaiting-push
+status: published-awaiting-ci-repair
 authority: release-record
 updated: 2026-10-06
 ---
@@ -41,13 +41,19 @@ updated: 2026-10-06
 
 [计划11.4](osm-map-loading-plan-2026-10-05.md#114-g0osm对照与交互证据)前后40个地图冷样本及20个照片样本、原始数据保留。1440正常中心11.1%/90%10.0%，390正常中心14.7%/90%1.7%，均未达20%；弱网中心/覆盖44.8%–70.4%改善。844×390/DPR3持续输入p95 50.0ms未达33.3ms，未修改数字。真实手机/Safari/Firefox、真实heap、wire取消成本、每个停留/暖缓存/省域返回的独立重复性能样本仍待补测。功能/资源发布门禁通过不等于这些性能目标通过。
 
-2026-10-06核查[标准瓦片政策](https://operations.osmfoundation.org/policies/tiles/)及[署名指南](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines)：正式标准XYZ/default HTTP缓存，无no-cache瓦片/版本query、无未观看地区预热；半年仅维护复核。首屏后预热限站内代码/3JSON，封面及当前原图优先。自动G0/G1使用合成fixture或发网前拦截，线上站内资源自动检查只阻止官方host，真实OSM人工目检另列。
+2026-10-06核查[标准瓦片政策](https://operations.osmfoundation.org/policies/tiles/)及[署名指南](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines)：正式标准XYZ/default HTTP缓存，无no-cache瓦片/版本query、无未观看地区预热；半年仅维护复核。首屏后预热限站内代码/3JSON，封面及当前原图优先。自动G0/G1使用合成fixture或发网前拦截，线上站内资源自动检查的DNS阻断首轮失效，后续已用CDP阻断复验（见下节）；自动G0/G1仍只使用合成XYZ，，真实OSM人工目检另列。
 
 ## 提交、远端、CI/Pages与线上升级（待实际结果）
 
 提交前核对origin为 `git@github.com:HuHaiYang0415/our_story.git`，远端master仍完整f5。端口22受限，使用现有密钥经ssh.github.com:443，只在忽略QA目录保存经官方指纹核对的known-hosts；不修改全局配置，不换origin。仅非强制HEAD:master，远端推进则停止并在隔离树安全处理/重验。
 
-本记录当前为门禁后发布准备，尚未提交/推送；CI/Pages/线上新版本及同profile旧标签页升级等待实际部署后回填。线上A旧页已在持久profile打开并保持，主JS为index-DrAZx1gF.js；不清缓存、入口正常获取达到刷新条件后观察B，并在旧A首次打开地图验证老lazy依赖。不能把本地G1写成线上完成。
+根产物与源码提交 **3117df146abf6f91e76039ad06273f43fd8d125b** 已非强制推送origin/master（f5→3117），[Pages部署](https://github.com/HuHaiYang0415/our_story/actions/runs/37411636903) completed/success；[首次CI](https://github.com/HuHaiYang0415/our_story/actions/runs/37411637344)在npm ci失败，verify等步骤跳过，不能写CI通过。独立干净目录复现缺少已声明WASM可选传递依赖wasi-threads1.2.3；普通lock-only没有修复，按npm注册元数据补9行锁记录，干净实际npm ci/verify/30单测/check-release均0，[干净依赖证据](evidence/osm-release-2026-10-06/clean-dependencies.json)且产物入口SHA与发布版相同。未重装原依赖、未改既有包版本；修复提交及新CI待回填。
+
+真实线上A旧页在03:09:39Z打开，直到Pages部署后才用default fetch获取入口，不清缓存/不DisableCache/不route；入口在触发后的1372ms观测到B（这不是部署到所有CDN节点的收敛时间）。旧A首次地图、新页B地图数据/版权及站内无HTTP失败，脚本退出0、四项通过。首轮原始JSON被后续current-only误覆写，只有命令观察摘要仍可核对：[升级观察](evidence/osm-release-2026-10-06/online-upgrade-observation.json)，不能声称保留了完整响应头原始证据；后续真正新入口发布应重做并独立保存。
+
+审计首轮报告时发现DNS阻断被当前网络代理绕过，实际收到官方瓦片200响应，范围是两页当前全国视野，无遍历/缩放矩阵，数量未完整保留，不得写零。可复现脚本改为CDP Network.setBlockedURLs，两页均记录响应，保留站内默认HTTP缓存，拒绝相同入口冒充升级；同profile current-only实测站内地图/两许可链接通过且官方HTTP响应0，[当前站内检查](evidence/osm-release-2026-10-06/online-current-own-resources.json)。此复验不是重做A→B。
+
+[线上版本抽查](evidence/osm-release-2026-10-06/online-version.json)14项通过：入口、应用/地图JS、三JSON、五代表缩略图字节SHA相等，一张稳定原图HEAD长度/类型正确。没有获取475份线上body或重下87原图。普通线上UI工具超时、Chrome控制器不可用，线上真实OSM视觉/原图decode未完成；本地普通浏览器真实OSM/原图检查和线上相同代码字节分别记录。
 
 ## 回滚依据与限制
 

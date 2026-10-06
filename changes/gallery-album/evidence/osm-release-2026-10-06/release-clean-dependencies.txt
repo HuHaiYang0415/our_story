@@ -1,0 +1,15 @@
+
+> react-example@0.0.0 check:release
+> node scripts/check-release.mjs
+
+{
+  "passed": true,
+  "albums": 5,
+  "originals": 87,
+  "thumbs": 87,
+  "mapJson": 3,
+  "runtimeUrls": 177,
+  "originalBytes": 789232466,
+  "versionedOriginalCopies": 0,
+  "files": 358
+}
