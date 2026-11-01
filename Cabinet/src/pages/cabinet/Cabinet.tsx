@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Heart, Key } from 'lucide-react';
 import { TimeTheme } from '@/shared/types';
@@ -18,6 +18,8 @@ import {
 } from './decor/CabinetFurnitureDecor';
 import { FlowerBouquet } from './decor/FlowerBouquet';
 import { StoryMuteButton } from '@/shared/ui/StoryControls';
+
+const BirthdayEntry = lazy(() => import('@/pages/birthday/BirthdayPortal'));
 
 interface CabinetProps {
   onOpenBox: (boxId: string) => void;
@@ -336,6 +338,9 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
             </div>
 
             <div className="flex justify-center items-end relative mb-0.5 group" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', height: `${futureH}px` }}>
+              {BirthdayEntry ? <Suspense fallback={<span>给你的生日</span>}>
+                <BirthdayEntry onEnter={() => onOpenBox('birthday')}/>
+              </Suspense> : <>
               <div
                 className="w-28 md:w-36 h-[58px] md:h-[72px] rounded-xl shadow-md bg-gradient-to-b from-[#A69580] to-[#736353] border border-[#594d40] relative flex flex-col justify-center items-center p-2 opacity-95 select-none"
                 id="wooden-box-future"
@@ -357,6 +362,7 @@ export function Cabinet({ onOpenBox, onEnterFestivalArchive, onEnterFestivalPage
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 p-2 bg-brand-text text-brand-bg text-[10px] rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-40 text-center font-sans">
                 留白未来！敬请期待。
               </div>
+              </>}
             </div>
 
             <div className="flex justify-end items-end mb-1" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right', height: `${bouquetH}px` }}>

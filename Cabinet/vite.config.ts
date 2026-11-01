@@ -1,3 +1,4 @@
+import threeChunks from './three-chunks.json';
 import fs from 'node:fs';
 import { cpSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -85,9 +86,10 @@ export default defineConfig(() => {
       },
     ],
     resolve: {
-      alias: {
-        '@': path.resolve(cabinetRoot, 'src'),
-      },
+      alias: [
+        {find:'@',replacement:path.resolve(cabinetRoot,'src')},
+        {find:/^three$/,replacement:path.resolve(cabinetRoot,'node_modules/three/src/Three.js')},
+      ],
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
@@ -97,6 +99,13 @@ export default defineConfig(() => {
       // The repository keeps explicit budgets in performance-budget.json; this
       // threshold prevents Vite's generic warning from masking those budgets.
       chunkSizeWarningLimit: 1800,
+      rollupOptions: {output:{manualChunks(id){
+        const file=id.replaceAll('\\','/');
+        if(file.includes('/node_modules/three/src/')){
+          return 'birthday-three-'+threeChunks[file.split('/three/src/')[1] as keyof typeof threeChunks];
+        }
+        if(file.includes('/pages/birthday/fallbackData/'))return 'birthday-static-'+file.split('/').at(-1)!.replace('.ts','');
+      }}},
     },
   };
 });

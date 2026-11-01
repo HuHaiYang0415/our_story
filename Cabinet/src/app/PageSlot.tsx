@@ -1,9 +1,14 @@
-import React, { lazy } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { Cabinet } from '@/pages/cabinet/Cabinet';
 import type { TimeTheme } from '@/shared/types';
+import { PAGE_REGISTRY } from './pageRegistry';
 import type { AppView, PageId } from './pageRegistry';
+
+const BirthdayPageLoader = lazy(() =>
+  import('@/pages/birthday/BirthdayPortal').then(module => ({ default: module.BirthdayPageLoader })),
+);
 
 const EnvelopeStack = lazy(() =>
   import('@/pages/letters/EnvelopeStack').then((module) => ({ default: module.EnvelopeStack })),
@@ -48,9 +53,21 @@ export function PageSlot({
   onEnterFestivalPage,
   festivalPreviewTools,
 }: PageSlotProps) {
+  const birthday = view === 'birthday';
+  if (birthday && BirthdayPageLoader) {
+    // Birthday is a distinct route/page. Only the source object coordinates
+    // cross this boundary; the home cabinet is not its loading background.
+    return <div key="birthday-view" className="view-layer h-full w-full min-h-0 overflow-hidden" style={{ background: '#f4ebdd' }}>
+      <Suspense fallback={<div className="h-full w-full" aria-busy="true"/>}>
+        <BirthdayPageLoader key={`birthday-${lazyLoaderEpoch['birthday'] ?? 0}`}
+          origin={window.history.state?.birthdayOrigin ?? null} onBack={() => onNavigate('cabinet')}
+          onOpenExperience={(view,recordId)=>openBirthdayArchiveExperience(view,recordId,onNavigate)}/>
+      </Suspense>
+    </div>;
+  }
   switch (view) {
     case 'cabinet':
-      return (
+    return (
         <motion.div
           key="cabinet-view"
           initial={{ opacity: 0, scale: 0.98 }}
@@ -64,6 +81,7 @@ export function PageSlot({
             onOpenBox={(boxId) => {
               if (boxId === 'envelopes') onNavigate('box-envelopes');
               else if (boxId === 'photos') onNavigate('box-photos');
+              else if (boxId === 'birthday') onNavigate('birthday');
             }}
             onEnterFestivalArchive={() => onNavigate('festival-archive')}
             onEnterFestivalPage={onEnterFestivalPage}
@@ -191,4 +209,12 @@ export function PageSlot({
     default:
       return null;
   }
+}
+
+/** Archive source navigation retains context after navigateTo changes history. */
+export function openBirthdayArchiveExperience(view:string,recordId:string,navigate:(view:AppView)=>void){
+
+ const page=Object.values(PAGE_REGISTRY).find(p=>p.view===view&&p.lifecycle==='released'&&p.access());if(!page)return;
+ navigate(page.view);
+ window.history.replaceState({...window.history.state,birthdayArchiveContext:{groupId:'ceremony-2026-first',recordId}},'');
 }

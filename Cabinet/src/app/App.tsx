@@ -46,6 +46,12 @@ export default function App() {
   }, []);
 
   const navigateTo = useCallback((view: AppView) => {
+    const page = PAGE_REGISTRY[view];
+    if (!page || !page.access()) return;
+    if (view === 'cabinet' && window.location.hash === '#birthday' && window.history.state?.birthdayFromCabinet) {
+      window.history.back();
+      return;
+    }
     setCurrentView(view);
     if (isLazyLoadView(view)) {
       setLazyLoaderEpoch((prev) => ({
@@ -53,9 +59,17 @@ export default function App() {
         [view]: (prev[view] ?? 0) + 1,
       }));
     }
-    const hash = PAGE_REGISTRY[view].hash;
+    const hash = page.hash;
     const url = `${window.location.pathname}${window.location.search}${hash}`;
-    window.history.replaceState(null, '', url);
+    if (view === 'birthday') {
+      const box = document.querySelector('#birthday-entry .birthday-box-art')?.getBoundingClientRect();
+      if (window.location.hash !== hash) window.history.pushState({
+        birthdayFromCabinet: !!box,
+        birthdayOrigin: box ? { x: box.x, y: box.y, width: box.width, height: box.height } : null,
+      }, '', url);
+    } else {
+      window.history.replaceState(null, '', url);
+    }
   }, []);
 
   const navigateToFestivalPage = useCallback(
@@ -127,7 +141,7 @@ export default function App() {
         className="flex flex-col overflow-hidden bg-brand-bg font-sans text-brand-text transition-colors duration-700"
         id="app-root"
       >
-      <div
+      {!(currentView === 'birthday') && <div
         ref={themeDialRef}
         className={[
           'theme-status-dial fixed bottom-3 right-3 z-50 flex items-center space-x-1.5 rounded-full p-1 select-none transition-all duration-300 md:bottom-4 md:right-4',
@@ -171,7 +185,7 @@ export default function App() {
             <Sun className="w-3.5 h-3.5" />
           )}
         </button>
-      </div>
+      </div>}
 
       <Suspense
         fallback={

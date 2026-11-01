@@ -1,0 +1,41 @@
+import type {CollectionState} from './cameraPlan';
+import {useEffect,useLayoutEffect,useRef,useState} from 'react';
+import {TWIN_STAR_RESPONSE_URLS,FALLBACK_URLS,GIFT24_CLOSE_FALLBACK_URLS,CAKE24_CLOSE_FALLBACK_URLS,COLLECTION_FALLBACK_URLS,COLLECTION_DOCK_FALLBACK_URLS,COLLECTION_FOCUS_FALLBACK_URLS,ENTRY_FALLBACK_URLS} from './fallbackUrls';
+import {birthdayRepository} from './birthdayRepository';
+import type {BirthdayObject,GiftProjection,GiftStates,SceneFrame} from './types';
+const groupFormat=(width:number,height:number,font:number)=>(width/height>1.25?(height<500?'landscape':'wide'):(width/height>.52?'compact':'portrait'))+(font>1.25?'-large':'');
+const value=(id:string,states:GiftStates)=>{const s=birthdayRepository.getObject(id as BirthdayObject).scene,state=states[id as BirthdayObject]??{};if(id.startsWith('CAKE-'))return Number(s.candleType==='lotus'&&!!state.opened);if(s.stateKey==='lit')return Number(!!state.lit);if(s.stateKey==='opened')return Number(!!state.opened);if(s.stateKey==='unfolded')return Number(!!state.unfolded);if(s.stateKey==='relaxed')return Number(!!state.relaxed);if(id==='GIFT-10')return Number(!!state.patternIndex);if(id==='GIFT-17'||id==='GIFT-21')return Number(!!state.settledAngle);if(id==='GIFT-20')return 0;return 0;};
+export function FlatWorld({age,states,mode='table',pan={x:0,y:0},collectionState={view:'group',groupIndex:2,focusAge:null},cakeLampOn=true,cakeClose=false,giftClose=false,starGlow=null,cameraResponding=false,onFrame}:{age:number;states:GiftStates;mode?:'table'|'collection'|'future';pan?:{x:number;y:number};collectionState?:CollectionState;cakeLampOn?:boolean;cakeClose?:boolean;giftClose?:boolean;starGlow?:'milk'|'cocoa'|null;cameraResponding?:boolean;onFrame:(frame:SceneFrame)=>void}){
+ const previousImage=useRef<HTMLImageElement|null>(null),fade=useRef<Animation|null>(null);
+ const host=useRef<HTMLDivElement>(null),callback=useRef(onFrame);callback.current=onFrame;
+ const [profile,setProfile]=useState(()=>groupFormat(window.innerWidth,window.innerHeight,Math.max(1,parseFloat(getComputedStyle(document.documentElement).fontSize)/16)));
+ const [wide,setWide]=useState(window.innerWidth/window.innerHeight>1.25),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0),scene=birthdayRepository.getScene(age),key=(age===20&&cameraResponding?1:value(scene.giftId,states))+'-'+(age===24?Number(!cakeLampOn):value(scene.cakeId,states)),format=wide?'wide':'portrait';
+ const collectionDetail=collectionState.view!=='all',focusAge=collectionState.focusAge,dock=((Math.round(pan.x||collectionState.groupIndex)%8)+8)%8;
+ const choices=(age===24&&giftClose?(GIFT24_CLOSE_FALLBACK_URLS[profile.replace('-large','')]??GIFT24_CLOSE_FALLBACK_URLS[format]):age===24&&cakeClose?CAKE24_CLOSE_FALLBACK_URLS[format]:undefined)??FALLBACK_URLS[String(age)]?.[format],baseAsset=mode==='collection'?(collectionDetail?(focusAge?COLLECTION_FOCUS_FALLBACK_URLS[format]?.[String(focusAge)]:(COLLECTION_DOCK_FALLBACK_URLS[profile]??COLLECTION_DOCK_FALLBACK_URLS[format])?.[dock]):(COLLECTION_FALLBACK_URLS[profile.replace('-large','')]??COLLECTION_FALLBACK_URLS[format])):choices?.[key]??choices?.['0-0'];
+ const asset=giftClose&&starGlow?(TWIN_STAR_RESPONSE_URLS[profile.replace('-large','')]?.[starGlow]??baseAsset):baseAsset;
+ useEffect(()=>{setFailed(false);},[asset]);
+ useLayoutEffect(()=>{const report=()=>{const r=host.current!.getBoundingClientRect(),format=r.width/r.height>1.25;if(format!==wide){setWide(format);return;}const nextProfile=groupFormat(r.width,r.height,Math.max(1,parseFloat(getComputedStyle(document.documentElement).fontSize)/16));if(nextProfile!==profile){setProfile(nextProfile);return;}if(!asset)return;
+  const font=Math.max(1,parseFloat(getComputedStyle(document.documentElement).fontSize)/16),scale=mode==='collection'&&collectionState.view!=='all'||age===24&&(cakeClose||giftClose)?Math.min(r.width/asset.width,r.height/asset.height):Math.max(r.width/asset.width,r.height/asset.height),left=(r.width-asset.width*scale)/2,top=(r.height-asset.height*scale)/2;
+  const img=host.current!.querySelector('img')!;Object.assign(img.style,{position:'absolute',width:`${asset.width*scale}px`,height:`${asset.height*scale}px`,left:`${left}px`,top:`${top}px`});
+  const project=(p:GiftProjection|undefined)=>p?{...p,x:left+p.x*scale,y:top+p.y*scale,width:Math.max(44,p.width*scale),height:Math.max(44,p.height*scale)}:undefined;
+  const objects:SceneFrame['objects']={};if(!failed&&mode==='table')for(const[id,p]of Object.entries(asset.objects))objects[id as BirthdayObject]=project(p);
+  const cells:Record<string,GiftProjection>={};if(!failed&&mode==='collection')for(const[id,p]of Object.entries(asset.cells??{})){const q=project(p);if(q)cells[id]=q;}
+  const collectionEdges:SceneFrame['collectionEdges']={};if(!failed)for(const[side,p]of Object.entries(asset.collectionEdges??{}))collectionEdges[side as 'left']=project(p);
+  const cakeLamp=!failed&&age===24&&cakeClose?project(asset.lamp):undefined;if(cakeLamp){cakeLamp.width=Math.max(44*font,cakeLamp.width);cakeLamp.height=Math.max(44*font,cakeLamp.height);cakeLamp.x=Math.max(8,Math.min(r.width-cakeLamp.width-8,cakeLamp.x));cakeLamp.y=Math.max(72,Math.min(r.height-cakeLamp.height-8,cakeLamp.y));}
+  const stars:SceneFrame['stars']={};if(!failed&&giftClose&&states['GIFT-24']?.opened)for(const id of ['milk','cocoa'] as const){const p=project(asset.stars?.[id]);if(p)stars[id]=p;}
+  callback.current({stars,cakeLamp,mode,objects,cells,collectionDetail,collectionView:collectionState.view,groupIndex:collectionState.groupIndex,focusAge,collectionEdges,collection:failed?undefined:project(asset.collection),poster:failed?undefined:project(asset.poster),replay:failed?undefined:project(asset.replay),camera:[],target:[],anchors:{},surfaceCorners:[true,true,true,true]});
+ };const observer=new ResizeObserver(report);observer.observe(host.current!);const fonts=new MutationObserver(report);fonts.observe(document.documentElement,{attributes:true,attributeFilter:['style','class']});report();return()=>{observer.disconnect();fonts.disconnect();};},[asset,wide,profile,mode,collectionDetail,focusAge,failed,age,cakeClose,giftClose]);
+ // An old representative image fades above the destination; no fake per-object 3D.
+ useLayoutEffect(()=>{
+  const container=host.current!,image=container.querySelector<HTMLImageElement>('img.birthday-flat-world')!;
+  fade.current?.cancel();container.querySelector('.birthday-flat-previous')?.remove();
+  const prior=previousImage.current;
+  let ghost:HTMLImageElement|null=null,alive=true;
+  if(mode==='collection'&&prior&&prior.src!==image.src){ghost=prior.cloneNode() as HTMLImageElement;ghost.classList.add('birthday-flat-previous');ghost.alt='';ghost.setAttribute('aria-hidden','true');container.append(ghost);}
+  const loaded=()=>{if(!alive)return;previousImage.current=image.cloneNode() as HTMLImageElement;if(ghost){const old=ghost;fade.current=old.animate([{opacity:1},{opacity:0}],{duration:window.matchMedia('(prefers-reduced-motion: reduce)').matches?80:180,easing:'ease-out'});fade.current.onfinish=()=>old.remove();}};
+  image.addEventListener('load',loaded);if(image.complete&&image.naturalWidth)loaded();
+  return()=>{alive=false;image.removeEventListener('load',loaded);fade.current?.cancel();ghost?.remove();};
+ },[asset,mode,retry]);
+ return <div className="birthday-flat-host" ref={host}><img key={asset?.url+String(retry)} className="birthday-flat-world" data-profile={profile} src={asset?.url} onLoad={()=>setFailed(false)} onError={()=>setFailed(true)} alt={mode==='collection'?'2026年24份生日礼物的四周陈列静态展示':'这一岁的生日桌面静态展示'}/>{failed&&<div className="birthday-resource-status" role="status"><p>这幅生日场景暂时没准备好</p><button type="button" onClick={()=>{setFailed(false);setRetry(v=>v+1);}}>重试</button></div>}</div>;
+}
+export function FlatEntry(){const [wide,setWide]=useState(window.innerWidth/window.innerHeight>1.25);useLayoutEffect(()=>{const update=()=>setWide(window.innerWidth/window.innerHeight>1.25);window.addEventListener('resize',update);return()=>window.removeEventListener('resize',update);},[]);return <img className="birthday-flat-world" style={{objectFit:'cover'}} src={ENTRY_FALLBACK_URLS[wide?'wide':'portrait']?.url} alt="同一暖白纸质礼物盒的静态展示"/>;}

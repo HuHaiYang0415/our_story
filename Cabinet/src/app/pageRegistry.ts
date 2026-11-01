@@ -1,7 +1,9 @@
 import { canAccessDragonBoat2026 } from '@/pages/festivals/2026/dragon-boat/access';
+import { canAccessBirthday } from '@/pages/birthday/access';
 
 export type AppView =
   | 'cabinet'
+  | 'birthday'
   | 'box-envelopes'
   | 'letter-520'
   | 'box-photos'
@@ -18,6 +20,7 @@ export type PageId =
 export type FestivalPageId = Exclude<PageId, 'relationship-anniversary'>;
 export type PageLifecycle = 'draft' | 'preview' | 'released' | 'archived';
 export type PageLoaderKey =
+  | 'birthday'
   | 'letter-520'
   | 'relationship'
   | 'festival-2026-ChildrenDay'
@@ -96,6 +99,13 @@ export type FestivalPageDefinition = PageDefinition & {
 };
 
 export const PAGE_REGISTRY: Record<AppView, PageDefinition> = {
+  ...{
+    'birthday': {
+      view: 'birthday' as const, pageId: null, hash: '#birthday',
+      titleSuffix: '每一岁的你', lifecycle: 'released' as const, opensAt: null,
+      loader: 'birthday' as const, access: canAccessBirthday,
+    },
+  },
   cabinet: {
     view: 'cabinet',
     pageId: null,
@@ -194,7 +204,7 @@ export const PAGE_REGISTRY: Record<AppView, PageDefinition> = {
     },
     hourglass: HOLIDAY_REGISTRY['端午节'],
   },
-};
+} as Record<AppView, PageDefinition>;
 
 export function getPageDefinition(view: AppView): PageDefinition {
   return PAGE_REGISTRY[view];

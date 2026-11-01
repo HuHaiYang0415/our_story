@@ -1,0 +1,674 @@
+[
+  {
+    "id": "ceremony-2026-first-1",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2003,
+    "givenYear": 2026,
+    "age": 1,
+    "sceneId": "BDAY-01",
+    "cakeId": "CAKE-01",
+    "giftIds": [
+      "GIFT-01"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-01"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "一岁的你，生日快乐。\n愿你被温柔包围，慢慢长大。",
+      "gift": "送给一岁的你，一盏小灯。\n不催你长大，只陪你慢慢发光。"
+    },
+    "candleType": "classic",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-01": "7dfe1e80854c5372742de6ef1c57aef07a4220c8b2c518d4496a87094afacd39",
+      "GIFT-01": "8eea8cc2517d7ec20a4ac1294ec4572301544e6d9e838a9253b9e2950f5c5a14",
+      "DISPLAY-GIFT-01": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-2",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2004,
+    "givenYear": 2026,
+    "age": 2,
+    "sceneId": "BDAY-02",
+    "cakeId": "CAKE-02",
+    "giftIds": [
+      "GIFT-02"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-02"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "两岁的你，生日快乐。\n愿每个小小的愿望，都慢慢长大。",
+      "gift": "送给两岁的你，一只慢慢走的小鸭。\n愿你按自己的节奏，去看更大的世界。"
+    },
+    "candleType": "classic",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-02": "ff9e0f0a01348c5641bfa74a989a42bc49bf6b1d2a99724a57a8ffb0fbc4e286",
+      "GIFT-02": "522b766d8cbf4efeb4ae59a75e3c119c41f0385809752b49af0723f8a6fc6d11",
+      "DISPLAY-GIFT-02": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-3",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2005,
+    "givenYear": 2026,
+    "age": 3,
+    "sceneId": "BDAY-03",
+    "cakeId": "CAKE-03",
+    "giftIds": [
+      "GIFT-03"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-03"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "三岁的你，生日快乐。\n愿你总有一个柔软的地方，可以放心停靠。",
+      "gift": "送给三岁的你，一只柔软的小兔。\n想停一停的时候，就在这里靠一靠。"
+    },
+    "candleType": "classic",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-03": "41f9f2d794434cedc6776f684c1d37b83288b6fea1e424ff3aa29c9ad76c88e4",
+      "GIFT-03": "806606800b2ed22f2297da922f258cc0558dd1987b85658520a1ed90e8e37333",
+      "DISPLAY-GIFT-03": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-4",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2006,
+    "givenYear": 2026,
+    "age": 4,
+    "sceneId": "BDAY-04",
+    "cakeId": "CAKE-04",
+    "giftIds": [
+      "GIFT-04"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-04"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "四岁的你，生日快乐。\n愿世界给你很多颜色，也把选择留给你。",
+      "gift": "送给四岁的你，一盒彩笔。\n喜欢哪一种颜色，就先画哪一种。"
+    },
+    "candleType": "classic",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-04": "3f76152f5b5b1506163b928831655333768df11f82a3e1ab718a9cac96af5460",
+      "GIFT-04": "dc7cbf58d753694373711d35f145be08a85ad017b865b9a7c198b2d4205f0b09",
+      "DISPLAY-GIFT-04": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-5",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2007,
+    "givenYear": 2026,
+    "age": 5,
+    "sceneId": "BDAY-05",
+    "cakeId": "CAKE-05",
+    "giftIds": [
+      "GIFT-05"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-05"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "五岁的你，生日快乐。\n愿小小的愿望，有风，也有安心的落点。",
+      "gift": "送给五岁的你，一只小小的纸鸢。\n愿你的愿望，轻轻飞向喜欢的方向。"
+    },
+    "candleType": "lotus",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-05": "02f7ab5c73f2822f78332d38d459188735517f3f2bac6a27d92d2a624083b99d",
+      "GIFT-05": "0bf3845f891edf16c60ab683d2257e859910d560fe94bafe80f3eb1ff9d511f1",
+      "DISPLAY-GIFT-05": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-6",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2008,
+    "givenYear": 2026,
+    "age": 6,
+    "sceneId": "BDAY-06",
+    "cakeId": "CAKE-06",
+    "giftIds": [
+      "GIFT-06"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-06"
+    ],
+    "snapshotVersion": "8.0.0-cream-clay06.1",
+    "visible": true,
+    "blessings": {
+      "cake": "六岁的你，生日快乐。\n愿你的成长，有足够的时间和阳光。",
+      "gift": "送给六岁的你，一盆纸做的小芽。\n慢慢来，你有自己的生长速度。"
+    },
+    "candleType": "classic",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-06": "d56819f0aa3f4d4d78c6ad79656337d66baace90530d2b5a0ad3c9626fdd5813",
+      "GIFT-06": "21fe1a33d052890649c9d1ab9ca0f611a68f83e35169e7671fb94e70cf26473b",
+      "DISPLAY-GIFT-06": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-7",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2009,
+    "givenYear": 2026,
+    "age": 7,
+    "sceneId": "BDAY-07",
+    "cakeId": "CAKE-07",
+    "giftIds": [
+      "GIFT-07"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-07"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "七岁的你，生日快乐。\n愿每一次好奇，都有一页可以打开。",
+      "gift": "送给七岁的你，一本小小的故事书。\n愿好奇带你去很多地方，也总能回到自己。"
+    },
+    "candleType": "number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-07": "0a03bb35f510c4b960f3abb5396efbe7a08b64006b54666debe04e8cca6acbe7",
+      "GIFT-07": "1a6c6287ea5eb7b8e4ad8cb51fadb0ec3a25c3227629a413f4e0ab1654c554a3",
+      "DISPLAY-GIFT-07": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-8",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2010,
+    "givenYear": 2026,
+    "age": 8,
+    "sceneId": "BDAY-08",
+    "cakeId": "CAKE-08",
+    "giftIds": [
+      "GIFT-08"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-08"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "八岁的你，生日快乐。\n愿你听见世界，也听见自己的小小声音。",
+      "gift": "送给八岁的你，一只小风铃。\n轻轻的声音，也值得被听见。"
+    },
+    "candleType": "number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-08": "4e8945db59f2de96b9ca57cee348ee294a38bfbda54ce5ea9359ee22a0995dd9",
+      "GIFT-08": "69665ad9770c92b4bb5335c2ca05c6abd5d135a9f1324f745b7e6958f79cce54",
+      "DISPLAY-GIFT-08": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-9",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2011,
+    "givenYear": 2026,
+    "age": 9,
+    "sceneId": "BDAY-09",
+    "cakeId": "CAKE-09",
+    "giftIds": [
+      "GIFT-09"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-09"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "九岁的你，生日快乐。\n愿不起眼的小细节，也能带给你快乐。",
+      "gift": "送给九岁的你，一把小放大镜。\n愿你总能在细小之处，发现一点惊喜。"
+    },
+    "candleType": "number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-09": "84abe0d3215409ed97e2e4b49ff00f1f109b13199032dc2934766a2875feba42",
+      "GIFT-09": "454bd8d0e6c0b1836d8ba978e4e054f067341d5e070e67cf6303a3e1695f3e5a",
+      "DISPLAY-GIFT-09": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-10",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2012,
+    "givenYear": 2026,
+    "age": 10,
+    "sceneId": "BDAY-10",
+    "cakeId": "CAKE-10",
+    "giftIds": [
+      "GIFT-10"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-10"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十岁的你，生日快乐。\n愿你换一个角度，也能发现新的美好。",
+      "gift": "送给十岁的你，一只万花筒。\n世界不止一种样子，你也可以有自己的看法。"
+    },
+    "candleType": "number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-10": "b7a19e13451993bd654fb409ad7e234465bc765bb44e7f96eac6d64521e9b3cc",
+      "GIFT-10": "d4810922ac2584d9e3fbfc21b29d63d7ac1736eaa38cd93a963c24341f5aac9b",
+      "DISPLAY-GIFT-10": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-11",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2013,
+    "givenYear": 2026,
+    "age": 11,
+    "sceneId": "BDAY-11",
+    "cakeId": "CAKE-11",
+    "giftIds": [
+      "GIFT-11"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-11"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十一岁的你，生日快乐。\n愿你有自己的航线，也随时可以靠岸。",
+      "gift": "送给十一岁的你，一艘小帆船。\n愿你按自己的心意出发，也安心靠岸。"
+    },
+    "candleType": "number",
+    "posterId": "YYQX-2013",
+    "assetHashes": {
+      "CAKE-11": "0559acd5977cd10ff3998764f78f614e7fde8613ceba64eae9d637de9900124f",
+      "GIFT-11": "4853231ec94271228170c01a77977060799f9cb68401a00d73bf0abd0eabb092",
+      "DISPLAY-GIFT-11": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-12",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2014,
+    "givenYear": 2026,
+    "age": 12,
+    "sceneId": "BDAY-12",
+    "cakeId": "CAKE-12",
+    "giftIds": [
+      "GIFT-12"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-12"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十二岁的你，生日快乐。\n愿喜欢的事物，被你温柔地留下。",
+      "gift": "送给十二岁的你，一只纸花收藏匣。\n愿你喜欢的东西，都有一个被珍惜的位置。"
+    },
+    "candleType": "lotus",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-12": "bd10a4eaf5ef8b6a5878b874da4a3d029e2b6f258f22b0bc5432b023d6d4871e",
+      "GIFT-12": "03346c5aa79ed1955210ad45558b6d7e3f47246ec1c8aa73be32c3725d5b427b",
+      "DISPLAY-GIFT-12": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-13",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2015,
+    "givenYear": 2026,
+    "age": 13,
+    "sceneId": "BDAY-13",
+    "cakeId": "CAKE-13",
+    "giftIds": [
+      "GIFT-13"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-13"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十三岁的你，生日快乐。\n愿你有自己的空间，也被好好尊重。",
+      "gift": "送给十三岁的你，一本小手记。\n有些心事，可以只属于你自己。"
+    },
+    "candleType": "number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-13": "bfb9a0ee895de788bdaf8d749d98f5951cb3300c8e3840209683d1d499985f6b",
+      "GIFT-13": "173a2b922ecbd1379762b271d0016c65752860c9fd1c784fbca71670042abe19",
+      "DISPLAY-GIFT-13": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-14",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2016,
+    "givenYear": 2026,
+    "age": 14,
+    "sceneId": "BDAY-14",
+    "cakeId": "CAKE-14",
+    "giftIds": [
+      "GIFT-14"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-14"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十四岁的你，生日快乐。\n愿你的心情，都能找到舒服的表达方式。",
+      "gift": "送给十四岁的你，一只小陶笛。\n想说的时候，就用自己的声音。"
+    },
+    "candleType": "pearl-number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-14": "65ecb3897bb87199c624a1e527def429ef1a8a35aab6edc93d4c5f07d842ca29",
+      "GIFT-14": "6fc6a28ed6fcfd0cda3cc1c485eee1fc92ba1cc83e08a6fe478de2e1da7e9c72",
+      "DISPLAY-GIFT-14": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-15",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2017,
+    "givenYear": 2026,
+    "age": 15,
+    "sceneId": "BDAY-15",
+    "cakeId": "CAKE-15",
+    "giftIds": [
+      "GIFT-15"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-15"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十五岁的你，生日快乐。\n愿你在不同的状态里，都能喜欢自己。",
+      "gift": "送给十五岁的你，一枚小月亮。\n不必一直圆满，也可以很好看。"
+    },
+    "candleType": "pearl-number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-15": "868ea5ca1605ddf2c4f5c03a5e394672232a31ca42579d0d405e51812130ec8d",
+      "GIFT-15": "3f37a688d2d8f20ac3d40c8e31deab82440b5df66cca3897e9dedf1c5cc29dde",
+      "DISPLAY-GIFT-15": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-16",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2018,
+    "givenYear": 2026,
+    "age": 16,
+    "sceneId": "BDAY-16",
+    "cakeId": "CAKE-16",
+    "giftIds": [
+      "GIFT-16"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-16"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十六岁的你，生日快乐。\n愿你慢慢选择，把方向握在自己手里。",
+      "gift": "送给十六岁的你，一枚小指南针。\n不急着选好所有方向，先听听自己的心。"
+    },
+    "candleType": "star-sparkler",
+    "posterId": "YYQX-2018",
+    "assetHashes": {
+      "CAKE-16": "b9a52ea377a4c8dda5cdac12c1b399dde8022dc10c30153ff8a4889b25a77728",
+      "GIFT-16": "56bf7424b817e9965f9b1f65000b747dafd857720adc978de65d1ab182673ac0",
+      "DISPLAY-GIFT-16": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-17",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2019,
+    "givenYear": 2026,
+    "age": 17,
+    "sceneId": "BDAY-17",
+    "cakeId": "CAKE-17",
+    "giftIds": [
+      "GIFT-17"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-17"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十七岁的你，生日快乐。\n愿你的心里，留着一个更大的世界。",
+      "gift": "送给十七岁的你，一颗小小的星图球。\n答案可以慢慢找，想象可以先走远一点。"
+    },
+    "candleType": "number",
+    "posterId": "YYQX-2019",
+    "assetHashes": {
+      "CAKE-17": "a4c65054398acd14e3e2d94adf178ef05fe37b76eda3b5cb2de5a05845c101b7",
+      "GIFT-17": "07dc79c5eef62a0a155354fc7805f13f2d7502101e829231213d57d33fa8dfda",
+      "DISPLAY-GIFT-17": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-18",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2020,
+    "givenYear": 2026,
+    "age": 18,
+    "sceneId": "BDAY-18",
+    "cakeId": "CAKE-18",
+    "giftIds": [
+      "GIFT-18"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-18"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十八岁的你，生日快乐。\n愿新的自由，始终按照你的心意展开。",
+      "gift": "送给十八岁的你，一件纸翼镇纸。\n愿你自由展开，也有安心停落的地方。"
+    },
+    "candleType": "number",
+    "posterId": "YYQX-2020",
+    "assetHashes": {
+      "CAKE-18": "a78743ddebc3a212cf78b5092b2b5eb5387f2df235578e1244c321abd0eff67a",
+      "GIFT-18": "3c1a89e746f287cff36aa71bdc013d292395a9fd7d3e8087e330e1c65c8855b7",
+      "DISPLAY-GIFT-18": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-19",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2021,
+    "givenYear": 2026,
+    "age": 19,
+    "sceneId": "BDAY-19",
+    "cakeId": "CAKE-19",
+    "giftIds": [
+      "GIFT-19"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-19"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "十九岁的你，生日快乐。\n愿去远方的时候，也带着一点安心。",
+      "gift": "送给十九岁的你，一个织布小行囊。\n愿远方有期待，身边有安心。"
+    },
+    "candleType": "silver-number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-19": "ebec2d1bb309b2b856b86343b4c265f7027c4248c0be868c7c54f33c34a2025b",
+      "GIFT-19": "1703c85e82be06c886e2c0fe5b145a440b99f3cf690e722031e65b965784157e",
+      "DISPLAY-GIFT-19": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-20",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2022,
+    "givenYear": 2026,
+    "age": 20,
+    "sceneId": "BDAY-20",
+    "cakeId": "CAKE-20",
+    "giftIds": [
+      "GIFT-20"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-20"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "二十岁的你，生日快乐。\n愿你用自己的眼光，发现喜欢的日常。",
+      "gift": "送给二十岁的你，一台迷你相机。\n愿你用自己的眼光，发现值得喜欢的日常。"
+    },
+    "candleType": "sparkler",
+    "posterId": "YYQX-2022",
+    "assetHashes": {
+      "CAKE-20": "759a91db2b4c3690202667e6225944a05d5f41c1b3bb214568a658fefb5e1969",
+      "GIFT-20": "cd1a568dd7f59fa7642d41d4dea928a374049d101b1c077a51221dba79db00a9",
+      "DISPLAY-GIFT-20": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-21",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2023,
+    "givenYear": 2026,
+    "age": 21,
+    "sceneId": "BDAY-21",
+    "cakeId": "CAKE-21",
+    "giftIds": [
+      "GIFT-21"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-21"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "二十一岁的你，生日快乐。\n愿今天可以慢一点，也舒服一点。",
+      "gift": "送给二十一岁的你，一只温暖的陶杯。\n不用赶路的时候，就好好坐一会儿。"
+    },
+    "candleType": "pearl-number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-21": "24aff9889fae001ddcb707c321a192e79267f698acc1bf77782ca59c6cb07435",
+      "GIFT-21": "b0649b50decf0cde15a421abf9104aa3e2d5998b2fbc35ac0346125365376780",
+      "DISPLAY-GIFT-21": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-22",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2024,
+    "givenYear": 2026,
+    "age": 22,
+    "sceneId": "BDAY-22",
+    "cakeId": "CAKE-22",
+    "giftIds": [
+      "GIFT-22"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-22"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "二十二岁的你，生日快乐。\n愿日子被你安放成，自己喜欢的样子。",
+      "gift": "送给二十二岁的你，一只小屋花器。\n愿每个平常日子，都有让你舒服的小角落。"
+    },
+    "candleType": "silver-number",
+    "posterId": "YYQX-2024",
+    "assetHashes": {
+      "CAKE-22": "38c9df18668d3ba43a5f3589808025fe902b8e2851a66117c2bcbed331a0ff6f",
+      "GIFT-22": "e2dcabfc1fa76d254cb3f1db861821163028170969948c47581a20be3db2315b",
+      "DISPLAY-GIFT-22": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-23",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2025,
+    "givenYear": 2026,
+    "age": 23,
+    "sceneId": "BDAY-23",
+    "cakeId": "CAKE-23",
+    "giftIds": [
+      "GIFT-23"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-23"
+    ],
+    "snapshotVersion": "5.0.0",
+    "visible": true,
+    "blessings": {
+      "cake": "二十三岁的你，生日快乐。\n愿打开与保留，都由你自己决定。",
+      "gift": "送给二十三岁的你，一枚钥匙形书签。\n想打开哪一页，想留下什么，都由你决定。"
+    },
+    "candleType": "silver-tall",
+    "posterId": "YYQX-2025",
+    "assetHashes": {
+      "CAKE-23": "1f7d346385a49cc629c5d6b7c895fe243f39036702e0548b4a7185f07f2a0402",
+      "GIFT-23": "f26fd36f7dcb039de7fbce633a4724e2c78efaa82db4e19585cff6c603779ce5",
+      "DISPLAY-GIFT-23": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  },
+  {
+    "id": "ceremony-2026-first-24",
+    "groupId": "ceremony-2026-first",
+    "referenceYear": 2026,
+    "givenYear": 2026,
+    "age": 24,
+    "sceneId": "BDAY-24",
+    "cakeId": "CAKE-24",
+    "giftIds": [
+      "GIFT-24"
+    ],
+    "displayIds": [
+      "DISPLAY-GIFT-24"
+    ],
+    "snapshotVersion": "8.1.0-cat24-outward-axis",
+    "visible": true,
+    "blessings": {
+      "cake": "二十四岁的你，生日快乐。\n愿今天的你，被认真地喜欢，也被温柔地陪伴。",
+      "gift": "这是第一次陪你过生日。\n以前的祝福，今天慢慢补给你。\n二十四岁的你，生日快乐。\n往后的生日，也想继续陪你过。"
+    },
+    "candleType": "silver-number",
+    "posterId": null,
+    "assetHashes": {
+      "CAKE-24": "7b285cc67e0c86ecafcde421e2e042fa0c9ee9f27904623ac9de0e038423b112",
+      "GIFT-24": "62c08ed4e83c5d68b033ba5f574b3ddf877bf33dfda5d5832445a9fa0f42b1ae",
+      "DISPLAY-GIFT-24": "7a3b72c9cb84e528cf91d71898adf11c649c333621d2c10b71c0f225f2eb71af"
+    }
+  }
+]

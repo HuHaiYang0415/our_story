@@ -1,0 +1,22 @@
+import type {CollectionView} from './cameraPlan';
+export type BirthdayOrigin = { x: number; y: number; width: number; height: number };
+export type BirthdayProps = { onBack: () => void; origin?: BirthdayOrigin | null; onOpenExperience?: (view: string, recordId: string) => void };
+export type CameraLayer = 'overview' | 'approaching' | 'close' | 'returning';
+export type BirthdayObject = `CAKE-${string}` | `GIFT-${string}`;
+export type GiftState = { lit?: boolean; opened?: boolean; unfolded?: boolean; relaxed?: boolean; patternIndex?: number; settledAngle?: number; settledTilt?: number; responded?: boolean };
+export type GiftStates = Partial<Record<BirthdayObject, GiftState>>;
+export type GiftProjection = { x: number; y: number; width: number; height: number; polygon: string; silhouette?: string; padded?: boolean };
+export type SceneFrame = {
+  collectionView?:CollectionView;groupIndex?:number;focusAge?:number|null;
+  cakeLamp?:GiftProjection;
+  stars?:Partial<Record<'milk'|'cocoa',GiftProjection>>;
+  readingObstacles?:GiftProjection[];
+  objects: Partial<Record<BirthdayObject, GiftProjection>>;
+  camera: number[];
+  target: number[];
+  anchors: Record<string, number[]>;
+  surfaceCorners: boolean[];
+  futureObjects?: Record<string,GiftProjection>; futureRecordId?: string;
+  collectionEdges?:Partial<Record<'left'|'back'|'right'|'front',GiftProjection>>;collectionDetail?:boolean;
+  collection?: GiftProjection; replay?: GiftProjection; cells?: Record<string, GiftProjection>; poster?: GiftProjection; mode?: 'table' | 'collection' | 'future';
+};

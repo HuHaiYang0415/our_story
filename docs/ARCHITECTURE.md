@@ -128,3 +128,6 @@ TileCache 按 provider模板/256/v1隔离z/x/y键；LRU48片或16MiB（RGBA估�
 2026-10-06真实发布集成：未变原图稳定URL与唯一跟踪副本，首次公共闭包按Git HEAD原字节捕获（含顶层manifest/icon），源LF与输出原字节固定。实际publisher先验证依赖后切入口，最近两版/七天/活动回滚保留、限定清理；可复现QA和实测结果见优化计划11.7及发布记录。原目录未同步，真实托管结果与未达性能目标按记录区分。
 
 当前优化代码及根产物已从完整f5隔离树发布（3117df1）；真实publisher保留旧依赖。原目录仍未同步。安装链CI修复/线上证据范围和性能缺口以发布记录为准，不由本说明宣称全设备或所有缓存目标通过。
+
+
+生日使用 #birthday / released 注册表定义，BirthdayPortal 延迟加载 BirthdayPage；专题数据、Three.js场景、静态投影和声音保留于 pages/birthday。Three.js源模块与静态映射按块输出，沿用原性能预算；原作者GLB由实例适配器生成相机和双星。

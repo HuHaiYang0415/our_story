@@ -1,0 +1,10 @@
+import type {GiftProjection} from './types';
+export type FallbackAsset={url:string;width:number;height:number;objects:Record<string,GiftProjection>;lamp?:GiftProjection;stars?:Partial<Record<'milk'|'cocoa',GiftProjection>>;collection?:GiftProjection;poster?:GiftProjection;cells?:Record<string,GiftProjection>;replay?:GiftProjection;collectionEdges?:Partial<Record<'left'|'back'|'right'|'front',GiftProjection>>};
+export {FALLBACK_URLS} from './fallbackData/FALLBACK_URLS';
+export {COLLECTION_FALLBACK_URLS} from './fallbackData/COLLECTION_FALLBACK_URLS';
+export {ENTRY_FALLBACK_URLS} from './fallbackData/ENTRY_FALLBACK_URLS';
+export {COLLECTION_DOCK_FALLBACK_URLS} from './fallbackData/COLLECTION_DOCK_FALLBACK_URLS';
+export {COLLECTION_FOCUS_FALLBACK_URLS} from './fallbackData/COLLECTION_FOCUS_FALLBACK_URLS';
+export {CAKE24_CLOSE_FALLBACK_URLS} from './fallbackData/CAKE24_CLOSE_FALLBACK_URLS';
+export {GIFT24_CLOSE_FALLBACK_URLS} from './fallbackData/GIFT24_CLOSE_FALLBACK_URLS';
+export {TWIN_STAR_RESPONSE_URLS} from './fallbackData/TWIN_STAR_RESPONSE_URLS';
