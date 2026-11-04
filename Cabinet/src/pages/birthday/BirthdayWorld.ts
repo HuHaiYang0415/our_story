@@ -160,6 +160,12 @@ export class BirthdayWorld {
       if(model.twinStars)worldPoints.push(...boxPoints(model.twinStars.envelope).map(p=>p.applyMatrix4(model.twinStars!.root.matrixWorld)));
     });g.updateMatrixWorld(true);
     if(id==='GIFT-20')return fitCamera(worldPoints,this.width,this.height,50,0,'focus',{x:[.20,.80],y:[.22,.62]});
+    // These tall props can push the unconstrained close camera behind the box wall.
+    // Fit their animated silhouette inside the room and leave space for the note.
+    if(id==='GIFT-05'||id==='GIFT-10'||id==='GIFT-22'){
+      const pitch=id==='GIFT-05'?46:id==='GIFT-10'?40:43;
+      return fitCamera(worldPoints,this.width,this.height,pitch,0,'focus',{x:wide?[.40,.88]:[.20,.80],y:[.18,.62]});
+    }
     if(id==='GIFT-24')return fitCamera(worldPoints,this.width,this.height,50,0,'focus',{x:[.12,.88],y:[.24,.76]});
     const box=new T.Box3().setFromPoints(worldPoints),size=box.getSize(new T.Vector3()),subject=box.getCenter(new T.Vector3());
     const special=this.mode==='table'&&this.display.age===6&&(id==='CAKE-06'||id==='GIFT-06')?(wide?AGE06_COMPOSITION.near.desktop:AGE06_COMPOSITION.near.phone):this.mode==='table'&&id==='CAKE-24'?{cakeWidth:wide?.44:.78,giftWidth:.48,cakeX:wide?(this.height<500?.32:.64):.50,giftX:.5,cakeAngle:wide?52:60,giftAngle:50}:null;
